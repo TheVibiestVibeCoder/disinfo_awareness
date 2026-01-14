@@ -174,6 +174,250 @@
 
         .cta-section { padding: 6rem 1.5rem; text-align: center; border-top: 1px solid var(--grid-line); }
 
+        /* Budget Calculator Styles */
+        .calculator-section {
+            padding: 6rem 1.5rem;
+            border-top: 1px solid var(--grid-line);
+            background: #080808;
+        }
+
+        .calculator-intro {
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto 4rem auto;
+        }
+
+        .calculator-intro h2 {
+            margin-bottom: 1.5rem;
+        }
+
+        .calculator-intro p {
+            margin: 0 auto;
+        }
+
+        .calculator-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: #050505;
+            border: 1px solid var(--grid-line);
+            padding: 3rem 2rem;
+        }
+
+        @media (min-width: 900px) {
+            .calculator-container {
+                padding: 4rem;
+            }
+        }
+
+        .input-group {
+            margin-bottom: 3rem;
+        }
+
+        .input-group label {
+            display: block;
+            font-family: var(--font-head);
+            font-size: clamp(1.2rem, 2vw, 1.6rem);
+            letter-spacing: 2px;
+            color: var(--highlight);
+            margin-bottom: 1.5rem;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .budget-input {
+            flex: 1;
+            background: #0a0a0a;
+            border: 2px solid var(--grid-line);
+            color: var(--highlight);
+            font-family: var(--font-body);
+            font-size: clamp(1.5rem, 3vw, 2.5rem);
+            font-weight: 600;
+            padding: 1rem 1.5rem;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .budget-input:focus {
+            outline: none;
+            border-color: var(--highlight);
+        }
+
+        .currency-symbol {
+            font-family: var(--font-head);
+            font-size: clamp(1.5rem, 3vw, 2.5rem);
+            color: #666;
+        }
+
+        .slider-container {
+            margin-top: 1.5rem;
+        }
+
+        .budget-slider {
+            width: 100%;
+            height: 4px;
+            background: var(--grid-line);
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .budget-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            background: var(--highlight);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .budget-slider::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
+
+        .budget-slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            background: var(--highlight);
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+        .quick-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 0.8rem;
+            margin-top: 1.5rem;
+        }
+
+        .quick-btn {
+            background: transparent;
+            border: 1px solid var(--grid-line);
+            color: #888;
+            font-family: var(--font-head);
+            font-size: 0.9rem;
+            padding: 0.6rem 0.8rem;
+            cursor: pointer;
+            transition: var(--transition);
+            letter-spacing: 1px;
+        }
+
+        .quick-btn:hover {
+            background: var(--highlight);
+            color: var(--bg-color);
+            border-color: var(--highlight);
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .result-card {
+            background: #0a0a0a;
+            border: 1px solid var(--grid-line);
+            padding: 2.5rem 2rem;
+            text-align: center;
+            transition: all 0.4s ease;
+            position: relative;
+        }
+
+        .result-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--highlight);
+        }
+
+        .result-value {
+            font-family: var(--font-head);
+            font-size: clamp(3rem, 6vw, 5rem);
+            color: var(--highlight);
+            line-height: 1;
+            margin: 0.5rem 0;
+        }
+
+        .result-label {
+            font-family: var(--font-head);
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+            color: #888;
+            text-transform: uppercase;
+        }
+
+        .result-description {
+            font-size: 0.85rem;
+            color: #666;
+            margin-top: 0.8rem;
+            line-height: 1.4;
+            max-width: 100%;
+        }
+
+        .breakdown-section {
+            margin-top: 3rem;
+            padding: 2.5rem 2rem;
+            background: #0a0a0a;
+            border: 1px solid var(--grid-line);
+        }
+
+        @media (min-width: 900px) {
+            .breakdown-section {
+                padding: 3rem;
+            }
+        }
+
+        .breakdown-title {
+            font-family: var(--font-head);
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            letter-spacing: 2px;
+            color: var(--highlight);
+            margin-bottom: 1.5rem;
+        }
+
+        .breakdown-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .breakdown-item:last-child {
+            border-bottom: none;
+        }
+
+        .breakdown-label {
+            color: #b0b0b0;
+            font-size: 0.95rem;
+        }
+
+        .breakdown-value {
+            color: var(--highlight);
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .impact-statement {
+            margin-top: 3rem;
+            padding: 2.5rem 2rem;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--grid-line);
+            text-align: center;
+        }
+
+        .impact-statement p {
+            color: var(--text-color);
+            font-size: 1.1rem;
+            max-width: 100%;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
         footer { background: #020202; border-top: 1px solid var(--grid-line); color: #666; font-size: 0.85rem; }
         .footer-grid { display: grid; grid-template-columns: 1fr; }
         @media (min-width: 900px) { .footer-grid { grid-template-columns: 1.5fr 1fr 1fr; } }
@@ -273,10 +517,127 @@
         </div>
     </section>
 
+    <section class="grid-wrapper content-split swap-desktop">
+        <div class="card-item text-card fade-in">
+            <div class="card-content">
+                <h3>Zeitplan &<br>Realisierung</h3>
+                <p>
+                    Das Projekt wird voraussichtlich im Jahr <strong>2026</strong> starten. Aktuell befinden wir uns in der Phase der 
+                    Konzeptionierung und der <strong>Aufstellung der Finanzierung</strong>.
+                </p>
+                <p>
+                    Wir schaffen jetzt die notwendigen Grundlagen, um eine nachhaltige Wirkung in den Regionen zu erzielen und 
+                    lokale Netzwerke effektiv einzubinden.
+                </p>
+            </div>
+        </div>
+        <div class="card-item fade-in">
+            <div class="card-bg" style="background-image: url('https://images.unsplash.com/photo-1523726491678-bf852e717f6a?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');"></div>
+            <div class="card-content">
+                <h3>Status:<br>In Planung</h3>
+            </div>
+        </div>
+    </section>
+
     <section class="cta-section fade-in">
         <h2>Gemeinsam gegen Manipulation</h2>
         <p style="margin: 0 auto 2rem auto;">Wir übersetzen Geopolitik in Praxis. Unser "Whole-of-Society"-Ansatz stärkt die gesellschaftliche Resilienz nachhaltig.</p>
         <a href="https://disinfoawareness.eu/kontakt.php" class="cta-btn">Kooperation anfragen</a>
+    </section>
+
+    <!-- Budget Calculator Section -->
+    <section class="calculator-section">
+        <div class="calculator-intro fade-in">
+            <h2>Budget-Rechner</h2>
+            <p>
+                Berechnen Sie die konkrete Wirkung Ihrer Investition in gesellschaftliche Resilienz. 
+                Sehen Sie, wie viele Gemeinden erreicht und Menschen aufgeklärt werden können.
+            </p>
+        </div>
+
+        <div class="calculator-container fade-in">
+            <div class="input-group">
+                <label for="budgetInput">Verfügbares Budget eingeben</label>
+                <div class="input-wrapper">
+                    <input 
+                        type="number" 
+                        id="budgetInput" 
+                        class="budget-input" 
+                        value="50000" 
+                        min="0" 
+                        max="500000" 
+                        step="1000"
+                        placeholder="z.B. 50000"
+                    >
+                    <span class="currency-symbol">€</span>
+                </div>
+                <div class="slider-container">
+                    <input 
+                        type="range" 
+                        id="budgetSlider" 
+                        class="budget-slider" 
+                        min="0" 
+                        max="500000" 
+                        step="1000" 
+                        value="50000"
+                    >
+                </div>
+                <div class="quick-buttons">
+                    <button class="quick-btn" data-value="10000">10.000 €</button>
+                    <button class="quick-btn" data-value="25000">25.000 €</button>
+                    <button class="quick-btn" data-value="50000">50.000 €</button>
+                    <button class="quick-btn" data-value="75000">75.000 €</button>
+                    <button class="quick-btn" data-value="100000">100.000 €</button>
+                    <button class="quick-btn" data-value="150000">150.000 €</button>
+                </div>
+            </div>
+
+            <div class="results-grid" id="resultsGrid">
+                <div class="result-card">
+                    <div class="result-label">Monate Projektlaufzeit</div>
+                    <div class="result-value" id="monthsResult">0</div>
+                    <div class="result-description">Aktive Arbeit vor Ort</div>
+                </div>
+                <div class="result-card">
+                    <div class="result-label">Gemeinden erreicht</div>
+                    <div class="result-value" id="communitiesResult">0</div>
+                    <div class="result-description">Cluster à 3 Gemeinden</div>
+                </div>
+                <div class="result-card">
+                    <div class="result-label">Menschen aufgeklärt</div>
+                    <div class="result-value" id="peopleResult">0</div>
+                    <div class="result-description">Direkte Teilnehmer & Multiplikatoren</div>
+                </div>
+            </div>
+
+            <div class="breakdown-section">
+                <div class="breakdown-title">Budget-Aufschlüsselung</div>
+                <div class="breakdown-item">
+                    <span class="breakdown-label">Personalkosten (25h/Woche)</span>
+                    <span class="breakdown-value" id="personalCost">€ 0</span>
+                </div>
+                <div class="breakdown-item">
+                    <span class="breakdown-label">Reisekosten (inkl. Verpflegung)</span>
+                    <span class="breakdown-value" id="travelCost">€ 0</span>
+                </div>
+                <div class="breakdown-item">
+                    <span class="breakdown-label">Material & Infrastruktur</span>
+                    <span class="breakdown-value" id="materialCost">€ 0</span>
+                </div>
+                <div class="breakdown-item">
+                    <span class="breakdown-label">Puffer & Unvorhergesehenes</span>
+                    <span class="breakdown-value" id="bufferCost">€ 0</span>
+                </div>
+                <div class="breakdown-item" style="border-top: 2px solid var(--grid-line); padding-top: 1.5rem; margin-top: 1rem;">
+                    <span class="breakdown-label" style="color: var(--highlight); font-weight: 600;">Monatliche Kosten</span>
+                    <span class="breakdown-value" style="font-size: 1.2rem;">€ 4.500</span>
+                </div>
+            </div>
+
+            <div class="impact-statement" id="impactStatement">
+                <p>Geben Sie ein Budget ein, um die konkrete Wirkung zu sehen.</p>
+            </div>
+        </div>
     </section>
 
     <footer>
@@ -287,8 +648,8 @@
             </div>
             <div class="footer-col">
                 <h4>Netzwerk</h4>
-                <a href="#" class="footer-link">European Democracy Shield</a>
-                <a href="#" class="footer-link">Hybrid CoE Standards</a>
+                <a href="https://ec.europa.eu/commission/presscorner/detail/en/ip_25_2660" class="footer-link">EU Hybrid Toolbox</a>
+                <a href="https://www.hybridcoe.fi/publications/hybrid-threats-a-comprehensive-resilience-ecosystem/" class="footer-link">Hybrid CoE Standards</a>
             </div>
             <div class="footer-col">
                 <h4>Rechtliches</h4>
@@ -346,6 +707,164 @@
             });
         }, { threshold: 0.1 });
         document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+    </script>
+
+    <script>
+        // Budget Calculator Logic
+        const COST_PER_MONTH = 4500;
+        const CLUSTERS_PER_MONTH = 6;
+        const COMMUNITIES_PER_CLUSTER = 3;
+        const PEOPLE_PER_COMMUNITY = 30; // 30 Menschen pro Gemeinde
+        
+        const PERSONAL_COST_MONTHLY = 3000;
+        const TRAVEL_COST_MONTHLY = 650;
+        const MATERIAL_COST_MONTHLY = 650;
+        const BUFFER_COST_MONTHLY = 200;
+
+        const budgetInput = document.getElementById('budgetInput');
+        const budgetSlider = document.getElementById('budgetSlider');
+        const monthsResult = document.getElementById('monthsResult');
+        const communitiesResult = document.getElementById('communitiesResult');
+        const peopleResult = document.getElementById('peopleResult');
+        const impactStatement = document.getElementById('impactStatement');
+        const quickButtons = document.querySelectorAll('.quick-btn');
+
+        let isAnimating = false;
+
+        // Sync und berechne
+        function syncAndCalculate(source) {
+            if (isAnimating) return; // Verhindere mehrfache gleichzeitige Animationen
+            
+            let value = 0;
+            if (source === 'input') {
+                value = parseInt(budgetInput.value);
+                if (isNaN(value) || value < 0) value = 0;
+                budgetSlider.value = value;
+            } else if (source === 'slider') {
+                value = parseInt(budgetSlider.value);
+                budgetInput.value = value;
+            }
+            
+            calculate();
+        }
+
+        // Event Listeners für Input-Feld
+        budgetInput.addEventListener('input', () => syncAndCalculate('input'));
+        budgetInput.addEventListener('change', () => syncAndCalculate('input'));
+        budgetInput.addEventListener('keyup', () => syncAndCalculate('input'));
+
+        // Event Listener für Slider
+        budgetSlider.addEventListener('input', () => syncAndCalculate('slider'));
+
+        // Quick Buttons
+        quickButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const value = btn.dataset.value;
+                budgetInput.value = value;
+                budgetSlider.value = value;
+                calculate();
+            });
+        });
+
+        function calculate() {
+            const budget = parseInt(budgetInput.value) || 0;
+            
+            const months = Math.floor(budget / COST_PER_MONTH);
+            const clusters = months * CLUSTERS_PER_MONTH;
+            const communities = clusters * COMMUNITIES_PER_CLUSTER;
+            const people = communities * PEOPLE_PER_COMMUNITY; // 30 Menschen pro Gemeinde
+            
+            const totalPersonal = months * PERSONAL_COST_MONTHLY;
+            const totalTravel = months * TRAVEL_COST_MONTHLY;
+            const totalMaterial = months * MATERIAL_COST_MONTHLY;
+            const totalBuffer = months * BUFFER_COST_MONTHLY;
+
+            animateValue(monthsResult, 0, months, 800);
+            animateValue(communitiesResult, 0, communities, 1000);
+            animateValue(peopleResult, 0, people, 1200);
+
+            document.getElementById('personalCost').textContent = formatCurrency(totalPersonal);
+            document.getElementById('travelCost').textContent = formatCurrency(totalTravel);
+            document.getElementById('materialCost').textContent = formatCurrency(totalMaterial);
+            document.getElementById('bufferCost').textContent = formatCurrency(totalBuffer);
+
+            updateImpactStatement(budget, months, communities, people);
+        }
+
+        let animationTimers = {};
+
+        function animateValue(element, start, end, duration) {
+            // Stoppe vorherige Animation für dieses Element
+            const elementId = element.id;
+            if (animationTimers[elementId]) {
+                clearInterval(animationTimers[elementId]);
+            }
+
+            const range = end - start;
+            const increment = range / (duration / 16);
+            let current = start;
+            
+            animationTimers[elementId] = setInterval(() => {
+                current += increment;
+                if ((increment > 0 && current >= end) || (increment < 0 && current <= end)) {
+                    current = end;
+                    clearInterval(animationTimers[elementId]);
+                    delete animationTimers[elementId];
+                }
+                element.textContent = Math.floor(current).toLocaleString('de-AT');
+            }, 16);
+        }
+
+        function formatCurrency(value) {
+            return new Intl.NumberFormat('de-AT', {
+                style: 'currency',
+                currency: 'EUR',
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+            }).format(value);
+        }
+
+        function updateImpactStatement(budget, months, communities, people) {
+            if (budget < COST_PER_MONTH) {
+                impactStatement.innerHTML = `
+                    <p>Mit <strong>${formatCurrency(budget)}</strong> können wir leider noch keinen vollständigen Monat finanzieren. 
+                    Mindestens <strong>€4.500</strong> werden für einen Projektmonat benötigt.</p>
+                `;
+            } else if (months === 1) {
+                impactStatement.innerHTML = `
+                    <p>Mit <strong>${formatCurrency(budget)}</strong> können wir <strong>1 Monat</strong> intensive Aufklärungsarbeit leisten 
+                    und dabei <strong>${communities} Gemeinden</strong> mit rund <strong>${people} Menschen</strong> erreichen – 
+                    ein wichtiger erster Schritt zur Stärkung regionaler Resilienz.</p>
+                `;
+            } else if (months >= 2 && months <= 6) {
+                const region = months >= 4 ? 'eine gesamte Region' : 'mehrere Cluster-Regionen';
+                impactStatement.innerHTML = `
+                    <p>Mit <strong>${formatCurrency(budget)}</strong> ermöglichen Sie <strong>${months} Monate</strong> kontinuierliche Projektarbeit. 
+                    Wir erreichen <strong>${communities} Gemeinden</strong> und klären <strong>${people}+ Menschen</strong> auf – 
+                    genug um ${region} nachhaltig zu stärken.</p>
+                `;
+            } else if (months >= 7 && months <= 11) {
+                impactStatement.innerHTML = `
+                    <p><strong>${formatCurrency(budget)}</strong> ermöglichen <strong>${months} Monate</strong> flächendeckende Resilienzbildung. 
+                    Mit <strong>${communities} erreichten Gemeinden</strong> und über <strong>${people} aufgeklärten Personen</strong> 
+                    schaffen wir ein robustes Netzwerk gegen Desinformation in Niederösterreich und dem Burgenland.</p>
+                `;
+            } else {
+                const years = Math.floor(months / 12);
+                const remainingMonths = months % 12;
+                const timeString = remainingMonths > 0 ? 
+                    `${years} Jahr${years > 1 ? 'e' : ''} und ${remainingMonths} Monat${remainingMonths > 1 ? 'e' : ''}` : 
+                    `${years} Jahr${years > 1 ? 'e' : ''}`;
+                
+                impactStatement.innerHTML = `
+                    <p><strong>${formatCurrency(budget)}</strong> finanzieren <strong>${timeString}</strong> umfassende Projektarbeit! 
+                    Wir erreichen <strong>${communities} Gemeinden</strong> und bilden <strong>${people}+ Multiplikatoren</strong> aus – 
+                    das schafft langfristige, generationenübergreifende Resilienz gegen hybride Bedrohungen.</p>
+                `;
+            }
+        }
+
+        calculate();
     </script>
 </body>
 </html>
