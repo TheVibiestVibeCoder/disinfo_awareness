@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <title>Aufklärung & Bildung - Disinfo Awareness</title>
+    <title>Resilienz im ländlichen Raum - Disinfo Awareness</title>
     <meta name="theme-color" content="#050505">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -19,7 +19,6 @@
     </script>
 
     <style>
-        /* --- RESET & VARIABLES --- */
         :root {
             --bg-color: #050505;
             --text-color: #f0f0f0;
@@ -31,9 +30,7 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
         html { scroll-behavior: smooth; }
-
         body {
             background-color: var(--bg-color);
             color: var(--text-color);
@@ -44,51 +41,35 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* --- TYPOGRAPHY --- */
         h1, h2, h3, h4 {
             font-family: var(--font-head);
             text-transform: uppercase;
             font-weight: 400;
             letter-spacing: 1px;
-            line-height: 0.9;
+            line-height: 0.95;
         }
 
+        /* Optimierte Typo-Skalierung für Laptop-Size */
         h1 {
-            font-size: clamp(3.5rem, 14vw, 12rem);
+            font-size: clamp(3rem, 8vw, 7.5rem); 
             color: var(--highlight);
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
             word-break: break-word; 
             hyphens: auto;
         }
         
-        h2 {
-            font-size: clamp(2.5rem, 6vw, 5rem);
-            color: var(--highlight);
-            margin: 0;
-            line-height: 0.9;
-        }
-
-        h4 {
-            font-size: 1.5rem;
-            color: var(--highlight);
-            margin-bottom: 1rem;
-            letter-spacing: 2px;
-        }
+        h2 { font-size: clamp(2.2rem, 5vw, 4.5rem); color: var(--highlight); margin: 0; }
+        h4 { font-size: 1.3rem; color: var(--highlight); margin-bottom: 1rem; letter-spacing: 2px; }
 
         p {
-            font-size: clamp(1rem, 1.2vw, 1.15rem);
+            font-size: clamp(1rem, 1.1vw, 1.1rem);
             color: #b0b0b0;
             font-weight: 300;
             max-width: 60ch;
         }
 
-        a {
-            color: var(--highlight);
-            text-decoration: none;
-            transition: var(--transition);
-        }
+        strong { color: var(--highlight); font-weight: 600; }
 
-        /* --- NAVIGATION --- */
         nav {
             position: fixed;
             top: 0; left: 0; width: 100%;
@@ -101,49 +82,33 @@
             backdrop-filter: blur(2px);
         }
 
-        .logo {
-            font-family: var(--font-head);
-            font-size: 1.4rem;
-            letter-spacing: 1.5px;
-            white-space: nowrap;
-        }
-
-        .nav-actions { display: flex; gap: 1rem; }
+        .logo { font-family: var(--font-head); font-size: 1.3rem; letter-spacing: 1.5px; text-decoration: none; color: white; }
+        .nav-actions { display: flex; gap: 0.8rem; }
 
         .cta-btn {
             border: 1px solid var(--highlight);
-            padding: 0.5rem 1.2rem;
+            padding: 0.4rem 1rem;
             font-family: var(--font-head);
-            font-size: 1.1rem;
+            font-size: 1rem;
             background: rgba(0,0,0,0.5);
-            backdrop-filter: blur(10px);
-            white-space: nowrap;
+            color: white;
+            text-decoration: none;
             cursor: pointer;
-            display: inline-block;
+            transition: var(--transition);
         }
 
-        .cta-btn:hover, .cta-btn:active {
-            background: var(--highlight);
-            color: var(--bg-color);
-        }
+        .cta-btn:hover { background: var(--highlight); color: var(--bg-color); }
 
-        @media (max-width: 450px) {
-            .logo { font-size: 1.2rem; }
-            .cta-btn { padding: 0.4rem 0.8rem; font-size: 1rem; }
-            .nav-actions { gap: 0.5rem; }
-        }
-
-        /* --- HERO SECTION --- */
         .hero {
             position: relative;
-            height: 85dvh; 
-            min-height: 500px;
+            height: 100dvh; /* Bessere Laptop-Abdeckung */
+            min-height: 600px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
-            padding: 2rem 1.5rem;
+            padding: 4rem 1.5rem;
             border-bottom: 1px solid var(--grid-line);
             overflow: hidden;
         }
@@ -152,188 +117,74 @@
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
             z-index: 1;
-            opacity: 0.5; 
+            opacity: 0.4; 
             pointer-events: none; 
         }
 
-        .hero-content {
-            position: relative;
-            z-index: 10;
-            width: 100%;
-            max-width: 1200px;
-        }
-
+        .hero-content { position: relative; z-index: 10; width: 100%; max-width: 1200px; }
         .hero-subtitle {
             font-family: var(--font-head);
-            font-size: clamp(1rem, 2vw, 1.5rem);
+            font-size: clamp(0.9rem, 1.5vw, 1.2rem);
             letter-spacing: 4px;
             color: #888;
-            margin-bottom: 2.5rem;
-            text-transform: uppercase;
+            margin-bottom: 1.5rem;
             display: block;
         }
-        
-        .hero-p {
-            margin-left: auto;
-            margin-right: auto;
-            text-align: center;
-        }
 
-        /* --- CONTENT GRID SYSTEM --- */
-        .grid-wrapper {
-            display: grid;
-            grid-template-columns: 1fr; /* Mobile: 1 Spalte */
-            width: 100%;
-        }
+        .grid-wrapper { display: grid; grid-template-columns: 1fr; width: 100%; }
 
         @media (min-width: 900px) {
-            .content-split {
-                grid-template-columns: 1fr 1fr; /* Desktop: 2 Spalten */
-                min-height: 80vh; 
-            }
+            .content-split { grid-template-columns: 1fr 1fr; min-height: 60vh; }
+            .swap-desktop .card-item:first-child { order: 2; border-right: none; }
+            .swap-desktop .card-item:last-child { order: 1; border-right: 1px solid var(--grid-line); }
         }
 
         .card-item {
             position: relative;
             border-bottom: 1px solid var(--grid-line);
-            padding: 2rem;
+            padding: 3rem 2rem;
             display: flex;
             flex-direction: column;
-            justify-content: flex-end;
+            justify-content: center;
             overflow: hidden;
-            height: 60dvh; 
-            min-height: 450px; 
         }
 
         @media (min-width: 900px) {
-            .card-item {
-                height: 100%;
-                border-right: 1px solid var(--grid-line);
-                border-bottom: 0; 
-                padding: 4rem 3rem; 
-            }
-            /* Normalerweise hat das letzte Element keinen Rand */
+            .card-item { padding: 3.5rem 4rem; border-right: 1px solid var(--grid-line); border-bottom: 0; }
             .card-item:last-child { border-right: none; }
         }
 
-        /* SPEZIAL-KLASSE: .swap-desktop 
-           Dreht auf Desktop die Reihenfolge um (Bild links, Text rechts),
-           damit das Schachbrettmuster entsteht, obwohl im HTML 
-           der Text zuerst kommt (für Mobile).
-        */
-        @media (min-width: 900px) {
-            .swap-desktop .card-item:first-child {
-                order: 2; /* Text nach rechts */
-                border-right: none;
-            }
-            .swap-desktop .card-item:last-child {
-                order: 1; /* Bild nach links */
-                border-right: 1px solid var(--grid-line);
-            }
-        }
-
-        /* Hintergrundbilder */
         .card-bg {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
             background-size: cover;
             background-position: center;
             z-index: 1;
-            transition: transform 0.8s ease, filter 0.8s ease;
-            filter: grayscale(100%) brightness(0.3); 
-            transform: scale(1.0);
+            transition: transform 1.2s ease, filter 1.2s ease;
+            filter: grayscale(100%) brightness(0.2); 
         }
 
-        .card-item:hover .card-bg,
-        .card-item.is-in-view .card-bg {
-            transform: scale(1.05);
-            filter: grayscale(0%) brightness(0.5); 
-        }
+        .card-item:hover .card-bg, .card-item.is-in-view .card-bg { filter: grayscale(40%) brightness(0.4); transform: scale(1.03); }
 
-        .card-content {
-            position: relative;
-            z-index: 2;
-            pointer-events: none; 
-            text-shadow: 0 2px 20px rgba(0,0,0,0.8);
-        }
+        .card-content { position: relative; z-index: 2; }
+        .card-item h3 { font-size: clamp(2.2rem, 4vw, 3.5rem); color: var(--highlight); margin-bottom: 1.2rem; }
+        .card-item p { margin-bottom: 1.2rem; color: #d0d0d0; }
 
-        .card-item h3 {
-            font-size: clamp(2.5rem, 6vw, 4rem);
-            color: var(--highlight);
-            margin-bottom: 1rem;
-        }
+        .text-card { background: #080808; }
 
-        .card-item p {
-            font-size: 1.1rem;
-            opacity: 0.95;
-            margin-bottom: 2rem;
-            margin-left: 0;
-            max-width: 50ch; 
-            color: #d0d0d0;
-        }
+        .cta-section { padding: 6rem 1.5rem; text-align: center; border-top: 1px solid var(--grid-line); }
 
-        .text-card {
-            background: linear-gradient(to bottom, #0a0a0a, #050505);
-            justify-content: center; 
-            height: auto; 
-            min-height: 40dvh;
-        }
-        @media (min-width: 900px) {
-             .text-card { height: 100%; }
-        }
+        footer { background: #020202; border-top: 1px solid var(--grid-line); color: #666; font-size: 0.85rem; }
+        .footer-grid { display: grid; grid-template-columns: 1fr; }
+        @media (min-width: 900px) { .footer-grid { grid-template-columns: 1.5fr 1fr 1fr; } }
+        .footer-col { padding: 2.5rem 2rem; border-bottom: 1px solid var(--grid-line); display: flex; flex-direction: column; gap: 0.8rem; }
+        @media (min-width: 900px) { .footer-col { border-right: 1px solid var(--grid-line); border-bottom: none; } }
+        .footer-link { color: #888; text-decoration: none; transition: 0.3s; }
+        .footer-link:hover { color: var(--highlight); }
+        .footer-bottom { padding: 1.2rem 2rem; text-align: center; color: #444; font-size: 0.75rem; letter-spacing: 1px; }
 
-        /* --- CTA SECTION --- */
-        .cta-section {
-            padding: 6rem 1.5rem;
-            border-top: 1px solid var(--grid-line);
-            text-align: center;
-            background: linear-gradient(to top, #0a0a0a, var(--bg-color));
-        }
-
-        /* --- FOOTER --- */
-        footer {
-            background: #020202;
-            border-top: 1px solid var(--grid-line);
-            color: #666;
-            font-size: 0.9rem;
-        }
-
-        .footer-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-        }
-        @media (min-width: 900px) {
-            .footer-grid { grid-template-columns: 1.5fr 1fr 1fr; }
-        }
-
-        .footer-col {
-            padding: 3rem 2rem;
-            border-bottom: 1px solid var(--grid-line);
-            display: flex; flex-direction: column; gap: 1rem;
-        }
-        @media (min-width: 900px) {
-            .footer-col { border-right: 1px solid var(--grid-line); border-bottom: none; }
-            .footer-col:last-child { border-right: none; }
-        }
-
-        .footer-link {
-            color: #888; font-size: 1rem; text-decoration: none; transition: color 0.3s ease; display: inline-block;
-        }
-        .footer-link:hover { color: var(--highlight); transform: translateX(5px); }
-
-        .footer-bottom {
-            padding: 1.5rem 2rem; text-align: center; border-top: 1px solid var(--grid-line);
-            color: #444; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px;
-        }
-
-        /* --- ANIMATIONS --- */
-        .fade-in { 
-            opacity: 0; transform: translateY(20px); 
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out; 
-            will-change: opacity, transform;
-        }
+        .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 1s ease-out, transform 1s ease-out; }
         .fade-in.visible { opacity: 1; transform: translateY(0); }
-
     </style>
 </head>
 <body>
@@ -341,19 +192,18 @@
     <nav>
         <a href="https://disinfoawareness.eu/" class="logo">Disinfo Awareness</a>
         <div class="nav-actions">
-            <a href="https://disinfoawareness.eu/kontakt.php" class="cta-btn">Kontakt</a>
-            <a href="https://disinfoawareness.eu/kontakt.php" class="cta-btn">Mitmachen</a>
+            <a href="https://disinfoawareness.eu/kontakt.php" class="cta-btn">Anfragen</a>
         </div>
     </nav>
 
     <header class="hero">
         <div id="canvas-container"></div>
         <div class="hero-content">
-            <div class="hero-subtitle fade-in">Bereich 01</div>
-            <h1 class="fade-in" style="transition-delay: 0.1s;">Aufklärung &<br>Bildung</h1>
-            <p class="fade-in hero-p" style="transition-delay: 0.2s;">
-                Wir bringen Medienkompetenz dorthin, wo sie oft fehlt: <br>
-                In den ländlichen Raum und in Diaspora-Communities.
+            <div class="hero-subtitle fade-in">Projekt 2026</div>
+            <h1 class="fade-in" style="transition-delay: 0.1s;">Prävention & Resilienz<br>im ländlichen Raum</h1>
+            <p class="fade-in" style="margin: 0 auto; transition-delay: 0.2s;">
+                Wir schließen die kritische Informationslücke gegen <strong>FIMI</strong> (Foreign Information Manipulation and Interference) 
+                durch direkte Aufklärung vor Ort – dort, wo Vertrauen entsteht.
             </p>
         </div>
     </header>
@@ -361,42 +211,42 @@
     <section class="grid-wrapper content-split">
         <div class="card-item text-card fade-in">
             <div class="card-content">
-                <h3>Unser Ansatz</h3>
+                <h3>Die Bedrohung:<br>FIMI & Destabilisierung</h3>
                 <p>
-                    Klassische Bildung erreicht oft nur die, die ohnehin schon informiert sind. Wir ändern das.
-                    Unsere Workshops sind keine Frontalvorträge. 
+                    Gezielte Informationsmanipulation durch ausländische Akteure ist eine strategische Gefahr für unsere demokratischen Werte. 
+                    Es geht nicht nur um "Fake News", sondern um die <strong>systematische Schwächung von Institutionen</strong> und das Vertiefen gesellschaftlicher Gräben.
                 </p>
                 <p>
-                    Wir setzen auf <strong>Gamification, Simulationen und emotionale Ansprache</strong>. 
-                    Wir gehen in Vereinsheime, Kulturzentren und Hinterzimmer – dorthin, wo echte Meinungsbildung stattfindet.
+                    Themen wie Migration oder Sicherheitspolitik werden als Sollbruchstellen genutzt, um Polarisierung aktiv voranzutreiben.
                 </p>
             </div>
         </div>
         <div class="card-item fade-in" style="transition-delay: 0.1s;">
-            <div class="card-bg" style="background-image: url('https://images.unsplash.com/photo-1531498860502-7c67cf02f657?q=80&w=2070&auto=format&fit=crop');"></div>
+            <div class="card-bg" style="background-image: url('https://images.unsplash.com/photo-1508962914676-134849a727f0?q=80&w=2070&auto=format&fit=crop');"></div>
             <div class="card-content">
-                <h3>Interaktiv &<br>Nahbar</h3>
+                <h3>Schutz der<br>Demokratie</h3>
             </div>
         </div>
     </section>
 
     <section class="grid-wrapper content-split swap-desktop">
-        <div class="card-item text-card fade-in" style="transition-delay: 0.1s;">
+        <div class="card-item text-card fade-in">
             <div class="card-content">
-                <h3>Vergessene Räume</h3>
+                <h3>Die Lücke schließen</h3>
                 <p>
-                    In ländlichen Gebieten schwinden lokale Medien, während Desinformation über Social Media ungefiltert einströmt.
+                    Staatliche Kommunikation erreicht oft nur urban geprägte, politisch hochinteressierte Schichten. 
+                    Große Teile der Bevölkerung im <strong>ländlichen Raum</strong> bleiben oft unberührt.
                 </p>
                 <p>
-                    Wir arbeiten mit <strong>Feuerwehren, Landjugenden und Dorfvereinen</strong> zusammen.
-                    Unsere Trainer kommen aus der Region, sprechen die Sprache vor Ort und bauen Brücken statt Barrieren.
+                    Unser Projekt setzt dort an, wo Information über persönliche Netzwerke fließt. Wir bringen Fachwissen über hybride Bedrohungen 
+                    in den <strong>Gemeindesaal, den Verein und an den Stammtisch</strong>.
                 </p>
             </div>
         </div>
         <div class="card-item fade-in">
-            <div class="card-bg" style="background-image: url('https://images.unsplash.com/photo-1472289065668-ce650ac443d2?q=80&w=2069&auto=format&fit=crop');"></div>
+            <div class="card-bg" style="background-image: url('https://images.unsplash.com/photo-1493134794380-aa2721afabd4?q=80&w=2070&auto=format&fit=crop');"></div>
             <div class="card-content">
-                <h3>Ländliche<br>Gebiete</h3>
+                <h3>Dialog auf<br>Augenhöhe</h3>
             </div>
         </div>
     </section>
@@ -404,45 +254,42 @@
     <section class="grid-wrapper content-split">
         <div class="card-item text-card fade-in">
             <div class="card-content">
-                <h3>Diaspora<br>Communities</h3>
+                <h3>Methodik statt<br>Belehrung</h3>
                 <p>
-                    Viele Communities sind Zielscheibe gezielter ausländischer Propaganda (FIMI), oft isoliert durch Sprachbarrieren.
+                    Wir verzichten auf starre "Wahr-oder-Falsch"-Debatten, die oft zu Abwehrhaltungen führen. 
+                    Stattdessen befähigen wir Teilnehmende, <strong>manipulative Muster und Akteurslogiken</strong> selbst zu durchschauen.
                 </p>
                 <p>
-                    Wir bilden <strong>Multiplikatoren innerhalb der Communities</strong> aus. 
-                    Kultursensibel, mehrsprachig und auf Augenhöhe stärken wir die Resilienz gegen Spaltung von außen.
+                    <strong>Fokus 2026:</strong> In der ersten Phase konzentrieren wir uns auf <strong>Niederösterreich und das Burgenland</strong>, 
+                    um durch regionale Bündelung höchste Effizienz in der Aufklärungsarbeit zu garantieren.
                 </p>
             </div>
         </div>
         <div class="card-item fade-in" style="transition-delay: 0.1s;">
-            <div class="card-bg" style="background-image: url('https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=1976&auto=format&fit=crop');"></div>
+            <div class="card-bg" style="background-image: url('https://images.unsplash.com/photo-1517048676732-d65bc937f952?q=80&w=2070&auto=format&fit=crop');"></div>
             <div class="card-content">
-                <h3>Kultursensible<br>Arbeit</h3>
+                <h3>Struktur &<br>Erkenntnis</h3>
             </div>
         </div>
     </section>
 
     <section class="cta-section fade-in">
-        <h2>Interesse an einem Workshop?</h2>
-        <p style="margin: 0 auto 2rem auto;">Wir passen unsere Formate individuell an Ihre Community oder Ihren Verein an.</p>
-        <a href="https://disinfoawareness.eu/kontakt.php" class="cta-btn">Jetzt anfragen</a>
+        <h2>Gemeinsam gegen Manipulation</h2>
+        <p style="margin: 0 auto 2rem auto;">Wir übersetzen Geopolitik in Praxis. Unser "Whole-of-Society"-Ansatz stärkt die gesellschaftliche Resilienz nachhaltig.</p>
+        <a href="https://disinfoawareness.eu/kontakt.php" class="cta-btn">Kooperation anfragen</a>
     </section>
 
-   <footer id="footer-contact">
+    <footer>
         <div class="footer-grid">
             <div class="footer-col">
                 <h4>Disinfo Awareness</h4>
-                <p style="margin: 0; max-width: 100%;">
-                    Ein gemeinnütziger Verein zur Stärkung der Demokratie. Wir verbinden Technologie mit Bildung für eine resilientere Gesellschaft.
-                </p>
+                <p style="margin: 0;">Strategische Resilienzbildung und zivilgesellschaftliches Engagement gegen hybride Bedrohungen.</p>
             </div>
-            
             <div class="footer-col">
-                <h4>Kontakt</h4>
-                <a href="https://disinfoawareness.eu/kontakt.php" class="footer-link">Kontakt</a>
-                <a href="https://www.linkedin.com/in/markus-schwinghammer-335a0b201/" class="footer-link">LinkedIn</a>
+                <h4>Netzwerk</h4>
+                <a href="#" class="footer-link">European Democracy Shield</a>
+                <a href="#" class="footer-link">Hybrid CoE Standards</a>
             </div>
-
             <div class="footer-col">
                 <h4>Rechtliches</h4>
                 <a href="https://disinfoawareness.eu/impressum.html" class="footer-link">Impressum</a>
@@ -459,96 +306,46 @@
         const isMobile = window.innerWidth < 768;
         const container = document.getElementById('canvas-container');
         const scene = new THREE.Scene();
-        scene.fog = new THREE.FogExp2(0x050505, isMobile ? 0.045 : 0.035);
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 100);
-        camera.position.z = 10;
-        const renderer = new THREE.WebGLRenderer({ antialias: !isMobile, alpha: true });
+        camera.position.z = 12;
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1.5 : 2));
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         container.appendChild(renderer.domElement);
 
-        const bgCount = isMobile ? 150 : 600;
-        const bgGeometry = new THREE.BufferGeometry();
-        const bgPos = new Float32Array(bgCount * 3);
-        for(let i = 0; i < bgCount; i++) {
-            bgPos[i * 3] = (Math.random() - 0.5) * 60; 
-            bgPos[i * 3 + 1] = (Math.random() - 0.5) * 60; 
-            bgPos[i * 3 + 2] = (Math.random() - 0.5) * 60; 
+        const count = isMobile ? 200 : 500;
+        const geometry = new THREE.BufferGeometry();
+        const pos = new Float32Array(count * 3);
+        for(let i = 0; i < count; i++) {
+            pos[i * 3] = (Math.random() - 0.5) * 40; 
+            pos[i * 3 + 1] = (Math.random() - 0.5) * 40; 
+            pos[i * 3 + 2] = (Math.random() - 0.5) * 40; 
         }
-        bgGeometry.setAttribute('position', new THREE.BufferAttribute(bgPos, 3));
-        const bgMaterial = new THREE.PointsMaterial({ size: 0.05, color: 0x444444, transparent: true, opacity: 0.6 });
-        const bgParticles = new THREE.Points(bgGeometry, bgMaterial);
-        scene.add(bgParticles);
+        geometry.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+        const material = new THREE.PointsMaterial({ size: 0.08, color: 0xffffff, transparent: true, opacity: 0.5 });
+        const particles = new THREE.Points(geometry, material);
+        scene.add(particles);
 
-        const fgCount = isMobile ? 40 : 100;
-        const fgGeometry = new THREE.BufferGeometry();
-        const fgPos = new Float32Array(fgCount * 3);
-        for(let i = 0; i < fgCount; i++) {
-            fgPos[i * 3] = (Math.random() - 0.5) * 30; 
-            fgPos[i * 3 + 1] = (Math.random() - 0.5) * 20; 
-            fgPos[i * 3 + 2] = (Math.random() - 0.5) * 10; 
-        }
-        fgGeometry.setAttribute('position', new THREE.BufferAttribute(fgPos, 3));
-        const fgMaterial = new THREE.PointsMaterial({ size: isMobile ? 0.12 : 0.09, color: 0xffffff, transparent: true, opacity: 0.8 });
-        const fgParticles = new THREE.Points(fgGeometry, fgMaterial);
-        scene.add(fgParticles);
-
-        let mouseX = 0, mouseY = 0;
-        const windowHalfX = window.innerWidth / 2, windowHalfY = window.innerHeight / 2;
-        document.addEventListener('mousemove', (event) => {
-            mouseX = (event.clientX - windowHalfX);
-            mouseY = (event.clientY - windowHalfY);
-        });
-        if(isMobile) {
-            window.addEventListener('deviceorientation', (event) => {
-                if(event.gamma && event.beta) {
-                    mouseX = event.gamma * 10;
-                    mouseY = event.beta * 10;
-                }
-            });
-        }
-        const clock = new THREE.Clock();
         function animate() {
             requestAnimationFrame(animate);
-            const time = clock.getElapsedTime();
-            const targetX = mouseX * 0.0005, targetY = mouseY * 0.0005;
-            camera.rotation.x += 0.05 * (-targetY - camera.rotation.x);
-            camera.rotation.y += 0.05 * (-targetX - camera.rotation.y);
-            bgParticles.rotation.y = time * 0.05;
-            fgParticles.rotation.y = time * 0.1;
+            particles.rotation.y += 0.0008;
+            particles.rotation.x += 0.0004;
             renderer.render(scene, camera);
         }
         animate();
+
         window.addEventListener('resize', () => {
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
             renderer.setSize(window.innerWidth, window.innerHeight);
         });
-    </script>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const fadeObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) entry.target.classList.add('visible');
-                });
-            }, { threshold: 0.1 });
-            document.querySelectorAll('.fade-in').forEach(el => fadeObserver.observe(el));
-
-            const cardObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('is-in-view');
-                    } else {
-                        entry.target.classList.remove('is-in-view');
-                    }
-                });
-            }, { threshold: 0.5, rootMargin: "-10% 0px -10% 0px" });
-
-            if (window.innerWidth < 900) {
-                document.querySelectorAll('.card-item').forEach(el => cardObserver.observe(el));
-            }
-        });
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('visible');
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
     </script>
 </body>
 </html>
