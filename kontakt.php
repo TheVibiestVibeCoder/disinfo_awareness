@@ -396,7 +396,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="contact-item">
                         <span class="contact-label">Social</span>
                         <div style="display:flex; gap:1rem; margin-top:0.5rem;">
-                            <a href="#">LinkedIn</a>
+                            <a href="https://www.linkedin.com/in/markus-schwinghammer-335a0b201/">LinkedIn</a>
                         </div>
                     </div>
                 </div>
