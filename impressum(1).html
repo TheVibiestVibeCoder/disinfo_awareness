@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Impressum - Disinfo Awareness</title>
+    <meta name="theme-color" content="#050505">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.160.0/build/three.module.js"
+            }
+        }
+    </script>
+
+    <style>
+        /* --- RESET & VARIABLES --- */
+        :root {
+            --bg-color: #050505;
+            --text-color: #f0f0f0;
+            --highlight: #ffffff;
+            --grid-line: rgba(255, 255, 255, 0.15);
+            --font-head: 'Bebas Neue', display;
+            --font-body: 'Manrope', sans-serif;
+            --transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: var(--font-body);
+            line-height: 1.6;
+            width: 100%;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* --- TYPOGRAPHY --- */
+        h1, h2, h3, h4 {
+            font-family: var(--font-head);
+            text-transform: uppercase;
+            font-weight: 400;
+            letter-spacing: 1px;
+            line-height: 0.9;
+        }
+
+        h1 {
+            font-size: clamp(3.5rem, 16vw, 12rem);
+            color: var(--highlight);
+            margin-bottom: 1rem;
+            word-break: break-word; 
+        }
+        
+        h3 {
+            font-size: 2rem;
+            color: var(--highlight);
+            margin-bottom: 1.5rem;
+            letter-spacing: 1px;
+        }
+
+        h4 {
+            font-size: 1.2rem;
+            color: #888;
+            margin-bottom: 0.5rem;
+            font-family: var(--font-body);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 600;
+        }
+
+        p, li {
+            font-size: 1rem;
+            color: #b0b0b0;
+            font-weight: 300;
+            max-width: 65ch;
+            margin-bottom: 1rem;
+        }
+
+        a {
+            color: var(--highlight);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        /* --- NAVIGATION --- */
+        nav {
+            position: fixed;
+            top: 0; left: 0; width: 100%;
+            padding: 1rem 1.5rem; 
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(to bottom, rgba(5,5,5,0.95) 0%, rgba(5,5,5,0.8) 50%, transparent 100%);
+            backdrop-filter: blur(2px);
+        }
+
+        .logo {
+            font-family: var(--font-head);
+            font-size: 1.4rem;
+            letter-spacing: 1.5px;
+            white-space: nowrap;
+        }
+
+        .nav-actions { display: flex; gap: 1rem; }
+
+        .cta-btn {
+            border: 1px solid var(--highlight);
+            padding: 0.5rem 1.2rem;
+            font-family: var(--font-head);
+            font-size: 1.1rem;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(10px);
+            white-space: nowrap;
+            cursor: pointer;
+            display: inline-block;
+        }
+
+        .cta-btn:hover {
+            background: var(--highlight);
+            color: var(--bg-color);
+        }
+
+        @media (max-width: 450px) {
+            .logo { font-size: 1.2rem; }
+            .cta-btn { padding: 0.4rem 0.8rem; font-size: 1rem; }
+            .nav-actions { gap: 0.5rem; }
+        }
+
+        /* --- HERO --- */
+        .hero {
+            position: relative;
+            height: 50dvh; 
+            min-height: 350px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem 1.5rem;
+            border-bottom: 1px solid var(--grid-line);
+            overflow: hidden;
+        }
+
+        #canvas-container {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 1;
+            opacity: 0.5; 
+            pointer-events: none; 
+        }
+
+        .hero-content { position: relative; z-index: 10; width: 100%; max-width: 1200px; }
+
+        .hero-subtitle {
+            font-family: var(--font-head);
+            font-size: clamp(1rem, 2vw, 1.5rem);
+            letter-spacing: 4px;
+            color: #888;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+        }
+
+        /* --- IMPRESSUM GRID --- */
+        .grid-wrapper {
+            display: grid;
+            grid-template-columns: 1fr; 
+            width: 100%;
+        }
+
+        @media (min-width: 900px) {
+            .content-split {
+                grid-template-columns: 1fr 2fr; /* Links schmaler Titel, Rechts Inhalt */
+            }
+        }
+
+        .info-card {
+            position: relative;
+            padding: 3rem 2rem;
+            border-bottom: 1px solid var(--grid-line);
+            background: linear-gradient(to bottom, #0a0a0a, var(--bg-color));
+        }
+
+        @media (min-width: 900px) {
+            .info-card {
+                border-right: 1px solid var(--grid-line);
+                border-bottom: 1px solid var(--grid-line); /* Durchgehende Linien */
+                padding: 4rem 3rem;
+            }
+            .info-card-left {
+                border-right: 1px solid var(--grid-line);
+                display: flex;
+                align-items: flex-start;
+                justify-content: flex-start;
+            }
+            /* Entfernt rechten Rand am Ende der Zeile */
+            .info-card:nth-child(2n) {
+                border-right: none; 
+            }
+        }
+
+        /* Daten-Liste Styling */
+        .data-row {
+            margin-bottom: 2rem;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            padding-bottom: 1rem;
+        }
+        .data-row:last-child { border-bottom: none; }
+
+        .data-value {
+            color: #fff;
+            font-size: 1.1rem;
+            display: block;
+        }
+
+        .legal-text {
+            font-size: 0.95rem;
+            color: #aaa;
+            line-height: 1.7;
+            text-align: justify;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            background: #020202;
+            border-top: 1px solid var(--grid-line);
+            color: #666;
+            font-size: 0.9rem;
+        }
+        .footer-bottom {
+            padding: 1.5rem 2rem; text-align: center; 
+            color: #444; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px;
+        }
+
+        /* --- ANIMATIONS --- */
+        .fade-in { 
+            opacity: 0; transform: translateY(20px); 
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out; 
+            will-change: opacity, transform;
+        }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="https://disinfoawareness.eu/index_new.html" class="logo">Disinfo Awareness</a>
+        <div class="nav-actions">
+            <a href="https://disinfoawareness.eu/kontakt.php" class="cta-btn">Kontakt</a>
+            <a href="https://disinfoawareness.eu/kontakt.php" class="cta-btn">Mitmachen</a>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div id="canvas-container"></div>
+        <div class="hero-content">
+            <div class="hero-subtitle fade-in">Offenlegung</div>
+            <h1 class="fade-in" style="transition-delay: 0.1s;">Impressum</h1>
+            <p class="fade-in" style="transition-delay: 0.2s; max-width: 800px; margin: 0 auto;">
+                Informationen gemäß §5 (1) ECG, § 25 MedienG, § 63 GewO und § 14 UGB.
+            </p>
+        </div>
+    </header>
+
+    <section class="grid-wrapper content-split">
+        <div class="info-card info-card-left fade-in">
+            <h3>Vereinsdaten</h3>
+        </div>
+        <div class="info-card fade-in" style="transition-delay: 0.1s;">
+            
+            <div class="data-row">
+                <h4>Vollständiger Name</h4>
+                <span class="data-value">
+                    Disinfo Awareness - Verein zur Aufklärung über Desinformation und FIMI (Foreign Information Manipulation Interference) zur Stärkung der Informationsresilienz
+                </span>
+            </div>
+
+            <div class="data-row">
+                <h4>ZVR-Zahl</h4>
+                <span class="data-value">1154237575</span>
+            </div>
+
+            <div class="data-row">
+                <h4>Zustellanschrift</h4>
+                <span class="data-value">Staudingergasse 8/6</span>
+                <span class="data-value">1200 Wien</span>
+                <span class="data-value">Österreich</span>
+            </div>
+
+            <div class="data-row">
+                <h4>Zuständige Behörde</h4>
+                <span class="data-value">
+                    Landespolizeidirektion Wien, Referat Vereins-, Versammlungs- und Medienrechtsangelegenheiten
+                </span>
+            </div>
+
+            <div class="data-row">
+                <h4>Kontakt</h4>
+                <a href="https://disinfoawareness.eu/kontakt.php" class="data-value" style="color:var(--highlight);">Zum Kontaktformular</a>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="grid-wrapper content-split">
+        <div class="info-card info-card-left fade-in">
+            <h3>Vertretung</h3>
+        </div>
+        <div class="info-card fade-in" style="transition-delay: 0.1s;">
+            <div class="data-row">
+                <h4>Obmann</h4>
+                <span class="data-value">Markus Schwinghammer</span>
+            </div>
+            <div class="data-row">
+                <h4>Obmann-Stellvertreter</h4>
+                <span class="data-value">Mag. Robert Buchhaus</span>
+            </div>
+            <div class="data-row">
+                <h4>Vertretungsregelung</h4>
+                <p style="margin:0;">Der/Die Obmann/Obfrau vertritt den Verein nach außen. Der/Die Stellvertreter/in vertritt ihn/sie im Falle der Verhinderung.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="grid-wrapper content-split">
+        <div class="info-card info-card-left fade-in">
+            <h3>Rechtliches</h3>
+        </div>
+        <div class="info-card fade-in" style="transition-delay: 0.1s;">
+            
+            <div class="data-row">
+                <h4>Urheberrecht</h4>
+                <p class="legal-text">
+                    Die Inhalte dieser Webseite unterliegen, soweit dies rechtlich möglich ist, diversen Schutzrechten (z.B. dem Urheberrecht). Jegliche Verwendung oder Verbreitung von bereitgestelltem Material, welche urheberrechtlich untersagt ist, bedarf schriftlicher Zustimmung des Webseitenbetreibers.
+                </p>
+                <p class="legal-text">
+                    Die Urheberrechte Dritter werden vom Betreiber dieser Webseite mit größter Sorgfalt beachtet. Sollten Sie trotzdem auf eine Urheberrechtsverletzung aufmerksam werden, bitten wir um einen entsprechenden Hinweis. Bei Bekanntwerden derartiger Rechtsverletzungen werden wir den betroffenen Inhalt umgehend entfernen.
+                </p>
+            </div>
+
+            <div class="data-row">
+                <h4>Haftungsausschluss</h4>
+                <p class="legal-text">
+                    Trotz sorgfältiger inhaltlicher Kontrolle übernimmt der Webseitenbetreiber dieser Webseite keine Haftung für die Inhalte externer Links. Für den Inhalt der verlinkten Seiten sind ausschließlich deren Betreiber verantwortlich. Sollten Sie dennoch auf ausgehende Links aufmerksam werden, welche auf eine Webseite mit rechtswidriger Tätigkeit oder Information verweisen, ersuchen wir um dementsprechenden Hinweis, um diese nach § 17 Abs. 2 ECG umgehend zu entfernen.
+                </p>
+            </div>
+
+            <div class="data-row" style="border:none; padding-top:1rem;">
+                <p style="font-size: 0.8rem; color: #666;">
+                    Grundlegende Richtung (Blattlinie): Information über die Tätigkeit des Vereins sowie Förderung der Medienkompetenz und Resilienz gegen Desinformation.
+                </p>
+            </div>
+
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-bottom">
+            &copy; 2026 Disinfo Awareness. Wien, Österreich.
+        </div>
+    </footer>
+
+    <script type="module">
+        import * as THREE from 'three';
+        const isMobile = window.innerWidth < 768;
+        const container = document.getElementById('canvas-container');
+        const scene = new THREE.Scene();
+        scene.fog = new THREE.FogExp2(0x050505, isMobile ? 0.045 : 0.035);
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 100);
+        camera.position.z = 10;
+        const renderer = new THREE.WebGLRenderer({ antialias: !isMobile, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1.5 : 2));
+        container.appendChild(renderer.domElement);
+
+        const bgCount = isMobile ? 150 : 600;
+        const bgGeometry = new THREE.BufferGeometry();
+        const bgPos = new Float32Array(bgCount * 3);
+        for(let i = 0; i < bgCount; i++) {
+            bgPos[i * 3] = (Math.random() - 0.5) * 60; 
+            bgPos[i * 3 + 1] = (Math.random() - 0.5) * 60; 
+            bgPos[i * 3 + 2] = (Math.random() - 0.5) * 60; 
+        }
+        bgGeometry.setAttribute('position', new THREE.BufferAttribute(bgPos, 3));
+        const bgMaterial = new THREE.PointsMaterial({ size: 0.05, color: 0x444444, transparent: true, opacity: 0.6 });
+        const bgParticles = new THREE.Points(bgGeometry, bgMaterial);
+        scene.add(bgParticles);
+
+        const fgCount = isMobile ? 40 : 100;
+        const fgGeometry = new THREE.BufferGeometry();
+        const fgPos = new Float32Array(fgCount * 3);
+        for(let i = 0; i < fgCount; i++) {
+            fgPos[i * 3] = (Math.random() - 0.5) * 30; 
+            fgPos[i * 3 + 1] = (Math.random() - 0.5) * 20; 
+            fgPos[i * 3 + 2] = (Math.random() - 0.5) * 10; 
+        }
+        fgGeometry.setAttribute('position', new THREE.BufferAttribute(fgPos, 3));
+        const fgMaterial = new THREE.PointsMaterial({ size: isMobile ? 0.12 : 0.09, color: 0xffffff, transparent: true, opacity: 0.8 });
+        const fgParticles = new THREE.Points(fgGeometry, fgMaterial);
+        scene.add(fgParticles);
+
+        let mouseX = 0, mouseY = 0;
+        const windowHalfX = window.innerWidth / 2, windowHalfY = window.innerHeight / 2;
+        document.addEventListener('mousemove', (event) => {
+            mouseX = (event.clientX - windowHalfX);
+            mouseY = (event.clientY - windowHalfY);
+        });
+        if(isMobile) {
+            window.addEventListener('deviceorientation', (event) => {
+                if(event.gamma && event.beta) {
+                    mouseX = event.gamma * 10;
+                    mouseY = event.beta * 10;
+                }
+            });
+        }
+        const clock = new THREE.Clock();
+        function animate() {
+            requestAnimationFrame(animate);
+            const time = clock.getElapsedTime();
+            const targetX = mouseX * 0.0005, targetY = mouseY * 0.0005;
+            camera.rotation.x += 0.05 * (-targetY - camera.rotation.x);
+            camera.rotation.y += 0.05 * (-targetX - camera.rotation.y);
+            bgParticles.rotation.y = time * 0.05;
+            fgParticles.rotation.y = time * 0.1;
+            renderer.render(scene, camera);
+        }
+        animate();
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const fadeObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) entry.target.classList.add('visible');
+                });
+            }, { threshold: 0.1 });
+            document.querySelectorAll('.fade-in').forEach(el => fadeObserver.observe(el));
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Disinfo Awareness - Gemeinsam gegen Desinformation</title>
+    <meta name="theme-color" content="#050505">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.160.0/build/three.module.js"
+            }
+        }
+    </script>
+
+    <style>
+        /* --- RESET & VARIABLES --- */
+        :root {
+            --bg-color: #050505;
+            --text-color: #f0f0f0;
+            --highlight: #ffffff;
+            --grid-line: rgba(255, 255, 255, 0.15);
+            --font-head: 'Bebas Neue', display;
+            --font-body: 'Manrope', sans-serif;
+            --transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: var(--font-body);
+            line-height: 1.6;
+            width: 100%;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* --- TYPOGRAPHY --- */
+        h1, h2, h3, h4 {
+            font-family: var(--font-head);
+            text-transform: uppercase;
+            font-weight: 400;
+            letter-spacing: 1px;
+            line-height: 0.9;
+        }
+
+        h1 {
+            font-size: clamp(3.5rem, 16vw, 12rem);
+            color: var(--highlight);
+            margin-bottom: 1rem;
+            word-break: break-word; 
+        }
+        
+        h2 {
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            color: var(--highlight);
+            margin: 0;
+            line-height: 0.9;
+        }
+
+        h4 {
+            font-size: 1.5rem;
+            color: var(--highlight);
+            margin-bottom: 1rem;
+            letter-spacing: 2px;
+        }
+
+        p {
+            font-size: clamp(1rem, 1.2vw, 1.15rem);
+            color: #b0b0b0;
+            font-weight: 300;
+            max-width: 60ch;
+        }
+
+        a {
+            color: var(--highlight);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        /* --- NAVIGATION --- */
+        nav {
+            position: fixed;
+            top: 0; left: 0; width: 100%;
+            padding: 1rem 1.5rem; 
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(to bottom, rgba(5,5,5,0.95) 0%, rgba(5,5,5,0.8) 50%, transparent 100%);
+            backdrop-filter: blur(2px);
+        }
+
+        .logo {
+            font-family: var(--font-head);
+            font-size: 1.4rem;
+            letter-spacing: 1.5px;
+            white-space: nowrap;
+        }
+
+        /* Container für die Buttons */
+        .nav-actions {
+            display: flex;
+            gap: 1rem; /* Abstand zwischen den Buttons */
+        }
+
+        .cta-btn {
+            border: 1px solid var(--highlight);
+            padding: 0.5rem 1.2rem;
+            font-family: var(--font-head);
+            font-size: 1.1rem;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(10px);
+            white-space: nowrap;
+            cursor: pointer;
+            display: inline-block;
+        }
+
+        .cta-btn:hover, .cta-btn:active {
+            background: var(--highlight);
+            color: var(--bg-color);
+        }
+
+        /* Mobile Optimierung für Nav */
+        @media (max-width: 450px) {
+            .logo { font-size: 1.2rem; }
+            .cta-btn { padding: 0.4rem 0.8rem; font-size: 1rem; }
+            .nav-actions { gap: 0.5rem; }
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            position: relative;
+            height: 100dvh; 
+            min-height: 550px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem 1.5rem;
+            border-bottom: 1px solid var(--grid-line);
+            overflow: hidden;
+        }
+
+        #canvas-container {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 1;
+            opacity: 0.6;
+            pointer-events: none; 
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .hero-subtitle {
+            font-family: var(--font-head);
+            font-size: clamp(1rem, 2vw, 1.5rem);
+            letter-spacing: 4px;
+            color: #888;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            display: block;
+        }
+        
+        .hero-p {
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+        }
+
+        /* --- SHARED CARD STYLES --- */
+        .grid-wrapper {
+            display: grid;
+            grid-template-columns: 1fr;
+            width: 100%;
+        }
+
+        .card-item {
+            position: relative;
+            border-bottom: 1px solid var(--grid-line);
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            overflow: hidden;
+            height: 50dvh; 
+            min-height: 450px; 
+        }
+
+        @media (min-width: 900px) {
+            .projects-wrapper {
+                grid-template-columns: 1fr 1fr 1fr; 
+                height: 100vh;
+                min-height: 800px;
+            }
+            
+            .team-wrapper {
+                grid-template-columns: 1fr 1fr; 
+                height: 90vh;
+            }
+
+            .card-item {
+                height: 100%;
+                border-right: 1px solid var(--grid-line);
+                border-bottom: 0; 
+                padding: 3rem 2.5rem;
+            }
+            .card-item:last-child {
+                border-right: none;
+            }
+        }
+
+        .card-bg {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-size: cover;
+            background-position: center;
+            z-index: 1;
+            transition: transform 0.8s ease, filter 0.8s ease;
+            filter: grayscale(100%) brightness(0.35); 
+            transform: scale(1.0);
+        }
+
+        .card-item:hover .card-bg,
+        .card-item.is-in-view .card-bg,
+        .funding-section:hover .funding-bg, 
+        .funding-section.is-in-view .funding-bg {
+            transform: scale(1.05);
+            filter: grayscale(0%) brightness(0.65); 
+        }
+
+        .card-content {
+            position: relative;
+            z-index: 2;
+            pointer-events: none; 
+            text-shadow: 0 2px 20px rgba(0,0,0,0.8);
+        }
+
+        .card-number {
+            font-family: var(--font-head);
+            font-size: clamp(3rem, 5vw, 4rem);
+            color: var(--highlight);
+            opacity: 0.2;
+            margin-bottom: 0.5rem;
+            display: block;
+            line-height: 1;
+        }
+
+        .card-item h3 {
+            font-size: clamp(2.5rem, 4vw, 3.5rem);
+            color: var(--highlight);
+            margin-bottom: 0.5rem;
+        }
+
+        .card-role {
+            font-family: var(--font-body);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.9rem;
+            color: #ccc;
+            margin-bottom: 1rem;
+            display: block;
+            font-weight: 600;
+        }
+
+        .card-item p {
+            font-size: 1rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+            margin-left: 0;
+            max-width: 100%;
+            color: #d0d0d0;
+        }
+
+        .card-link {
+            pointer-events: auto; 
+            font-family: var(--font-head);
+            font-size: 1.3rem;
+            border-bottom: 1px solid var(--highlight);
+            padding-bottom: 5px;
+            display: inline-block;
+            margin-bottom: 1rem; 
+        }
+
+        /* --- FUNDING SECTION --- */
+        .funding-section {
+            position: relative;
+            border-top: 1px solid var(--grid-line);
+            border-bottom: 1px solid var(--grid-line);
+            overflow: hidden;
+            min-height: 50vh; 
+            display: flex;
+            align-items: center;
+        }
+
+        .funding-bg {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-size: cover;
+            background-position: center;
+            z-index: 1;
+            transition: transform 0.8s ease, filter 0.8s ease;
+            filter: grayscale(100%) brightness(0.2); 
+            transform: scale(1.0);
+        }
+
+        .funding-content-wrapper {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr;
+        }
+
+        @media (min-width: 900px) {
+            .funding-content-wrapper {
+                grid-template-columns: 1fr 1fr;
+                min-height: 50vh;
+            }
+        }
+
+        .funding-left {
+            padding: 3rem 2rem;
+            border-bottom: 1px solid var(--grid-line);
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        .funding-right {
+            padding: 3rem 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            background: rgba(5,5,5,0.4); 
+            backdrop-filter: blur(5px);
+        }
+
+        @media (min-width: 900px) {
+            .funding-left {
+                border-bottom: 0;
+                border-right: 1px solid var(--grid-line);
+                justify-content: center; 
+            }
+        }
+
+        /* --- TEAM SECTION HEADERS --- */
+        .section-headline-container {
+            padding: 4rem 1.5rem 2rem;
+            text-align: center;
+        }
+
+        .section-headline--sub {
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            letter-spacing: 3px;
+            color: #888;
+            margin: 0;
+        }
+
+        .team-wrapper-start {
+             border-top: 1px solid var(--grid-line);
+        }
+
+        /* --- FOOTER (NEW & IMPROVED) --- */
+        footer {
+            background: #020202;
+            border-top: 1px solid var(--grid-line);
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1fr; /* Mobile */
+        }
+
+        @media (min-width: 900px) {
+            .footer-grid {
+                grid-template-columns: 1.5fr 1fr 1fr; /* Desktop */
+            }
+        }
+
+        .footer-col {
+            padding: 3rem 2rem;
+            border-bottom: 1px solid var(--grid-line);
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        @media (min-width: 900px) {
+            .footer-col {
+                border-right: 1px solid var(--grid-line);
+                border-bottom: none;
+            }
+            .footer-col:last-child {
+                border-right: none;
+            }
+        }
+
+        .footer-link {
+            color: #888;
+            font-size: 1rem;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            display: inline-block;
+        }
+
+        .footer-link:hover {
+            color: var(--highlight);
+            transform: translateX(5px);
+        }
+
+        .footer-bottom {
+            padding: 1.5rem 2rem;
+            text-align: center;
+            border-top: 1px solid var(--grid-line);
+            color: #444;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* --- ANIMATIONS --- */
+        .fade-in { 
+            opacity: 0; 
+            transform: translateY(20px); 
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out; 
+            will-change: opacity, transform;
+        }
+        .fade-in.visible { 
+            opacity: 1; 
+            transform: translateY(0); 
+        }
+
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">Disinfo Awareness</div>
+        <div class="nav-actions">
+            <a href="https://disinfoawareness.eu/kontakt.php" class="cta-btn">Kontakt</a>
+            <a href="https://disinfoawareness.eu/kontakt.php" class="cta-btn">Mitmachen</a>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div id="canvas-container"></div>
+        <div class="hero-content">
+            <div class="hero-subtitle fade-in">Aufklärung & Resilienz</div>
+            <h1 class="fade-in" style="transition-delay: 0.1s;">Gemeinsam<br>Gegen<br>Desinfo</h1>
+            <p class="fade-in hero-p" style="transition-delay: 0.2s;">
+                Stärkung gesellschaftlicher Resilienz durch innovative Aufklärung und positive Gegennarrative.
+            </p>
+        </div>
+    </header>
+
+    <section class="grid-wrapper projects-wrapper">
+        <div class="card-item fade-in">
+            <div class="card-bg" style="background-image: url('https://images.unsplash.com/photo-1515787366009-7cbdd2dc587b?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');"></div>
+            <div class="card-content">
+                <span class="card-number">01</span>
+                <h3>Aufklärung &<br>Bildung</h3>
+                <p>Workshops zur Informationskompetenz für Diaspora-Communities. Wir schulen Multiplikatoren.</p>
+                <a href="https://disinfoawareness.eu/aufklaerung.html" class="card-link">Mehr erfahren</a>
+            </div>
+        </div>
+        <div class="card-item fade-in" style="transition-delay: 0.1s;">
+            <div class="card-bg" style="background-image: url('https://images.unsplash.com/photo-1532619675605-1ede6c2ed2b0?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');"></div>
+            <div class="card-content">
+                <span class="card-number">02</span>
+                <h3>Positive Info<br>Manipulation</h3>
+                <p>Wir analysieren FIMI-Taktiken und wenden sie für das Gemeinwohl an. Simple, nachhaltige Resilienz.</p>
+                <a href="https://disinfoawareness.eu/pim.html" class="card-link">Zu den Strategien</a>
+            </div>
+        </div>
+        <div class="card-item fade-in" style="transition-delay: 0.2s;">
+            <div class="card-bg" style="background-image: url('https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=2070&auto=format&fit=crop');"></div>
+            <div class="card-content">
+                <span class="card-number">03</span>
+                <h3>Innovation &<br>Forschung</h3>
+                <p>Unser PIM-Lab unterstützt Forschung, innovative Konzepte und Projekte im Bereich Desinformation.</p>
+                <a href="https://disinfoawareness.eu/innovation.html" class="card-link">Zum PIM Lab</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="funding-section fade-in">
+        <div class="funding-bg" style="background-image: url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop');"></div>
+        <div class="funding-content-wrapper">
+            <div class="funding-left">
+                <h2>Funding &<br>Partner</h2>
+            </div>
+            <div class="funding-right">
+                <p style="margin-bottom: 2rem; color: #e0e0e0;">
+                    Wir sind derzeit dabei, die langfristige Finanzierung für unsere Projekte aufzustellen, um unabhängige und wirksame Aufklärungsarbeit zu gewährleisten.<br><br>
+                    Das klingt für Sie interessant oder Sie würden gerne spenden?
+                </p>
+                <a href="https://disinfoawareness.eu/kontakt.php" class="cta-btn">Kontakt aufnehmen</a>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="section-headline-container">
+            <h2 class="fade-in section-headline--sub">Das Team</h2>
+        </div>
+        <div class="grid-wrapper team-wrapper team-wrapper-start">
+            
+            <div class="card-item fade-in">
+                <div class="card-bg" style="background-image: url('https://disinfoconsulting.eu/wp-content/uploads/2025/06/20250603-IMG_9344-scaled.jpg');"></div>
+                <div class="card-content">
+                    <h3>Markus Schwinghammer</h3>
+                    <span class="card-role">Gründer & Obmann</span>
+                    <p>Experte für Informationsmanipulation und hybride Bedrohungen. Erfahrung im öffentlichen Dienst und der Koordination von nationalen wie internationalen Abwehrmaßnahmen.</p>
+                    <a href="https://www.linkedin.com/in/markus-schwinghammer-335a0b201/" class="card-link">LinkedIn Profil</a>
+                </div>
+            </div>
+
+            <div class="card-item fade-in" style="transition-delay: 0.1s;">
+                <div class="card-bg" style="background-image: url('https://disinfoconsulting.eu/wp-content/uploads/2026/01/Gemini_Generated_Image_b8u35bb8u35bb8u3-scaled.png');"></div>
+                <div class="card-content">
+                    <h3>Robert Buchhaus</h3>
+                    <span class="card-role">Gründer & Obmann Stelv.</span>
+                    <p>Spezialist für Fundraising und NGO-Kooperationen. Mit jahrzehntelanger Erfahrung im Dritten Sektor übersetzt er komplexe Strukturen in wirksame Aufklärung und gesellschaftliche Resilienz.</p>
+                    <a href="https://www.linkedin.com/in/robert-buchhaus-693284106/" class="card-link">LinkedIn Profil</a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer id="footer-contact">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>Disinfo Awareness</h4>
+                <p style="margin: 0; max-width: 100%;">
+                    Ein gemeinnütziger Verein zur Stärkung der Demokratie. Wir verbinden Technologie mit Bildung für eine resilientere Gesellschaft.
+                </p>
+            </div>
+            
+            <div class="footer-col">
+                <h4>Kontakt</h4>
+                <a href="https://disinfoawareness.eu/kontakt.php" class="footer-link">Kontakt</a>
+                <a href="#" class="footer-link">LinkedIn</a>
+            </div>
+
+            <div class="footer-col">
+                <h4>Rechtliches</h4>
+                <a href="https://disinfoawareness.eu/impressum.html" class="footer-link">Impressum</a>
+                <a href="https://disinfoawareness.eu/datenschutz.html" class="footer-link">Datenschutz</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2026 Disinfo Awareness. Wien, Österreich.
+        </div>
+    </footer>
+
+    <script type="module">
+        import * as THREE from 'three';
+
+        // Detect Mobile
+        const isMobile = window.innerWidth < 768;
+
+        const container = document.getElementById('canvas-container');
+        const scene = new THREE.Scene();
+        scene.fog = new THREE.FogExp2(0x050505, isMobile ? 0.045 : 0.035);
+
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 100);
+        camera.position.z = 10;
+
+        const renderer = new THREE.WebGLRenderer({ antialias: !isMobile, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1.5 : 2));
+        container.appendChild(renderer.domElement);
+
+        // --- PARTICLES ---
+        const bgCount = isMobile ? 150 : 600;
+        const fgCount = isMobile ? 40 : 100;
+
+        const bgGeometry = new THREE.BufferGeometry();
+        const bgPos = new Float32Array(bgCount * 3);
+        for(let i = 0; i < bgCount; i++) {
+            bgPos[i * 3] = (Math.random() - 0.5) * 60; 
+            bgPos[i * 3 + 1] = (Math.random() - 0.5) * 60; 
+            bgPos[i * 3 + 2] = (Math.random() - 0.5) * 60; 
+        }
+        bgGeometry.setAttribute('position', new THREE.BufferAttribute(bgPos, 3));
+        const bgMaterial = new THREE.PointsMaterial({ size: 0.05, color: 0x444444, transparent: true, opacity: 0.6 });
+        const bgParticles = new THREE.Points(bgGeometry, bgMaterial);
+        scene.add(bgParticles);
+
+        const fgGeometry = new THREE.BufferGeometry();
+        const fgPos = new Float32Array(fgCount * 3);
+        for(let i = 0; i < fgCount; i++) {
+            fgPos[i * 3] = (Math.random() - 0.5) * 30; 
+            fgPos[i * 3 + 1] = (Math.random() - 0.5) * 20; 
+            fgPos[i * 3 + 2] = (Math.random() - 0.5) * 10; 
+        }
+        fgGeometry.setAttribute('position', new THREE.BufferAttribute(fgPos, 3));
+        const fgMaterial = new THREE.PointsMaterial({ size: isMobile ? 0.12 : 0.09, color: 0xffffff, transparent: true, opacity: 0.8 });
+        const fgParticles = new THREE.Points(fgGeometry, fgMaterial);
+        scene.add(fgParticles);
+
+        // --- INTERACTION ---
+        let mouseX = 0, mouseY = 0;
+        const windowHalfX = window.innerWidth / 2, windowHalfY = window.innerHeight / 2;
+
+        document.addEventListener('mousemove', (event) => {
+            mouseX = (event.clientX - windowHalfX);
+            mouseY = (event.clientY - windowHalfY);
+        });
+
+        if(isMobile) {
+            window.addEventListener('deviceorientation', (event) => {
+                if(event.gamma && event.beta) {
+                    mouseX = event.gamma * 10;
+                    mouseY = event.beta * 10;
+                }
+            });
+        }
+
+        const clock = new THREE.Clock();
+        function animate() {
+            requestAnimationFrame(animate);
+            const time = clock.getElapsedTime();
+            const targetX = mouseX * 0.0005, targetY = mouseY * 0.0005;
+            camera.rotation.x += 0.05 * (-targetY - camera.rotation.x);
+            camera.rotation.y += 0.05 * (-targetX - camera.rotation.y);
+            bgParticles.rotation.y = time * 0.05;
+            fgParticles.rotation.y = time * 0.1;
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Fade In Text
+            const fadeObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) entry.target.classList.add('visible');
+                });
+            }, { threshold: 0.1 });
+            document.querySelectorAll('.fade-in').forEach(el => fadeObserver.observe(el));
+
+            // Mobile Color Activation (Apply to ALL interactive sections)
+            const cardObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-in-view');
+                    } else {
+                        entry.target.classList.remove('is-in-view');
+                    }
+                });
+            }, { threshold: 0.5, rootMargin: "-10% 0px -10% 0px" });
+
+            if (window.innerWidth < 900) {
+                document.querySelectorAll('.card-item, .funding-section').forEach(el => cardObserver.observe(el));
+            }
+        });
+    </script>
+</body>
+</html>

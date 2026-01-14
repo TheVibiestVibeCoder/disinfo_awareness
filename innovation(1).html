@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Innovation & Forschung - Disinfo Awareness</title>
+    <meta name="theme-color" content="#050505">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.160.0/build/three.module.js"
+            }
+        }
+    </script>
+
+    <style>
+        /* --- RESET & VARIABLES --- */
+        :root {
+            --bg-color: #050505;
+            --text-color: #f0f0f0;
+            --highlight: #ffffff;
+            --grid-line: rgba(255, 255, 255, 0.15);
+            --font-head: 'Bebas Neue', display;
+            --font-body: 'Manrope', sans-serif;
+            --transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: var(--font-body);
+            line-height: 1.6;
+            width: 100%;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* --- TYPOGRAPHY --- */
+        h1, h2, h3, h4 {
+            font-family: var(--font-head);
+            text-transform: uppercase;
+            font-weight: 400;
+            letter-spacing: 1px;
+            line-height: 0.9;
+        }
+
+        h1 {
+            font-size: clamp(3.5rem, 14vw, 12rem);
+            color: var(--highlight);
+            margin-bottom: 1rem;
+            word-break: break-word; 
+            hyphens: auto;
+        }
+        
+        h2 {
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            color: var(--highlight);
+            margin: 0;
+            line-height: 0.9;
+        }
+
+        h4 {
+            font-size: 1.5rem;
+            color: var(--highlight);
+            margin-bottom: 1rem;
+            letter-spacing: 2px;
+        }
+
+        p {
+            font-size: clamp(1rem, 1.2vw, 1.15rem);
+            color: #b0b0b0;
+            font-weight: 300;
+            max-width: 60ch;
+        }
+
+        a {
+            color: var(--highlight);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        /* --- NAVIGATION --- */
+        nav {
+            position: fixed;
+            top: 0; left: 0; width: 100%;
+            padding: 1rem 1.5rem; 
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(to bottom, rgba(5,5,5,0.95) 0%, rgba(5,5,5,0.8) 50%, transparent 100%);
+            backdrop-filter: blur(2px);
+        }
+
+        .logo {
+            font-family: var(--font-head);
+            font-size: 1.4rem;
+            letter-spacing: 1.5px;
+            white-space: nowrap;
+        }
+
+        .nav-actions { display: flex; gap: 1rem; }
+
+        .cta-btn {
+            border: 1px solid var(--highlight);
+            padding: 0.5rem 1.2rem;
+            font-family: var(--font-head);
+            font-size: 1.1rem;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(10px);
+            white-space: nowrap;
+            cursor: pointer;
+            display: inline-block;
+        }
+
+        .cta-btn:hover, .cta-btn:active {
+            background: var(--highlight);
+            color: var(--bg-color);
+        }
+
+        @media (max-width: 450px) {
+            .logo { font-size: 1.2rem; }
+            .cta-btn { padding: 0.4rem 0.8rem; font-size: 1rem; }
+            .nav-actions { gap: 0.5rem; }
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            position: relative;
+            height: 85dvh; 
+            min-height: 500px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem 1.5rem;
+            border-bottom: 1px solid var(--grid-line);
+            overflow: hidden;
+        }
+
+        #canvas-container {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 1;
+            opacity: 0.5; 
+            pointer-events: none; 
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .hero-subtitle {
+            font-family: var(--font-head);
+            font-size: clamp(1rem, 2vw, 1.5rem);
+            letter-spacing: 4px;
+            color: #888;
+            margin-bottom: 2.5rem;
+            text-transform: uppercase;
+            display: block;
+        }
+        
+        .hero-p {
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+        }
+
+        /* --- CONTENT GRID SYSTEM --- */
+        .grid-wrapper {
+            display: grid;
+            grid-template-columns: 1fr; 
+            width: 100%;
+        }
+
+        @media (min-width: 900px) {
+            .content-split {
+                grid-template-columns: 1fr 1fr; 
+                min-height: 80vh; 
+            }
+        }
+
+        .card-item {
+            position: relative;
+            border-bottom: 1px solid var(--grid-line);
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            overflow: hidden;
+            height: 60dvh; 
+            min-height: 450px; 
+        }
+
+        @media (min-width: 900px) {
+            .card-item {
+                height: 100%;
+                border-right: 1px solid var(--grid-line);
+                border-bottom: 0; 
+                padding: 4rem 3rem; 
+            }
+            .card-item:last-child { border-right: none; }
+        }
+
+        /* Swap-Klasse für Desktop Schachbrett */
+        @media (min-width: 900px) {
+            .swap-desktop .card-item:first-child {
+                order: 2; 
+                border-right: none;
+            }
+            .swap-desktop .card-item:last-child {
+                order: 1; 
+                border-right: 1px solid var(--grid-line);
+            }
+        }
+
+        /* Images */
+        .card-bg {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-size: cover;
+            background-position: center;
+            z-index: 1;
+            transition: transform 0.8s ease, filter 0.8s ease;
+            filter: grayscale(100%) brightness(0.3); 
+            transform: scale(1.0);
+        }
+
+        .card-item:hover .card-bg,
+        .card-item.is-in-view .card-bg {
+            transform: scale(1.05);
+            filter: grayscale(0%) brightness(0.5); 
+        }
+
+        .card-content {
+            position: relative;
+            z-index: 2;
+            pointer-events: none; 
+            text-shadow: 0 2px 20px rgba(0,0,0,0.8);
+        }
+
+        .card-item h3 {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            color: var(--highlight);
+            margin-bottom: 1rem;
+        }
+
+        .card-item p {
+            font-size: 1.1rem;
+            opacity: 0.95;
+            margin-bottom: 2rem;
+            margin-left: 0;
+            max-width: 50ch; 
+            color: #d0d0d0;
+        }
+
+        .text-card {
+            background: linear-gradient(to bottom, #0a0a0a, #050505);
+            justify-content: center; 
+            height: auto; 
+            min-height: 40dvh;
+        }
+        @media (min-width: 900px) {
+             .text-card { height: 100%; }
+        }
+
+        /* --- CTA SECTION --- */
+        .cta-section {
+            padding: 6rem 1.5rem;
+            border-top: 1px solid var(--grid-line);
+            text-align: center;
+            background: linear-gradient(to top, #0a0a0a, var(--bg-color));
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            background: #020202;
+            border-top: 1px solid var(--grid-line);
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+        }
+        @media (min-width: 900px) {
+            .footer-grid { grid-template-columns: 1.5fr 1fr 1fr; }
+        }
+
+        .footer-col {
+            padding: 3rem 2rem;
+            border-bottom: 1px solid var(--grid-line);
+            display: flex; flex-direction: column; gap: 1rem;
+        }
+        @media (min-width: 900px) {
+            .footer-col { border-right: 1px solid var(--grid-line); border-bottom: none; }
+            .footer-col:last-child { border-right: none; }
+        }
+
+        .footer-link {
+            color: #888; font-size: 1rem; text-decoration: none; transition: color 0.3s ease; display: inline-block;
+        }
+        .footer-link:hover { color: var(--highlight); transform: translateX(5px); }
+
+        .footer-bottom {
+            padding: 1.5rem 2rem; text-align: center; border-top: 1px solid var(--grid-line);
+            color: #444; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px;
+        }
+
+        /* --- ANIMATIONS --- */
+        .fade-in { 
+            opacity: 0; transform: translateY(20px); 
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out; 
+            will-change: opacity, transform;
+        }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="https://disinfoawareness.eu/index_new.html" class="logo">Disinfo Awareness</a>
+        <div class="nav-actions">
+            <a href="https://disinfoawareness.eu/kontakt.php" class="cta-btn">Kontakt</a>
+            <a href="https://disinfoawareness.eu/kontakt.php" class="cta-btn">Mitmachen</a>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div id="canvas-container"></div>
+        <div class="hero-content">
+            <div class="hero-subtitle fade-in">Bereich 03</div>
+            <h1 class="fade-in" style="transition-delay: 0.1s;">Innovation &<br>Forschung</h1>
+            <p class="fade-in hero-p" style="transition-delay: 0.2s;">
+                Wir unterstützen Forschung, innovative Konzepte und Projekte im Bereich Desinformation mit Expertise, strategischem Rat und unserem Netzwerk.
+            </p>
+        </div>
+    </header>
+
+    <section class="grid-wrapper content-split">
+        <div class="card-item text-card fade-in">
+            <div class="card-content">
+                <h3>Das PIM Lab</h3>
+                <p>
+                    Der Kampf gegen Desinformation erfordert ständige Innovation. Was heute funktioniert, ist morgen veraltet.
+                </p>
+                <p>
+                    Das PIM Lab ist unser Experimentierraum. Hier testen wir neue Narrative, analysieren technologische Trends und entwickeln Prototypen für die Kommunikation von morgen. Wir verbinden Theorie mit radikaler Praxis.
+                </p>
+            </div>
+        </div>
+        <div class="card-item fade-in" style="transition-delay: 0.1s;">
+            <div class="card-bg" style="background-image: url('https://images.unsplash.com/photo-1461749280684-dccba630e2f6?q=80&w=1169&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3Dp');"></div>
+            <div class="card-content">
+                <h3>Experiment &<br>Praxis</h3>
+            </div>
+        </div>
+    </section>
+
+    <section class="grid-wrapper content-split swap-desktop">
+        <div class="card-item text-card fade-in" style="transition-delay: 0.1s;">
+            <div class="card-content">
+                <h3>Expertise & Rat</h3>
+                <p>
+                    Sie haben eine Idee oder ein Forschungsprojekt, aber Ihnen fehlt der Zugang zur Praxis oder zu spezifischen Zielgruppen?
+                </p>
+                <p>
+                    Wir bieten <strong>strategisches Sparring und Beratung</strong>. Wir teilen unsere Erfahrungen aus der Feldarbeit und helfen dabei, theoretische Konzepte in anwendbare Strategien zu übersetzen.
+                </p>
+            </div>
+        </div>
+        <div class="card-item fade-in">
+            <div class="card-bg" style="background-image: url('https://images.unsplash.com/photo-1726867825984-0582b27728b8?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');"></div>
+            <div class="card-content">
+                <h3>Sparring &<br>Strategie</h3>
+            </div>
+        </div>
+    </section>
+
+    <section class="grid-wrapper content-split">
+        <div class="card-item text-card fade-in">
+            <div class="card-content">
+                <h3>Netzwerk & Kontakte</h3>
+                <p>
+                    Niemand gewinnt diesen Kampf allein. Wir verstehen uns als Knotenpunkt zwischen Zivilgesellschaft, Tech-Community und Wissenschaft.
+                </p>
+                <p>
+                    Wir öffnen Türen und vernetzen Akteure. Egal ob Sie Mitstreiter für einen Förderantrag suchen oder Pilotpartner für ein neues Tool – wir bringen die richtigen Menschen zusammen.
+                </p>
+            </div>
+        </div>
+        <div class="card-item fade-in" style="transition-delay: 0.1s;">
+            <div class="card-bg" style="background-image: url('https://images.unsplash.com/photo-1429041966141-44d228a42775?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');"></div>
+            <div class="card-content">
+                <h3>Brücken<br>bauen</h3>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section fade-in">
+        <h2>Sie würden gern mit uns arbeiten?</h2>
+        <p style="margin: 0 auto 2rem auto;">Wir sind offen für Kooperationen und neue Impulse. Melden Sie sich!</p>
+        <a href="https://disinfoawareness.eu/kontakt.php" class="cta-btn">Kontakt aufnehmen</a>
+    </section>
+
+   <footer id="footer-contact">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>Disinfo Awareness</h4>
+                <p style="margin: 0; max-width: 100%;">
+                    Ein gemeinnütziger Verein zur Stärkung der Demokratie. Wir verbinden Technologie mit Bildung für eine resilientere Gesellschaft.
+                </p>
+            </div>
+            
+            <div class="footer-col">
+                <h4>Kontakt</h4>
+                <a href="https://disinfoawareness.eu/kontakt.php" class="footer-link">Kontakt</a>
+                <a href="#" class="footer-link">LinkedIn</a>
+            </div>
+
+            <div class="footer-col">
+                <h4>Rechtliches</h4>
+                <a href="https://disinfoawareness.eu/impressum.html" class="footer-link">Impressum</a>
+                <a href="https://disinfoawareness.eu/datenschutz.html" class="footer-link">Datenschutz</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2026 Disinfo Awareness. Wien, Österreich.
+        </div>
+    </footer>
+
+    <script type="module">
+        import * as THREE from 'three';
+        const isMobile = window.innerWidth < 768;
+        const container = document.getElementById('canvas-container');
+        const scene = new THREE.Scene();
+        scene.fog = new THREE.FogExp2(0x050505, isMobile ? 0.045 : 0.035);
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 100);
+        camera.position.z = 10;
+        const renderer = new THREE.WebGLRenderer({ antialias: !isMobile, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1.5 : 2));
+        container.appendChild(renderer.domElement);
+
+        const bgCount = isMobile ? 150 : 600;
+        const bgGeometry = new THREE.BufferGeometry();
+        const bgPos = new Float32Array(bgCount * 3);
+        for(let i = 0; i < bgCount; i++) {
+            bgPos[i * 3] = (Math.random() - 0.5) * 60; 
+            bgPos[i * 3 + 1] = (Math.random() - 0.5) * 60; 
+            bgPos[i * 3 + 2] = (Math.random() - 0.5) * 60; 
+        }
+        bgGeometry.setAttribute('position', new THREE.BufferAttribute(bgPos, 3));
+        const bgMaterial = new THREE.PointsMaterial({ size: 0.05, color: 0x444444, transparent: true, opacity: 0.6 });
+        const bgParticles = new THREE.Points(bgGeometry, bgMaterial);
+        scene.add(bgParticles);
+
+        const fgCount = isMobile ? 40 : 100;
+        const fgGeometry = new THREE.BufferGeometry();
+        const fgPos = new Float32Array(fgCount * 3);
+        for(let i = 0; i < fgCount; i++) {
+            fgPos[i * 3] = (Math.random() - 0.5) * 30; 
+            fgPos[i * 3 + 1] = (Math.random() - 0.5) * 20; 
+            fgPos[i * 3 + 2] = (Math.random() - 0.5) * 10; 
+        }
+        fgGeometry.setAttribute('position', new THREE.BufferAttribute(fgPos, 3));
+        const fgMaterial = new THREE.PointsMaterial({ size: isMobile ? 0.12 : 0.09, color: 0xffffff, transparent: true, opacity: 0.8 });
+        const fgParticles = new THREE.Points(fgGeometry, fgMaterial);
+        scene.add(fgParticles);
+
+        let mouseX = 0, mouseY = 0;
+        const windowHalfX = window.innerWidth / 2, windowHalfY = window.innerHeight / 2;
+        document.addEventListener('mousemove', (event) => {
+            mouseX = (event.clientX - windowHalfX);
+            mouseY = (event.clientY - windowHalfY);
+        });
+        if(isMobile) {
+            window.addEventListener('deviceorientation', (event) => {
+                if(event.gamma && event.beta) {
+                    mouseX = event.gamma * 10;
+                    mouseY = event.beta * 10;
+                }
+            });
+        }
+        const clock = new THREE.Clock();
+        function animate() {
+            requestAnimationFrame(animate);
+            const time = clock.getElapsedTime();
+            const targetX = mouseX * 0.0005, targetY = mouseY * 0.0005;
+            camera.rotation.x += 0.05 * (-targetY - camera.rotation.x);
+            camera.rotation.y += 0.05 * (-targetX - camera.rotation.y);
+            bgParticles.rotation.y = time * 0.05;
+            fgParticles.rotation.y = time * 0.1;
+            renderer.render(scene, camera);
+        }
+        animate();
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const fadeObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) entry.target.classList.add('visible');
+                });
+            }, { threshold: 0.1 });
+            document.querySelectorAll('.fade-in').forEach(el => fadeObserver.observe(el));
+
+            const cardObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-in-view');
+                    } else {
+                        entry.target.classList.remove('is-in-view');
+                    }
+                });
+            }, { threshold: 0.5, rootMargin: "-10% 0px -10% 0px" });
+
+            if (window.innerWidth < 900) {
+                document.querySelectorAll('.card-item').forEach(el => cardObserver.observe(el));
+            }
+        });
+    </script>
+</body>
+</html>
