@@ -363,7 +363,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
 
     <nav>
-        <a href="https://disinfoawareness.eu/index_new.html" class="logo">Disinfo Awareness</a>
+        <a href="https://disinfoawareness.eu/" class="logo">Disinfo Awareness</a>
         <div class="nav-actions">
             <a href="https://disinfoawareness.eu/kontakt.php" class="cta-btn" style="background:var(--highlight); color:var(--bg-color);">Kontakt</a>
             <a href="https://disinfoawareness.eu/kontakt.php" class="cta-btn">Mitmachen</a>
