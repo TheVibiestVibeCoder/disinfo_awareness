@@ -55,7 +55,6 @@
         }
 
         h1 {
-            /* Hier angepasst: Max-Size von 10rem auf 8.5rem reduziert und Faktor auf 9vw für Laptop-Balance */
             font-size: clamp(3.5rem, 9vw, 8.5rem); 
             color: var(--highlight);
             margin-bottom: 1rem;
@@ -210,8 +209,9 @@
             
             .team-wrapper {
                 grid-template-columns: 1fr 1fr; 
-                height: 85vh;
-                min-height: 650px;
+                /* Height auf auto geändert, damit 4 Personen (2 Reihen) Platz haben */
+                height: auto; 
+                min-height: 100vh;
             }
 
             .card-item {
@@ -221,6 +221,24 @@
                 padding: 3rem 2.5rem;
             }
             .card-item:last-child {
+                border-right: none;
+            }
+
+            /* Spezifische Anpassung für das 2x2 Team Grid */
+            .team-wrapper .card-item {
+                /* Höhe fixieren für gleichmäßige Kacheln im 2x2 Raster */
+                height: 50vh; 
+                min-height: 450px;
+            }
+
+            /* In der oberen Reihe (Item 1 & 2) brauchen wir einen Border unten */
+            .team-wrapper .card-item:nth-child(1),
+            .team-wrapper .card-item:nth-child(2) {
+                border-bottom: 1px solid var(--grid-line);
+            }
+
+            /* Im 2x2 Raster hat das 2. Item (oben rechts) keinen Rand rechts */
+            .team-wrapper .card-item:nth-child(2) {
                 border-right: none;
             }
         }
@@ -538,8 +556,28 @@
                 <div class="card-content">
                     <h3>Robert Buchhaus</h3>
                     <span class="card-role">Gründer & Obmann Stelv.</span>
-                    <p>Spezialist für Fundraising und NGO-Kooperationen. Mit jahrzehntelanger Erfahrung im Dritten Sektor übersetzt er komplexe Strukturen in wirksame Aufklärung und gesellschaftliche Resilienz.</p>
+                    <p>Spezialist für Fundraising und NGO-Kooperationen. Mit jahrzehntelanger Erfahrung im Dritten Sektor übersetzt er komplexe Strukturen in wirksame Aufklärung.</p>
                     <a href="https://www.linkedin.com/in/robert-buchhaus-693284106/" class="card-link">LinkedIn Profil</a>
+                </div>
+            </div>
+
+            <div class="card-item fade-in" style="transition-delay: 0.2s;">
+                <div class="card-bg" style="background-image: url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1287&auto=format&fit=crop');"></div>
+                <div class="card-content">
+                    <h3>Valentin Maixner</h3>
+                    <span class="card-role">Projektmanagement & Workshops</span>
+                    <p>Koordination unserer Bildungsprojekte und Konzeption interaktiver Workshop-Formate. Er vermittelt Resilienz-Strategien praxisnah und zielgruppengerecht.</p>
+                    <a href="#" class="card-link">LinkedIn Profil</a>
+                </div>
+            </div>
+
+            <div class="card-item fade-in" style="transition-delay: 0.3s;">
+                <div class="card-bg" style="background-image: url('https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=1288&auto=format&fit=crop');"></div>
+                <div class="card-content">
+                    <h3>Ivana Damjanovic</h3>
+                    <span class="card-role">Projektmanagement & Gender-Beauftragte</span>
+                    <p>Verantwortlich für Projektsteuerung und Diversity. Sie stellt sicher, dass unsere Aufklärung inklusiv gestaltet ist und unterschiedliche gesellschaftliche Gruppen erreicht.</p>
+                    <a href="#" class="card-link">LinkedIn Profil</a>
                 </div>
             </div>
 
