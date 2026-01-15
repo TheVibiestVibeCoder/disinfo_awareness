@@ -45,7 +45,7 @@
             -moz-osx-font-smoothing: grayscale;
         }
 
-        /* --- TYPOGRAPHY (Laptop-optimierte Skalierung) --- */
+        /* --- TYPOGRAPHY --- */
         h1, h2, h3, h4 {
             font-family: var(--font-head);
             text-transform: uppercase;
@@ -55,7 +55,6 @@
         }
 
         h1 {
-            /* Hier angepasst: Max-Size von 10rem auf 8.5rem reduziert und Faktor auf 9vw für Laptop-Balance */
             font-size: clamp(3.5rem, 9vw, 8.5rem); 
             color: var(--highlight);
             margin-bottom: 1rem;
@@ -182,7 +181,7 @@
             text-align: center;
         }
 
-        /* --- GRID WRAPPERS --- */
+        /* --- GRID WRAPPERS & CARDS --- */
         .grid-wrapper {
             display: grid;
             grid-template-columns: 1fr;
@@ -192,28 +191,53 @@
         .card-item {
             position: relative;
             border-bottom: 1px solid var(--grid-line);
-            padding: 2.5rem 2rem;
+            padding: 2rem 1.5rem;
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
             overflow: hidden;
-            height: 50dvh; 
-            min-height: 450px; 
+            height: 480px; 
+        }
+
+        .card-item::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; width: 100%; height: 75%;
+            background: linear-gradient(to top, rgba(5,5,5,0.95) 0%, rgba(5,5,5,0.6) 50%, transparent 100%);
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .card-bg {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-size: cover;
+            background-position: center top; 
+            z-index: 1;
+            transition: transform 0.8s ease, filter 0.8s ease;
+            filter: grayscale(30%) brightness(0.8); 
+            transform: scale(1.0);
+        }
+
+        .card-item:hover .card-bg,
+        .card-item.is-in-view .card-bg {
+            transform: scale(1.05);
+            filter: grayscale(0%) brightness(0.9); 
+        }
+
+        .card-content {
+            position: relative;
+            z-index: 3; 
+            pointer-events: none; 
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
         }
 
         @media (min-width: 900px) {
             .projects-wrapper {
                 grid-template-columns: 1fr 1fr 1fr; 
-                height: 100vh;
-                min-height: 750px;
+                height: 80vh; 
+                min-height: 600px;
             }
-            
-            .team-wrapper {
-                grid-template-columns: 1fr 1fr; 
-                height: 85vh;
-                min-height: 650px;
-            }
-
             .card-item {
                 height: 100%;
                 border-right: 1px solid var(--grid-line);
@@ -225,76 +249,56 @@
             }
         }
 
-        .card-bg {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-size: cover;
-            background-position: center;
-            z-index: 1;
-            transition: transform 0.8s ease, filter 0.8s ease;
-            filter: grayscale(100%) brightness(0.35); 
-            transform: scale(1.0);
-        }
-
-        .card-item:hover .card-bg,
-        .card-item.is-in-view .card-bg,
-        .funding-section:hover .funding-bg, 
-        .funding-section.is-in-view .funding-bg {
-            transform: scale(1.05);
-            filter: grayscale(0%) brightness(0.65); 
-        }
-
-        .card-content {
-            position: relative;
-            z-index: 2;
-            pointer-events: none; 
-            text-shadow: 0 2px 20px rgba(0,0,0,0.8);
-        }
-
         .card-number {
             font-family: var(--font-head);
-            font-size: clamp(2.5rem, 4vw, 3.5rem);
+            font-size: clamp(2rem, 3vw, 3rem);
             color: var(--highlight);
-            opacity: 0.2;
-            margin-bottom: 0.5rem;
+            opacity: 0.3;
+            margin-bottom: 0.2rem;
             display: block;
             line-height: 1;
         }
 
         .card-item h3 {
-            font-size: clamp(2.2rem, 3.5vw, 3.2rem); 
+            font-size: clamp(1.8rem, 2.5vw, 2.8rem); 
             color: var(--highlight);
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.3rem;
+            line-height: 1;
         }
 
         .card-role {
             font-family: var(--font-body);
             text-transform: uppercase;
-            letter-spacing: 2px;
-            font-size: 0.85rem;
-            color: #ccc;
-            margin-bottom: 1rem;
+            letter-spacing: 1.5px;
+            font-size: 0.75rem;
+            color: #ddd; 
+            margin-bottom: 0.8rem;
             display: block;
-            font-weight: 600;
+            font-weight: 700;
+            background: rgba(255,255,255,0.1);
+            display: inline-block;
+            padding: 2px 6px;
+            border-radius: 2px;
         }
 
         .card-item p {
-            font-size: 1rem;
+            font-size: 0.95rem; 
             opacity: 0.9;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.2rem;
             margin-left: 0;
             max-width: 100%;
-            color: #d0d0d0;
+            color: #e0e0e0;
+            line-height: 1.5;
         }
-
+        
         .card-link {
             pointer-events: auto; 
             font-family: var(--font-head);
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             border-bottom: 1px solid var(--highlight);
-            padding-bottom: 3px;
+            padding-bottom: 2px;
             display: inline-block;
-            margin-bottom: 1rem; 
+            margin-bottom: 0.5rem; 
         }
 
         /* --- FUNDING SECTION --- */
@@ -348,7 +352,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: flex-start;
-            background: rgba(5,5,5,0.4); 
+            background: rgba(5,5,5,0.6); 
             backdrop-filter: blur(5px);
         }
 
@@ -360,42 +364,249 @@
             }
         }
 
-        /* --- TEAM SECTION HEADERS --- */
-        .section-headline-container {
-            padding: 3.5rem 1.5rem 1.5rem;
+        /* ===========================================
+           NEW TEAM SECTION STYLE
+           ===========================================
+        */
+        #dc-team-section {
+            --team-bg-gradient: radial-gradient(circle at 50% 0%, #131313 0%, #050505 70%);
+            --team-panel: rgba(255, 255, 255, 0.03);
+            --team-panel-hover: rgba(255, 255, 255, 0.06);
+            --team-border: rgba(255, 255, 255, 0.12);
+            --team-text-main: #ffffff;
+            --team-text-sub: #cccccc;
+            
+            width: 100%;
+            background: var(--team-bg-gradient);
+            color: var(--team-text-main);
+            position: relative;
+            padding: clamp(5rem, 10vh, 8rem) 1.5rem;
+            box-sizing: border-box;
+            overflow: hidden;
+            isolation: isolate;
+            border-top: 1px solid var(--grid-line);
+        }
+
+        /* HEADER */
+        .team-header {
             text-align: center;
+            max-width: 800px;
+            margin: 0 auto 4rem auto;
+        }
+        .team-header h2 {
+            margin-bottom: 1.5rem;
+        }
+        .team-desc {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: var(--team-text-sub) !important;
+            max-width: 700px;
+            margin: 0 auto;
+            font-weight: 300;
         }
 
-        .section-headline--sub {
-            font-size: clamp(1.3rem, 2.5vw, 1.8rem);
-            letter-spacing: 3px;
-            color: #888;
-            margin: 0;
+        /* GRID SYSTEM */
+        .team-grid {
+            display: grid;
+            /* DEFAULT (MOBILE): Stacked (1 Spalte) */
+            grid-template-columns: 1fr;
+            justify-content: center;
+            gap: 2rem;
+            max-width: 1600px;
+            margin: 0 auto;
+            width: 100%;
+            align-items: start;
         }
 
-        .team-wrapper-start {
-             border-top: 1px solid var(--grid-line);
+        /* LAPTOP (900px+): 2 Kacheln pro Reihe */
+        @media (min-width: 900px) {
+            .team-grid {
+                /* Fix: Begrenzung der Breite pro Spalte (minmax), damit sie nicht zu breit werden */
+                grid-template-columns: repeat(2, minmax(350px, 550px)); 
+            }
         }
 
-        /* --- FOOTER --- */
+        /* GROSSE SCREENS (1600px+): Alle 4 in einer Reihe */
+        @media (min-width: 1600px) {
+            .team-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        /* CARD */
+        .team-card {
+            background: var(--team-panel);
+            border: 1px solid var(--team-border);
+            border-radius: 4px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+        .team-card:hover {
+            background: var(--team-panel-hover);
+            border-color: rgba(255,255,255,0.3);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+
+        /* IMAGE */
+        .team-image-container {
+            width: 100%;
+            height: 400px; 
+            position: relative;
+            overflow: hidden;
+            background: #111;
+            cursor: pointer;
+        }
+        .team-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            /* Zentriert, aber leicht nach oben versetzt, damit Köpfe gut sichtbar sind */
+            object-position: 50% 20%; 
+            filter: grayscale(100%) contrast(1.1);
+            transition: transform 0.6s ease, filter 0.6s ease;
+        }
+        .team-card:hover .team-img {
+            filter: grayscale(0%) contrast(1);
+            transform: scale(1.05);
+        }
+
+        /* INFO AREA */
+        .team-info {
+            padding: 1.5rem 2rem 2rem 2rem;
+            position: relative;
+            background: var(--team-panel);
+            z-index: 2;
+            cursor: pointer;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        .team-name {
+            font-family: var(--font-head);
+            font-size: 1.8rem;
+            font-weight: 400;
+            margin: 0 0 0.5rem 0;
+            color: #ffffff !important;
+            letter-spacing: 1px;
+        }
+        .team-role {
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 600;
+            color: var(--team-text-sub) !important;
+            display: block;
+        }
+
+        /* TOGGLE BUTTON */
+        .team-toggle {
+            position: absolute;
+            top: -25px; 
+            right: 1.5rem;
+            width: 50px;
+            height: 50px;
+            background: #000;
+            border: 1px solid var(--team-border);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 10;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+        }
+        .team-toggle svg {
+            width: 16px;
+            height: 16px;
+            stroke: #fff;
+            transition: transform 0.3s ease;
+        }
+        .team-card:hover .team-toggle {
+            border-color: #fff;
+        }
+
+        /* EXPANDED STATE */
+        .team-card.expanded {
+            border-color: #fff;
+            background: #0a0a0a;
+            z-index: 10;
+        }
+        .team-card.expanded .team-toggle {
+            background: #fff;
+            border-color: #fff;
+        }
+        .team-card.expanded .team-toggle svg {
+            stroke: #000;
+            transform: rotate(45deg);
+        }
+
+        /* HIDDEN BIO */
+        .team-bio-wrapper {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+            background: rgba(0,0,0,0.2);
+        }
+        .team-card.expanded .team-bio-wrapper {
+            max-height: 600px; /* Allow enough height for text */
+            border-top: 1px solid var(--team-border);
+        }
+        .team-bio-inner {
+            padding: 2rem;
+            color: var(--team-text-sub) !important;
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        /* SOCIAL LINKS */
+        .team-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .team-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            border: 1px solid var(--team-border);
+            border-radius: 2px;
+            text-decoration: none;
+            font-family: var(--font-head);
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 400;
+            transition: all 0.3s ease;
+            background: transparent;
+            color: #fff !important;
+        }
+        .team-link:hover {
+            background: #fff;
+            color: #000 !important;
+            border-color: #fff;
+        }
+
+        /* FOOTER */
         footer {
             background: #020202;
             border-top: 1px solid var(--grid-line);
             color: #666;
             font-size: 0.85rem;
         }
-
         .footer-grid {
             display: grid;
             grid-template-columns: 1fr; 
         }
-
         @media (min-width: 900px) {
             .footer-grid {
                 grid-template-columns: 1.5fr 1fr 1fr; 
             }
         }
-
         .footer-col {
             padding: 2.5rem 2rem;
             border-bottom: 1px solid var(--grid-line);
@@ -403,7 +614,6 @@
             flex-direction: column;
             gap: 0.8rem;
         }
-
         @media (min-width: 900px) {
             .footer-col {
                 border-right: 1px solid var(--grid-line);
@@ -413,7 +623,6 @@
                 border-right: none;
             }
         }
-
         .footer-link {
             color: #888;
             font-size: 0.95rem;
@@ -421,12 +630,10 @@
             transition: color 0.3s ease;
             display: inline-block;
         }
-
         .footer-link:hover {
             color: var(--highlight);
             transform: translateX(5px);
         }
-
         .footer-bottom {
             padding: 1.2rem 2rem;
             text-align: center;
@@ -473,7 +680,7 @@
 
     <section class="grid-wrapper projects-wrapper">
         <div class="card-item fade-in">
-            <div class="card-bg" style="background-image: url('https://images.unsplash.com/photo-1515787366009-7cbdd2dc587b?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');"></div>
+            <div class="card-bg" style="background-image: url('https://images.unsplash.com/photo-1515787366009-7cbdd2dc587b?q=80&w=1170&auto=format&fit=crop');"></div>
             <div class="card-content">
                 <span class="card-number">01</span>
                 <h3>Projekt<br>2026</h3>
@@ -482,7 +689,7 @@
             </div>
         </div>
         <div class="card-item fade-in" style="transition-delay: 0.1s;">
-            <div class="card-bg" style="background-image: url('https://images.unsplash.com/photo-1532619675605-1ede6c2ed2b0?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');"></div>
+            <div class="card-bg" style="background-image: url('https://images.unsplash.com/photo-1532619675605-1ede6c2ed2b0?q=80&w=1170&auto=format&fit=crop');"></div>
             <div class="card-content">
                 <span class="card-number">02</span>
                 <h3>Positive Info<br>Manipulation</h3>
@@ -517,29 +724,95 @@
         </div>
     </section>
 
-    <section>
-        <div class="section-headline-container">
-            <h2 class="fade-in section-headline--sub">Das Team</h2>
+    <section id="dc-team-section">
+        <div class="team-header fade-in">
+            <h2 class="team-title">Das Team</h2>
+            <p class="team-desc">Expertise in hybriden Bedrohungen, strategischer Kommunikation und Wirtschaftsanalyse. Wir übersetzen komplexe Strukturen in wirksame Aufklärung.</p>
         </div>
-        <div class="grid-wrapper team-wrapper team-wrapper-start">
+        
+        <div class="team-grid">
             
-            <div class="card-item fade-in">
-                <div class="card-bg" style="background-image: url('https://disinfoconsulting.eu/wp-content/uploads/2025/06/20250603-IMG_9344-scaled.jpg');"></div>
-                <div class="card-content">
-                    <h3>Markus Schwinghammer</h3>
-                    <span class="card-role">Gründer & Obmann</span>
-                    <p>Experte für Informationsmanipulation und hybride Bedrohungen. Erfahrung im öffentlichen Dienst und der Koordination von nationalen wie internationalen Abwehrmaßnahmen.</p>
-                    <a href="https://www.linkedin.com/in/markus-schwinghammer-335a0b201/" class="card-link">LinkedIn Profil</a>
+            <div class="team-card fade-in" tabindex="0">
+                <div class="team-image-container trigger-expand">
+                    <img src="https://disinfoconsulting.eu/wp-content/uploads/2025/06/20250603-IMG_9344-scaled.jpg" alt="Markus Schwinghammer" class="team-img">
+                </div>
+                <div class="team-info trigger-expand">
+                    <div class="team-toggle">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+                    </div>
+                    <h3 class="team-name">Markus Schwinghammer</h3>
+                    <span class="team-role">Gründer<br>& Obmann</span>
+                </div>
+                <div class="team-bio-wrapper">
+                    <div class="team-bio-inner">
+                        <p>Experte für Informationsmanipulation und hybride Bedrohungen. Erfahrung im öffentlichen Dienst und der Koordination von nationalen wie internationalen Abwehrmaßnahmen.</p>
+                        <div class="team-links">
+                            <a href="https://www.linkedin.com/in/markus-schwinghammer-335a0b201/" class="team-link">LinkedIn</a>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <div class="card-item fade-in" style="transition-delay: 0.1s;">
-                <div class="card-bg" style="background-image: url('https://disinfoconsulting.eu/wp-content/uploads/2026/01/Gemini_Generated_Image_b8u35bb8u35bb8u3-scaled.png');"></div>
-                <div class="card-content">
-                    <h3>Robert Buchhaus</h3>
-                    <span class="card-role">Gründer & Obmann Stelv.</span>
-                    <p>Spezialist für Fundraising und NGO-Kooperationen. Mit jahrzehntelanger Erfahrung im Dritten Sektor übersetzt er komplexe Strukturen in wirksame Aufklärung und gesellschaftliche Resilienz.</p>
-                    <a href="https://www.linkedin.com/in/robert-buchhaus-693284106/" class="card-link">LinkedIn Profil</a>
+            <div class="team-card fade-in" tabindex="0" style="transition-delay: 0.1s;">
+                <div class="team-image-container trigger-expand">
+                    <img src="https://disinfoconsulting.eu/wp-content/uploads/2026/01/Gemini_Generated_Image_b8u35bb8u35bb8u3-scaled.png" alt="Robert Buchhaus" class="team-img">
+                </div>
+                <div class="team-info trigger-expand">
+                    <div class="team-toggle">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+                    </div>
+                    <h3 class="team-name">Robert Buchhaus</h3>
+                    <span class="team-role">Gründer<br>& Obmann Stelv.</span>
+                </div>
+                <div class="team-bio-wrapper">
+                    <div class="team-bio-inner">
+                        <p>Spezialist für Fundraising und NGO-Kooperationen. Mit jahrzehntelanger Erfahrung im Dritten Sektor übersetzt er komplexe Strukturen in wirksame Aufklärung.</p>
+                        <div class="team-links">
+                            <a href="https://www.linkedin.com/in/robert-buchhaus-693284106/" class="team-link">LinkedIn</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="team-card fade-in" tabindex="0" style="transition-delay: 0.2s;">
+                <div class="team-image-container trigger-expand">
+                    <img src="https://disinfoconsulting.eu/wp-content/uploads/2026/01/1695822991482.jpg" alt="Ivana Damjanovic" class="team-img">
+                </div>
+                <div class="team-info trigger-expand">
+                    <div class="team-toggle">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+                    </div>
+                    <h3 class="team-name">Ivana Damjanovic</h3>
+                    <span class="team-role">Projektmanagement<br>& Gender</span>
+                </div>
+                <div class="team-bio-wrapper">
+                    <div class="team-bio-inner">
+                        <p>Verantwortlich für Projektsteuerung und Diversity. Sie stellt sicher, dass unsere Aufklärung inklusiv gestaltet ist und unterschiedliche gesellschaftliche Gruppen erreicht.</p>
+                        <div class="team-links">
+                            <a href="https://www.linkedin.com/in/ivana-damjanovic-463950195/" class="team-link">LinkedIn</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="team-card fade-in" tabindex="0" style="transition-delay: 0.3s;">
+                <div class="team-image-container trigger-expand">
+                    <img src="https://disinfoconsulting.eu/wp-content/uploads/2026/01/Gemini_Generated_Image_zh9v2zzh9v2zzh9v.png" alt="Valentin Meixner" class="team-img">
+                </div>
+                <div class="team-info trigger-expand">
+                    <div class="team-toggle">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+                    </div>
+                    <h3 class="team-name">Valentin Meixner</h3>
+                    <span class="team-role">Projektmanagement<br>& Workshops</span>
+                </div>
+                <div class="team-bio-wrapper">
+                    <div class="team-bio-inner">
+                        <p>Koordination unserer Bildungsprojekte und Konzeption interaktiver Workshop-Formate. Er vermittelt Resilienz-Strategien praxisnah und zielgruppengerecht.</p>
+                        <div class="team-links">
+                            <a href="https://www.linkedin.com/in/valentin-meixner-9a963a207/" class="team-link">LinkedIn</a>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -654,6 +927,7 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
+            // Fade In Observer
             const fadeObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) entry.target.classList.add('visible');
@@ -661,6 +935,7 @@
             }, { threshold: 0.1 });
             document.querySelectorAll('.fade-in').forEach(el => fadeObserver.observe(el));
 
+            // Card In-View Observer (für mobile)
             const cardObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
@@ -674,6 +949,32 @@
             if (window.innerWidth < 900) {
                 document.querySelectorAll('.card-item, .funding-section').forEach(el => cardObserver.observe(el));
             }
+
+            // TEAM CARD EXPANSION LOGIC
+            const teamCards = document.querySelectorAll('.team-card');
+            teamCards.forEach(card => {
+                const triggers = card.querySelectorAll('.trigger-expand');
+                
+                triggers.forEach(trigger => {
+                    trigger.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        // Close other cards (Accordion effect)
+                        teamCards.forEach(c => {
+                            if (c !== card) c.classList.remove('expanded');
+                        });
+                        // Toggle current
+                        card.classList.toggle('expanded');
+                    });
+                });
+
+                // Close on pressing Enter/Space if focused
+                card.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        card.classList.toggle('expanded');
+                    }
+                });
+            });
         });
     </script>
 </body>
