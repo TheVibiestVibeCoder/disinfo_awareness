@@ -365,7 +365,7 @@
         }
 
         /* ===========================================
-           NEW TEAM SECTION STYLE (Based on Reference)
+           NEW TEAM SECTION STYLE
            ===========================================
         */
         #dc-team-section {
@@ -405,16 +405,31 @@
             font-weight: 300;
         }
 
-        /* GRID */
+        /* GRID SYSTEM - ANGEPASST */
         .team-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            /* DEFAULT (MOBILE): Stacked (1 Spalte) */
+            grid-template-columns: 1fr;
             justify-content: center;
             gap: 2rem;
-            max-width: 1200px;
+            max-width: 1600px; /* Breite erhöht für 4-in-a-row */
             margin: 0 auto;
             width: 100%;
             align-items: start;
+        }
+
+        /* LAPTOP (900px+): 2 Kacheln pro Reihe */
+        @media (min-width: 900px) {
+            .team-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* GROSSE SCREENS (1600px+): Alle 4 in einer Reihe */
+        @media (min-width: 1600px) {
+            .team-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
         }
 
         /* CARD */
@@ -438,7 +453,7 @@
         /* IMAGE */
         .team-image-container {
             width: 100%;
-            height: 400px; /* Reference Height */
+            height: 400px; 
             position: relative;
             overflow: hidden;
             background: #111;
@@ -759,27 +774,6 @@
 
             <div class="team-card fade-in" tabindex="0" style="transition-delay: 0.2s;">
                 <div class="team-image-container trigger-expand">
-                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1287&auto=format&fit=crop" alt="Valentin Maixner" class="team-img">
-                </div>
-                <div class="team-info trigger-expand">
-                    <div class="team-toggle">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                    </div>
-                    <h3 class="team-name">Valentin Maixner</h3>
-                    <span class="team-role">Projektmanagement & Workshops</span>
-                </div>
-                <div class="team-bio-wrapper">
-                    <div class="team-bio-inner">
-                        <p>Koordination unserer Bildungsprojekte und Konzeption interaktiver Workshop-Formate. Er vermittelt Resilienz-Strategien praxisnah und zielgruppengerecht.</p>
-                        <div class="team-links">
-                            <a href="#" class="team-link">LinkedIn</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="team-card fade-in" tabindex="0" style="transition-delay: 0.3s;">
-                <div class="team-image-container trigger-expand">
                     <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=1288&auto=format&fit=crop" alt="Ivana Damjanovic" class="team-img">
                 </div>
                 <div class="team-info trigger-expand">
@@ -792,6 +786,27 @@
                 <div class="team-bio-wrapper">
                     <div class="team-bio-inner">
                         <p>Verantwortlich für Projektsteuerung und Diversity. Sie stellt sicher, dass unsere Aufklärung inklusiv gestaltet ist und unterschiedliche gesellschaftliche Gruppen erreicht.</p>
+                        <div class="team-links">
+                            <a href="#" class="team-link">LinkedIn</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="team-card fade-in" tabindex="0" style="transition-delay: 0.3s;">
+                <div class="team-image-container trigger-expand">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1287&auto=format&fit=crop" alt="Valentin Maixner" class="team-img">
+                </div>
+                <div class="team-info trigger-expand">
+                    <div class="team-toggle">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+                    </div>
+                    <h3 class="team-name">Valentin Maixner</h3>
+                    <span class="team-role">Projektmanagement & Workshops</span>
+                </div>
+                <div class="team-bio-wrapper">
+                    <div class="team-bio-inner">
+                        <p>Koordination unserer Bildungsprojekte und Konzeption interaktiver Workshop-Formate. Er vermittelt Resilienz-Strategien praxisnah und zielgruppengerecht.</p>
                         <div class="team-links">
                             <a href="#" class="team-link">LinkedIn</a>
                         </div>
@@ -933,7 +948,7 @@
                 document.querySelectorAll('.card-item, .funding-section').forEach(el => cardObserver.observe(el));
             }
 
-            // TEAM CARD EXPANSION LOGIC (Updated for new Design)
+            // TEAM CARD EXPANSION LOGIC
             const teamCards = document.querySelectorAll('.team-card');
             teamCards.forEach(card => {
                 const triggers = card.querySelectorAll('.trigger-expand');
