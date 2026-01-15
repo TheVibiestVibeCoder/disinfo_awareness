@@ -45,7 +45,7 @@
             -moz-osx-font-smoothing: grayscale;
         }
 
-        /* --- TYPOGRAPHY (Laptop-optimierte Skalierung) --- */
+        /* --- TYPOGRAPHY --- */
         h1, h2, h3, h4 {
             font-family: var(--font-head);
             text-transform: uppercase;
@@ -181,7 +181,7 @@
             text-align: center;
         }
 
-        /* --- GRID WRAPPERS --- */
+        /* --- GRID WRAPPERS & CARDS --- */
         .grid-wrapper {
             display: grid;
             grid-template-columns: 1fr;
@@ -191,27 +191,63 @@
         .card-item {
             position: relative;
             border-bottom: 1px solid var(--grid-line);
-            padding: 2.5rem 2rem;
+            /* Hier angepasst: Höhe reduziert & Padding angepasst */
+            padding: 2rem 1.5rem;
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
             overflow: hidden;
-            height: 50dvh; 
-            min-height: 450px; 
+            /* Mobil: Feste Höhe statt 50dvh, damit Text nicht das Bild frisst */
+            height: 480px; 
         }
 
+        /* Overlay Gradient für bessere Lesbarkeit ohne das Bild komplett abzudunkeln */
+        .card-item::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; width: 100%; height: 75%;
+            background: linear-gradient(to top, rgba(5,5,5,0.95) 0%, rgba(5,5,5,0.6) 50%, transparent 100%);
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .card-bg {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-size: cover;
+            background-position: center top; /* Fokus auf Gesichter oben */
+            z-index: 1;
+            transition: transform 0.8s ease, filter 0.8s ease;
+            /* HIER GEÄNDERT: Bild heller (nur 30% Graustufen, mehr Helligkeit) */
+            filter: grayscale(30%) brightness(0.8); 
+            transform: scale(1.0);
+        }
+
+        .card-item:hover .card-bg,
+        .card-item.is-in-view .card-bg {
+            transform: scale(1.05);
+            filter: grayscale(0%) brightness(0.9); /* Beim Hover fast Original */
+        }
+
+        .card-content {
+            position: relative;
+            z-index: 3; /* Über dem Gradient */
+            pointer-events: none; 
+            /* Textschatten etwas reduziert, da Gradient hilft */
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+
+        /* Responsive Grid & Desktop Anpassungen */
         @media (min-width: 900px) {
             .projects-wrapper {
                 grid-template-columns: 1fr 1fr 1fr; 
-                height: 100vh;
-                min-height: 750px;
+                height: 80vh; /* Etwas kompakter */
+                min-height: 600px;
             }
             
             .team-wrapper {
                 grid-template-columns: 1fr 1fr; 
-                /* Height auf auto geändert, damit 4 Personen (2 Reihen) Platz haben */
-                height: auto; 
-                min-height: 100vh;
+                height: auto;
             }
 
             .card-item {
@@ -224,95 +260,81 @@
                 border-right: none;
             }
 
-            /* Spezifische Anpassung für das 2x2 Team Grid */
+            /* Team Grid 2x2 */
             .team-wrapper .card-item {
-                /* Höhe fixieren für gleichmäßige Kacheln im 2x2 Raster */
-                height: 50vh; 
-                min-height: 450px;
+                /* Desktop: Schöne Portrait-Kachel Höhe */
+                height: 550px; 
             }
 
-            /* In der oberen Reihe (Item 1 & 2) brauchen wir einen Border unten */
             .team-wrapper .card-item:nth-child(1),
             .team-wrapper .card-item:nth-child(2) {
                 border-bottom: 1px solid var(--grid-line);
             }
-
-            /* Im 2x2 Raster hat das 2. Item (oben rechts) keinen Rand rechts */
             .team-wrapper .card-item:nth-child(2) {
                 border-right: none;
             }
         }
 
-        .card-bg {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-size: cover;
-            background-position: center;
-            z-index: 1;
-            transition: transform 0.8s ease, filter 0.8s ease;
-            filter: grayscale(100%) brightness(0.35); 
-            transform: scale(1.0);
-        }
-
-        .card-item:hover .card-bg,
-        .card-item.is-in-view .card-bg,
-        .funding-section:hover .funding-bg, 
-        .funding-section.is-in-view .funding-bg {
-            transform: scale(1.05);
-            filter: grayscale(0%) brightness(0.65); 
-        }
-
-        .card-content {
-            position: relative;
-            z-index: 2;
-            pointer-events: none; 
-            text-shadow: 0 2px 20px rgba(0,0,0,0.8);
-        }
-
         .card-number {
             font-family: var(--font-head);
-            font-size: clamp(2.5rem, 4vw, 3.5rem);
+            font-size: clamp(2rem, 3vw, 3rem);
             color: var(--highlight);
-            opacity: 0.2;
-            margin-bottom: 0.5rem;
+            opacity: 0.3;
+            margin-bottom: 0.2rem;
             display: block;
             line-height: 1;
         }
 
         .card-item h3 {
-            font-size: clamp(2.2rem, 3.5vw, 3.2rem); 
+            font-size: clamp(1.8rem, 2.5vw, 2.8rem); /* Etwas kleiner für Eleganz */
             color: var(--highlight);
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.3rem;
+            line-height: 1;
         }
 
         .card-role {
             font-family: var(--font-body);
             text-transform: uppercase;
-            letter-spacing: 2px;
-            font-size: 0.85rem;
-            color: #ccc;
-            margin-bottom: 1rem;
+            letter-spacing: 1.5px;
+            font-size: 0.75rem;
+            color: #ddd; /* Heller für Lesbarkeit */
+            margin-bottom: 0.8rem;
             display: block;
-            font-weight: 600;
+            font-weight: 700;
+            background: rgba(255,255,255,0.1);
+            display: inline-block;
+            padding: 2px 6px;
+            border-radius: 2px;
         }
 
         .card-item p {
-            font-size: 1rem;
+            font-size: 0.95rem; /* Mobil optimiert */
             opacity: 0.9;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.2rem;
             margin-left: 0;
             max-width: 100%;
-            color: #d0d0d0;
+            color: #e0e0e0;
+            line-height: 1.5;
+        }
+        
+        @media (max-width: 600px) {
+            .card-item p {
+                font-size: 0.9rem; /* Mobil noch etwas kleiner */
+                display: -webkit-box;
+                -webkit-line-clamp: 4; /* Max 4 Zeilen Text mobil */
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+            }
         }
 
         .card-link {
             pointer-events: auto; 
             font-family: var(--font-head);
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             border-bottom: 1px solid var(--highlight);
-            padding-bottom: 3px;
+            padding-bottom: 2px;
             display: inline-block;
-            margin-bottom: 1rem; 
+            margin-bottom: 0.5rem; 
         }
 
         /* --- FUNDING SECTION --- */
@@ -366,7 +388,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: flex-start;
-            background: rgba(5,5,5,0.4); 
+            background: rgba(5,5,5,0.6); /* Etwas dunkler für Kontrast */
             backdrop-filter: blur(5px);
         }
 
@@ -378,9 +400,9 @@
             }
         }
 
-        /* --- TEAM SECTION HEADERS --- */
+        /* --- SECTION HEADERS --- */
         .section-headline-container {
-            padding: 3.5rem 1.5rem 1.5rem;
+            padding: 4rem 1.5rem 2rem;
             text-align: center;
         }
 
@@ -546,7 +568,7 @@
                 <div class="card-content">
                     <h3>Markus Schwinghammer</h3>
                     <span class="card-role">Gründer & Obmann</span>
-                    <p>Experte für Informationsmanipulation und hybride Bedrohungen. Erfahrung im öffentlichen Dienst und der Koordination von nationalen wie internationalen Abwehrmaßnahmen.</p>
+                    <p>Experte für Informationsmanipulation und hybride Bedrohungen. Erfahrung im öffentlichen Dienst.</p>
                     <a href="https://www.linkedin.com/in/markus-schwinghammer-335a0b201/" class="card-link">LinkedIn Profil</a>
                 </div>
             </div>
@@ -556,7 +578,7 @@
                 <div class="card-content">
                     <h3>Robert Buchhaus</h3>
                     <span class="card-role">Gründer & Obmann Stelv.</span>
-                    <p>Spezialist für Fundraising und NGO-Kooperationen. Mit jahrzehntelanger Erfahrung im Dritten Sektor übersetzt er komplexe Strukturen in wirksame Aufklärung.</p>
+                    <p>Spezialist für Fundraising und NGO-Kooperationen. Übersetzt komplexe Strukturen in wirksame Aufklärung.</p>
                     <a href="https://www.linkedin.com/in/robert-buchhaus-693284106/" class="card-link">LinkedIn Profil</a>
                 </div>
             </div>
@@ -566,7 +588,7 @@
                 <div class="card-content">
                     <h3>Valentin Maixner</h3>
                     <span class="card-role">Projektmanagement & Workshops</span>
-                    <p>Koordination unserer Bildungsprojekte und Konzeption interaktiver Workshop-Formate. Er vermittelt Resilienz-Strategien praxisnah und zielgruppengerecht.</p>
+                    <p>Koordination unserer Bildungsprojekte und Konzeption interaktiver Workshop-Formate.</p>
                     <a href="#" class="card-link">LinkedIn Profil</a>
                 </div>
             </div>
@@ -575,8 +597,8 @@
                 <div class="card-bg" style="background-image: url('https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=1288&auto=format&fit=crop');"></div>
                 <div class="card-content">
                     <h3>Ivana Damjanovic</h3>
-                    <span class="card-role">Projektmanagement & Gender-Beauftragte</span>
-                    <p>Verantwortlich für Projektsteuerung und Diversity. Sie stellt sicher, dass unsere Aufklärung inklusiv gestaltet ist und unterschiedliche gesellschaftliche Gruppen erreicht.</p>
+                    <span class="card-role">Projektmanagement & Gender</span>
+                    <p>Verantwortlich für Projektsteuerung und Diversity. Sie stellt sicher, dass unsere Aufklärung inklusiv ist.</p>
                     <a href="#" class="card-link">LinkedIn Profil</a>
                 </div>
             </div>
