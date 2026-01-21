@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <!--
+    Sitemap Index for Disinfo Awareness (disinfoawareness.eu)
+    This index points to all sitemap files for better organization
+    Last updated: 2026-01-21
+    -->
+
+    <!-- Main sitemap with all pages -->
+    <sitemap>
+        <loc>https://disinfoawareness.eu/sitemap.php</loc>
+        <lastmod>2026-01-21T00:00:00+00:00</lastmod>
+    </sitemap>
+
+    <!-- Future sitemaps can be added here as the site grows -->
+    <!--
+    <sitemap>
+        <loc>https://disinfoawareness.eu/sitemap-blog.xml</loc>
+        <lastmod>2026-01-21T00:00:00+00:00</lastmod>
+    </sitemap>
+
+    <sitemap>
+        <loc>https://disinfoawareness.eu/sitemap-resources.xml</loc>
+        <lastmod>2026-01-21T00:00:00+00:00</lastmod>
+    </sitemap>
+
+    <sitemap>
+        <loc>https://disinfoawareness.eu/sitemap-team.xml</loc>
+        <lastmod>2026-01-21T00:00:00+00:00</lastmod>
+    </sitemap>
+    -->
+</sitemapindex>
