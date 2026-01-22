@@ -358,17 +358,39 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
         .fade-in.visible { opacity: 1; transform: translateY(0); }
 
+        /* Skip Navigation Link - Visually Hidden but accessible to screen readers */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: var(--highlight);
+            color: var(--bg-color);
+            padding: 8px 16px;
+            text-decoration: none;
+            z-index: 1000;
+            font-family: var(--font-body);
+            font-weight: 600;
+        }
+        .skip-link:focus {
+            top: 0;
+        }
+
     </style>
 </head>
 <body>
 
-    <nav>
-        <a href="https://disinfoawareness.eu/" class="logo">Disinfo Awareness</a>
+    <!-- Skip Navigation for Keyboard Users -->
+    <a href="#main-content" class="skip-link">Zum Hauptinhalt springen</a>
+
+    <nav role="navigation" aria-label="Hauptnavigation">
+        <a href="https://disinfoawareness.eu/" class="logo" aria-label="Disinfo Awareness Startseite">Disinfo Awareness</a>
         <div class="nav-actions">
-            <a href="https://disinfoawareness.eu/kontakt.php" class="cta-btn" style="background:var(--highlight); color:var(--bg-color);">Kontakt</a>
-            <a href="https://disinfoawareness.eu/kontakt.php" class="cta-btn">Mitmachen</a>
+            <a href="https://disinfoawareness.eu/kontakt.php" class="cta-btn" style="background:var(--highlight); color:var(--bg-color);" aria-label="Kontaktseite öffnen">Kontakt</a>
+            <a href="https://disinfoawareness.eu/kontakt.php" class="cta-btn" aria-label="Mitmachen - zur Kontaktseite">Mitmachen</a>
         </div>
     </nav>
+
+    <main id="main-content" role="main">
 
     <header class="hero">
         <div id="canvas-container"></div>
@@ -449,7 +471,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     </section>
 
-    <footer>
+    </main>
+
+    <footer role="contentinfo" aria-label="Fußzeile">
         <div class="footer-bottom">
             &copy; 2026 Disinfo Awareness. Wien, Österreich.
         </div>

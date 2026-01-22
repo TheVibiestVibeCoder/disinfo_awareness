@@ -429,16 +429,38 @@
 
         .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 1s ease-out, transform 1s ease-out; }
         .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+        /* Skip Navigation Link - Visually Hidden but accessible to screen readers */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: var(--highlight);
+            color: var(--bg-color);
+            padding: 8px 16px;
+            text-decoration: none;
+            z-index: 1000;
+            font-family: var(--font-body);
+            font-weight: 600;
+        }
+        .skip-link:focus {
+            top: 0;
+        }
     </style>
 </head>
 <body>
 
-    <nav>
-        <a href="https://disinfoawareness.eu/" class="logo">Disinfo Awareness</a>
+    <!-- Skip Navigation for Keyboard Users -->
+    <a href="#main-content" class="skip-link">Zum Hauptinhalt springen</a>
+
+    <nav role="navigation" aria-label="Hauptnavigation">
+        <a href="https://disinfoawareness.eu/" class="logo" aria-label="Disinfo Awareness Startseite">Disinfo Awareness</a>
         <div class="nav-actions">
-            <a href="https://disinfoawareness.eu/kontakt.php" class="cta-btn">Anfragen</a>
+            <a href="https://disinfoawareness.eu/kontakt.php" class="cta-btn" aria-label="Anfrage senden">Anfragen</a>
         </div>
     </nav>
+
+    <main id="main-content" role="main">
 
     <header class="hero">
         <div id="canvas-container"></div>
@@ -542,8 +564,10 @@
     <section class="cta-section fade-in">
         <h2>Gemeinsam gegen Manipulation</h2>
         <p style="margin: 0 auto 2rem auto;">Wir übersetzen Geopolitik in Praxis. Unser "Whole-of-Society"-Ansatz stärkt die gesellschaftliche Resilienz nachhaltig.</p>
-        <a href="https://disinfoawareness.eu/kontakt.php" class="cta-btn">Kooperation anfragen</a>
+        <a href="https://disinfoawareness.eu/kontakt.php" class="cta-btn" aria-label="Kooperation anfragen">Kooperation anfragen</a>
     </section>
+
+    </main>
 
     <!-- Budget Calculator Section -->
     <section class="calculator-section">
@@ -640,7 +664,7 @@
         </div>
     </section>
 
-    <footer>
+    <footer role="contentinfo" aria-label="Fußzeile">
         <div class="footer-grid">
             <div class="footer-col">
                 <h4>Disinfo Awareness</h4>
