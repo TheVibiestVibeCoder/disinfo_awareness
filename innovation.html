@@ -329,17 +329,39 @@
         }
         .fade-in.visible { opacity: 1; transform: translateY(0); }
 
+        /* Skip Navigation Link - Visually Hidden but accessible to screen readers */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: var(--highlight);
+            color: var(--bg-color);
+            padding: 8px 16px;
+            text-decoration: none;
+            z-index: 1000;
+            font-family: var(--font-body);
+            font-weight: 600;
+        }
+        .skip-link:focus {
+            top: 0;
+        }
+
     </style>
 </head>
 <body>
 
-    <nav>
-        <a href="https://disinfoawareness.eu/" class="logo">Disinfo Awareness</a>
+    <!-- Skip Navigation for Keyboard Users -->
+    <a href="#main-content" class="skip-link">Zum Hauptinhalt springen</a>
+
+    <nav role="navigation" aria-label="Hauptnavigation">
+        <a href="https://disinfoawareness.eu/" class="logo" aria-label="Disinfo Awareness Startseite">Disinfo Awareness</a>
         <div class="nav-actions">
-            <a href="https://disinfoawareness.eu/kontakt.php" class="cta-btn">Kontakt</a>
-            <a href="https://disinfoawareness.eu/kontakt.php" class="cta-btn">Mitmachen</a>
+            <a href="https://disinfoawareness.eu/kontakt.php" class="cta-btn" aria-label="Kontaktseite öffnen">Kontakt</a>
+            <a href="https://disinfoawareness.eu/kontakt.php" class="cta-btn" aria-label="Mitmachen - zur Kontaktseite">Mitmachen</a>
         </div>
     </nav>
+
+    <main id="main-content" role="main">
 
     <header class="hero">
         <div id="canvas-container"></div>
@@ -415,10 +437,12 @@
     <section class="cta-section fade-in">
         <h2>Sie würden gern mit uns arbeiten?</h2>
         <p style="margin: 0 auto 2rem auto;">Wir sind offen für Kooperationen und neue Impulse. Melden Sie sich!</p>
-        <a href="https://disinfoawareness.eu/kontakt.php" class="cta-btn">Kontakt aufnehmen</a>
+        <a href="https://disinfoawareness.eu/kontakt.php" class="cta-btn" aria-label="Kontakt aufnehmen">Kontakt aufnehmen</a>
     </section>
 
-   <footer id="footer-contact">
+    </main>
+
+   <footer id="footer-contact" role="contentinfo" aria-label="Fußzeile">
         <div class="footer-grid">
             <div class="footer-col">
                 <h4>Disinfo Awareness</h4>

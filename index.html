@@ -259,8 +259,8 @@
             line-height: 1;
         }
 
-        .card-item h3 {
-            font-size: clamp(1.8rem, 2.5vw, 2.8rem); 
+        .card-item h2, .card-item h3 {
+            font-size: clamp(1.8rem, 2.5vw, 2.8rem);
             color: var(--highlight);
             margin-bottom: 0.3rem;
             line-height: 1;
@@ -651,21 +651,43 @@
             transition: opacity 0.8s ease-out, transform 0.8s ease-out; 
             will-change: opacity, transform;
         }
-        .fade-in.visible { 
-            opacity: 1; 
-            transform: translateY(0); 
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Skip Navigation Link - Visually Hidden but accessible to screen readers */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: var(--highlight);
+            color: var(--bg-color);
+            padding: 8px 16px;
+            text-decoration: none;
+            z-index: 1000;
+            font-family: var(--font-body);
+            font-weight: 600;
+        }
+        .skip-link:focus {
+            top: 0;
         }
     </style>
 </head>
 <body>
 
-    <nav>
-        <div class="logo">Disinfo Awareness</div>
+    <!-- Skip Navigation for Keyboard Users -->
+    <a href="#main-content" class="skip-link">Zum Hauptinhalt springen</a>
+
+    <nav role="navigation" aria-label="Hauptnavigation">
+        <a href="https://disinfoawareness.eu/" class="logo" aria-label="Disinfo Awareness Startseite">Disinfo Awareness</a>
         <div class="nav-actions">
-            <a href="https://disinfoawareness.eu/kontakt.php" class="cta-btn">Kontakt</a>
-            <a href="https://disinfoawareness.eu/kontakt.php" class="cta-btn">Mitmachen</a>
+            <a href="https://disinfoawareness.eu/kontakt.php" class="cta-btn" aria-label="Kontaktseite öffnen">Kontakt</a>
+            <a href="https://disinfoawareness.eu/kontakt.php" class="cta-btn" aria-label="Mitmachen - zur Kontaktseite">Mitmachen</a>
         </div>
     </nav>
+
+    <main id="main-content" role="main">
 
     <header class="hero">
         <div id="canvas-container"></div>
@@ -683,7 +705,7 @@
             <div class="card-bg" style="background-image: url('https://images.unsplash.com/photo-1515787366009-7cbdd2dc587b?q=80&w=1170&auto=format&fit=crop');"></div>
             <div class="card-content">
                 <span class="card-number">01</span>
-                <h3>Projekt<br>2026</h3>
+                <h2 style="font-size: clamp(1.8rem, 2.5vw, 2.8rem); line-height: 1; margin-bottom: 0.3rem;">Projekt<br>2026</h2>
                 <p>Aufklärung zur stärkung der Resilienz von ländlichen Communities. Wir schulen Multiplikator:innen.</p>
                 <a href="https://disinfoawareness.eu/aufklaerung.html" class="card-link">Mehr erfahren</a>
             </div>
@@ -692,7 +714,7 @@
             <div class="card-bg" style="background-image: url('https://images.unsplash.com/photo-1532619675605-1ede6c2ed2b0?q=80&w=1170&auto=format&fit=crop');"></div>
             <div class="card-content">
                 <span class="card-number">02</span>
-                <h3>Positive Info<br>Manipulation</h3>
+                <h2 style="font-size: clamp(1.8rem, 2.5vw, 2.8rem); line-height: 1; margin-bottom: 0.3rem;">Positive Info<br>Manipulation</h2>
                 <p>Wir analysieren FIMI-Taktiken und wenden sie für das Gemeinwohl an. Simple, nachhaltige Resilienz.</p>
                 <a href="https://disinfoawareness.eu/pim.html" class="card-link">Zu den Strategien</a>
             </div>
@@ -701,7 +723,7 @@
             <div class="card-bg" style="background-image: url('https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=2070&auto=format&fit=crop');"></div>
             <div class="card-content">
                 <span class="card-number">03</span>
-                <h3>Innovation &<br>Forschung</h3>
+                <h2 style="font-size: clamp(1.8rem, 2.5vw, 2.8rem); line-height: 1; margin-bottom: 0.3rem;">Innovation &<br>Forschung</h2>
                 <p>Unser PIM-Lab unterstützt Forschung, innovative Konzepte und Projekte im Bereich Desinformation.</p>
                 <a href="https://disinfoawareness.eu/innovation.html" class="card-link">Zum PIM Lab</a>
             </div>
@@ -719,7 +741,7 @@
                     Wir sind derzeit dabei, die langfristige Finanzierung für unsere Projekte aufzustellen, um unabhängige und wirksame Aufklärungsarbeit zu gewährleisten.<br><br>
                     Das klingt für Sie interessant oder Sie würden gerne spenden?
                 </p>
-                <a href="https://disinfoawareness.eu/kontakt.php" class="cta-btn">Kontakt aufnehmen</a>
+                <a href="https://disinfoawareness.eu/kontakt.php" class="cta-btn" aria-label="Kontakt aufnehmen">Kontakt aufnehmen</a>
             </div>
         </div>
     </section>
@@ -747,7 +769,7 @@
                     <div class="team-bio-inner">
                         <p>Experte für Informationsmanipulation und hybride Bedrohungen. Erfahrung im öffentlichen Dienst und der Koordination von nationalen wie internationalen Abwehrmaßnahmen.</p>
                         <div class="team-links">
-                            <a href="https://www.linkedin.com/in/markus-schwinghammer-335a0b201/" class="team-link">LinkedIn</a>
+                            <a href="https://www.linkedin.com/in/markus-schwinghammer-335a0b201/" class="team-link" aria-label="LinkedIn Profil von Markus Schwinghammer">LinkedIn</a>
                         </div>
                     </div>
                 </div>
@@ -768,7 +790,7 @@
                     <div class="team-bio-inner">
                         <p>Spezialist für Fundraising und NGO-Kooperationen. Mit jahrzehntelanger Erfahrung im Dritten Sektor übersetzt er komplexe Strukturen in wirksame Aufklärung.</p>
                         <div class="team-links">
-                            <a href="https://www.linkedin.com/in/robert-buchhaus-693284106/" class="team-link">LinkedIn</a>
+                            <a href="https://www.linkedin.com/in/robert-buchhaus-693284106/" class="team-link" aria-label="LinkedIn Profil von Robert Buchhaus">LinkedIn</a>
                         </div>
                     </div>
                 </div>
@@ -789,7 +811,7 @@
                     <div class="team-bio-inner">
                         <p>Verantwortlich für Projektsteuerung und Diversity. Sie stellt sicher, dass unsere Aufklärung inklusiv gestaltet ist und unterschiedliche gesellschaftliche Gruppen erreicht.</p>
                         <div class="team-links">
-                            <a href="https://www.linkedin.com/in/ivana-damjanovic-463950195/" class="team-link">LinkedIn</a>
+                            <a href="https://www.linkedin.com/in/ivana-damjanovic-463950195/" class="team-link" aria-label="LinkedIn Profil von Ivana Damjanovic">LinkedIn</a>
                         </div>
                     </div>
                 </div>
@@ -810,7 +832,7 @@
                     <div class="team-bio-inner">
                         <p>Koordination unserer Bildungsprojekte und Konzeption interaktiver Workshop-Formate. Er vermittelt Resilienz-Strategien praxisnah und zielgruppengerecht.</p>
                         <div class="team-links">
-                            <a href="https://www.linkedin.com/in/valentin-meixner-9a963a207/" class="team-link">LinkedIn</a>
+                            <a href="https://www.linkedin.com/in/valentin-meixner-9a963a207/" class="team-link" aria-label="LinkedIn Profil von Valentin Meixner">LinkedIn</a>
                         </div>
                     </div>
                 </div>
@@ -819,7 +841,9 @@
         </div>
     </section>
 
-    <footer id="footer-contact">
+    </main>
+
+    <footer id="footer-contact" role="contentinfo" aria-label="Fußzeile">
         <div class="footer-grid">
             <div class="footer-col">
                 <h4>Disinfo Awareness</h4>

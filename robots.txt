@@ -1,0 +1,43 @@
+# robots.txt for Disinfo Awareness (disinfoawareness.eu)
+# Last updated: 2026-01-21
+
+# Allow all search engines to crawl the entire site
+User-agent: *
+Disallow:
+
+# Sitemap location
+Sitemap: https://disinfoawareness.eu/sitemap.php
+Sitemap: https://disinfoawareness.eu/sitemap_index.xml
+
+# Crawl-delay for respectful crawling (optional, can be adjusted)
+# Crawl-delay: 1
+
+# Block specific paths if needed in the future (examples commented out)
+# Disallow: /admin/
+# Disallow: /private/
+# Disallow: /temp/
+
+# Allow major search engines explicitly
+User-agent: Googlebot
+Disallow:
+
+User-agent: Googlebot-Image
+Disallow:
+
+User-agent: Bingbot
+Disallow:
+
+User-agent: Slurp
+Disallow:
+
+User-agent: DuckDuckBot
+Disallow:
+
+User-agent: Baiduspider
+Disallow:
+
+User-agent: YandexBot
+Disallow:
+
+User-agent: ia_archiver
+Disallow:
