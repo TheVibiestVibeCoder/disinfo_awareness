@@ -40,9 +40,64 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <title>Kontakt - Disinfo Awareness</title>
+
+    <!-- SEO Meta Tags -->
+    <title>Kontakt – Disinfo Awareness</title>
+    <meta name="description" content="Nehmen Sie Kontakt mit Disinfo Awareness auf. Wir freuen uns auf Ihre Fragen, Anregungen oder Kooperationsanfragen im Kampf gegen Desinformation.">
+    <meta name="keywords" content="Kontakt, Kontaktformular, Anfrage, Kooperation">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://disinfoawareness.eu/kontakt.php">
+    <meta name="language" content="de">
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Kontakt – Disinfo Awareness">
+    <meta property="og:description" content="Nehmen Sie Kontakt mit Disinfo Awareness auf. Wir freuen uns auf Ihre Fragen, Anregungen oder Kooperationsanfragen im Kampf gegen Desinformation.">
+    <meta property="og:url" content="https://disinfoawareness.eu/kontakt.php">
+    <meta property="og:site_name" content="Disinfo Awareness">
+    <meta property="og:locale" content="de_DE">
+    <meta property="og:image" content="https://disinfoconsulting.eu/wp-content/uploads/2026/01/Gemini_Generated_Image_gsrva8gsrva8gsrv.png">
+    <meta property="og:image:alt" content="Kontaktieren Sie Disinfo Awareness">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Kontakt – Disinfo Awareness">
+    <meta name="twitter:description" content="Nehmen Sie Kontakt mit Disinfo Awareness auf. Wir freuen uns auf Ihre Fragen, Anregungen oder Kooperationsanfragen im Kampf gegen Desinformation.">
+    <meta name="twitter:image" content="https://disinfoconsulting.eu/wp-content/uploads/2026/01/Gemini_Generated_Image_gsrva8gsrva8gsrv.png">
+    <meta name="twitter:image:alt" content="Kontaktieren Sie Disinfo Awareness">
+    <meta name="twitter:site" content="@disinfoawareness">
+    <meta name="twitter:creator" content="@disinfoawareness">
+
+    <!-- Favicon & App Icons -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
+    <link rel="manifest" href="/site.webmanifest">
     <meta name="theme-color" content="#050505">
-    
+    <meta name="msapplication-TileColor" content="#050505">
+
+    <!-- Schema.org Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "Kontakt – Disinfo Awareness",
+      "description": "Nehmen Sie Kontakt mit Disinfo Awareness auf. Wir freuen uns auf Ihre Fragen, Anregungen oder Kooperationsanfragen im Kampf gegen Desinformation.",
+      "url": "https://disinfoawareness.eu/kontakt.php",
+      "inLanguage": "de",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Disinfo Awareness",
+        "url": "https://disinfoawareness.eu"
+      }
+    }
+    </script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@300;400;600&display=swap" rel="stylesheet">
