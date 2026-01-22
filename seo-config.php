@@ -20,7 +20,7 @@ $seo_global = [
     'locale' => 'de_DE',
 
     // Standard-Bilder für Social Media (wenn keine seiten-spezifischen Bilder angegeben)
-    'default_og_image' => 'hhttps://disinfoconsulting.eu/wp-content/uploads/2026/01/Gemini_Generated_Image_gsrva8gsrva8gsrv.png',
+    'default_og_image' => 'https://disinfoconsulting.eu/wp-content/uploads/2026/01/Gemini_Generated_Image_gsrva8gsrva8gsrv.png',
     'default_og_image_width' => '1200',
     'default_og_image_height' => '630',
 
