@@ -288,10 +288,10 @@
 
             <!-- QR-Code -->
             <div class="qr-col fade-in">
-                <span class="col-label"><img src="https://disinfoconsulting.eu/wp-content/uploads/2026/06/Bank_QR.jpeg" alt="QR-Code Banküberweisung" class="qr-image"></span>
+                <span class="col-label">Per QR-Code</span>
                 <!-- Ersetze diesen Platzhalter durch: <img src="https://disinfoconsulting.eu/wp-content/uploads/2026/06/Bank_QR.jpeg" alt="QR-Code Banküberweisung" class="qr-image"> -->
                 <div class="qr-placeholder">
-                    <span class="qr-icon">▦</span>
+                    <img src="https://disinfoconsulting.eu/wp-content/uploads/2026/06/Bank_QR.jpeg" alt="QR-Code Banküberweisung" class="qr-image">
                 </div>
                 <p class="qr-hint">Scanne den Code direkt mit deiner Banking-App</p>
             </div>
