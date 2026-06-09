@@ -44,7 +44,6 @@ require __DIR__ . '/includes/head.php';
 ?>
 <body>
 
-<a href="#main-content" class="skip-link">Zum Hauptinhalt springen</a>
 <?php require __DIR__ . '/includes/nav.php'; ?>
 
 <main id="main-content" role="main">
