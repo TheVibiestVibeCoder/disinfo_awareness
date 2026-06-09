@@ -232,6 +232,47 @@
         .footer-link:hover { color:var(--white); transform:translateX(5px); }
         .footer-bottom { padding:1.5rem 2rem; text-align:center; border-top:1px solid var(--line); color:#444; font-size:.8rem; text-transform:uppercase; letter-spacing:1px; }
 
+        /* INTRO */
+        .spenden-intro {
+            padding: clamp(4rem,8vh,7rem) 1.5rem;
+            border-bottom: 1px solid var(--line);
+            background: linear-gradient(to bottom, var(--bg), #0a0a0a);
+        }
+        .spenden-intro-inner {
+            max-width: 700px;
+            margin: 0 auto;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        .spenden-intro-inner h2 { margin-bottom: .5rem; }
+
+        /* PARTNER */
+        .partner-section {
+            padding: clamp(4rem,8vh,7rem) 1.5rem;
+            border-bottom: 1px solid var(--line);
+        }
+        .partner-inner { max-width: 900px; margin: 0 auto; }
+        .partner-inner h2 { margin-bottom: 1.5rem; }
+        .partner-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 3rem;
+            border-top: 1px solid var(--line);
+            padding-top: 2rem;
+        }
+        .partner-item {
+            border: 1px solid rgba(255,255,255,0.12);
+            padding: 1.2rem 2.5rem;
+            font-family: var(--head);
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+            color: #666;
+            text-transform: uppercase;
+        }
+
         /* FADE IN */
         .fade-in { opacity:0; transform:translateY(20px); transition:opacity .8s ease-out,transform .8s ease-out; will-change:opacity,transform; }
         .fade-in.visible { opacity:1; transform:translateY(0); }
@@ -258,6 +299,14 @@
             </p>
         </div>
     </header>
+
+    <section class="spenden-intro fade-in">
+        <div class="spenden-intro-inner">
+            <h2>Warum Ihre Spende zählt</h2>
+            <p>Desinformation greift nicht laut an – sie unterhöhlt leise Vertrauen, vergiftet Debatten und macht Fakten verhandelbar. Die Antwort darauf ist Aufklärung, die nicht aufhört, wenn eine Förderperiode endet.</p>
+            <p>Wir sind ein gemeinnütziger Verein ohne staatliche Kernfinanzierung. Was wir bewegen, bewegen wir durch den Einsatz engagierter Menschen – und durch Spenden wie Ihre. <strong>Jede Überweisung ist ein direktes Bekenntnis zur Demokratie.</strong></p>
+        </div>
+    </section>
 
     <section class="spenden-section">
         <div class="spenden-grid">
@@ -315,6 +364,21 @@
                 </div>
             </div>
 
+        </div>
+    </section>
+
+    <section class="partner-section fade-in">
+        <div class="partner-inner">
+            <span class="col-label">Förderung &amp; Kooperationen</span>
+            <h2>Partner</h2>
+            <p>Wir danken unseren Förderern und Kooperationspartnern, die unsere Arbeit möglich machen. Gemeinsam für eine informierte und resiliente Gesellschaft.</p>
+            <div class="partner-grid">
+                <div class="partner-item">Partner 1</div>
+                <div class="partner-item">Partner 2</div>
+                <div class="partner-item">Partner 3</div>
+                <div class="partner-item">Förderer 1</div>
+                <div class="partner-item">Förderer 2</div>
+            </div>
         </div>
     </section>
 
