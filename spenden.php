@@ -256,7 +256,7 @@
 <body>
 
     <nav role="navigation" aria-label="Hauptnavigation">
-        <a href="https://disinfoawareness.eu/" class="logo">Disinfo Awareness</a>
+        <a href="https://disinfoawareness.eu/" class="logo" aria-label="Disinfo Awareness Startseite">Disinfo Awareness</a>
         <div class="nav-actions">
             <a href="https://disinfoawareness.eu/kontakt.php" class="cta-btn" aria-label="Kontaktseite öffnen">Kontakt</a>
             <a href="https://disinfoawareness.eu/spenden.php" class="cta-btn" aria-label="Jetzt spenden">Spenden</a>
@@ -344,7 +344,7 @@
 
     </main>
 
-    <footer role="contentinfo">
+    <footer id="footer-contact" role="contentinfo" aria-label="Fußzeile">
         <div class="footer-grid">
             <div class="footer-col">
                 <h4>Disinfo Awareness</h4>

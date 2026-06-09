@@ -400,8 +400,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             color: #666;
             font-size: 0.9rem;
         }
+        .footer-grid { display: grid; grid-template-columns: 1fr; }
+        @media (min-width: 900px) { .footer-grid { grid-template-columns: 1.5fr 1fr 1fr; } }
+        .footer-col { padding: 2.5rem 2rem; border-bottom: 1px solid var(--grid-line); display: flex; flex-direction: column; gap: 1rem; }
+        @media (min-width: 900px) { .footer-col { border-right: 1px solid var(--grid-line); border-bottom: none; } .footer-col:last-child { border-right: none; } }
+        .footer-col h4 { font-family: var(--font-head); font-size: 1.3rem; color: var(--highlight); margin-bottom: 0.2rem; letter-spacing: 2px; text-transform: uppercase; }
+        .footer-link { color: #888; font-size: 0.95rem; text-decoration: none; transition: color 0.3s ease; display: inline-block; }
+        .footer-link:hover { color: var(--highlight); transform: translateX(5px); }
         .footer-bottom {
-            padding: 1.5rem 2rem; text-align: center; 
+            padding: 1.2rem 2rem; text-align: center;
             color: #444; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px;
         }
 
@@ -440,8 +447,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <nav role="navigation" aria-label="Hauptnavigation">
         <a href="https://disinfoawareness.eu/" class="logo" aria-label="Disinfo Awareness Startseite">Disinfo Awareness</a>
         <div class="nav-actions">
-            <a href="https://disinfoawareness.eu/kontakt.php" class="cta-btn" style="background:var(--highlight); color:var(--bg-color);" aria-label="Kontaktseite öffnen">Kontakt</a>
-            <a href="https://disinfoawareness.eu/kontakt.php" class="cta-btn" aria-label="Mitmachen - zur Kontaktseite">Mitmachen</a>
+            <a href="https://disinfoawareness.eu/kontakt.php" class="cta-btn" aria-label="Kontaktseite öffnen">Kontakt</a>
+            <a href="https://disinfoawareness.eu/spenden.php" class="cta-btn" aria-label="Jetzt spenden">Spenden</a>
         </div>
     </nav>
 
@@ -528,10 +535,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     </main>
 
-    <footer role="contentinfo" aria-label="Fußzeile">
-        <div class="footer-bottom">
-            &copy; 2026 Disinfo Awareness. Wien, Österreich.
+    <footer id="footer-contact" role="contentinfo" aria-label="Fußzeile">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>Disinfo Awareness</h4>
+                <p style="margin: 0; max-width: 100%;">Ein gemeinnütziger Verein zur Stärkung der Demokratie. Wir verbinden Technologie mit Bildung für eine resilientere Gesellschaft.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Kontakt</h4>
+                <a href="https://disinfoawareness.eu/kontakt.php" class="footer-link">Kontakt</a>
+                <a href="https://www.linkedin.com/in/markus-schwinghammer-335a0b201/" class="footer-link">LinkedIn</a>
+            </div>
+            <div class="footer-col">
+                <h4>Rechtliches</h4>
+                <a href="https://disinfoawareness.eu/impressum.html" class="footer-link">Impressum</a>
+                <a href="https://disinfoawareness.eu/datenschutz.html" class="footer-link">Datenschutz</a>
+            </div>
         </div>
+        <div class="footer-bottom">&copy; 2026 Disinfo Awareness. Wien, Österreich.</div>
     </footer>
 
     <script type="module">
