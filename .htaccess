@@ -56,6 +56,20 @@ RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
 </IfModule>
 
 # ============================================================================
+# SEO: LEGACY .HTML → .PHP REDIRECTS
+# ============================================================================
+
+<IfModule mod_rewrite.c>
+RewriteRule ^index\.html$        /             [R=301,L]
+RewriteRule ^schulprojekte\.html$ /schulprojekte.php [R=301,L]
+RewriteRule ^ngobusiness\.html$  /ngobusiness.php    [R=301,L]
+RewriteRule ^gemeinde\.html$     /gemeinde.php       [R=301,L]
+RewriteRule ^diaspora\.html$     /diaspora.php       [R=301,L]
+RewriteRule ^datenschutz\.html$  /datenschutz.php    [R=301,L]
+RewriteRule ^impressum\.html$    /impressum.php      [R=301,L]
+</IfModule>
+
+# ============================================================================
 # SEO: CLEAN URLs & TRAILING SLASHES
 # ============================================================================
 
@@ -64,12 +78,6 @@ RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_URI} (.+)/$
 RewriteRule ^ %1 [R=301,L]
-
-# Remove .html extension from URLs (optional - improves aesthetics)
-# Uncomment to enable:
-# RewriteCond %{REQUEST_FILENAME} !-f
-# RewriteCond %{REQUEST_FILENAME} !-d
-# RewriteRule ^([^\.]+)$ $1.html [NC,L]
 </IfModule>
 
 # ============================================================================
@@ -198,9 +206,12 @@ RewriteRule ^ %1 [R=301,L]
 
   # Security headers
   Header set X-Content-Type-Options "nosniff"
-  Header set X-Frame-Options "SAMEORIGIN"
+  Header set X-Frame-Options "DENY"
   Header set X-XSS-Protection "1; mode=block"
   Header set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' https://images.unsplash.com https://disinfoconsulting.eu data: blob:; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
 
   # Remove ETags (not needed with proper Cache-Control)
   Header unset ETag

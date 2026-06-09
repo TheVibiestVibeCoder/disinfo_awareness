@@ -20,7 +20,7 @@ $seo_global = [
     'locale' => 'de_DE',
 
     // Standard-Bilder für Social Media (wenn keine seiten-spezifischen Bilder angegeben)
-    'default_og_image' => 'C:\Users\schwi\Disinfo Awareness\disinfo_awareness\favicon-96x96.png', 
+    'default_og_image' => '/favicon-96x96.png',
     'default_og_image_width' => '1200',
     'default_og_image_height' => '630',
 
@@ -40,7 +40,7 @@ $seo_global = [
 
     // Organisations-Daten (für Schema.org)
     'organization_name' => 'Disinfo Awareness',
-    'organization_logo' => 'C:\Users\schwi\Disinfo Awareness\disinfo_awareness\favicon-96x96.png',
+    'organization_logo' => '/favicon-96x96.png',
     'organization_email' => 'kontakt@disinfoawareness.eu',
 
     // Farben & Theme
