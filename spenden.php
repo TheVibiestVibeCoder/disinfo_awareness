@@ -1,83 +1,12 @@
-<?php
-// ── Env laden ──────────────────────────────────────────────
-function loadEnv(string $path): void {
-    if (!file_exists($path)) return;
-    foreach (file($path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) as $line) {
-        $line = trim($line);
-        if ($line === '' || $line[0] === '#') continue;
-        if (str_contains($line, '=')) {
-            [$key, $val] = explode('=', $line, 2);
-            $_ENV[trim($key)] = trim($val);
-        }
-    }
-}
-loadEnv(__DIR__ . '/.env');
-
-$stripeSecret      = $_ENV['STRIPE_SECRET_KEY']    ?? '';
-$stripePublishable = $_ENV['STRIPE_PUBLISHABLE_KEY'] ?? '';
-$appUrl            = rtrim($_ENV['APP_URL'] ?? 'https://disinfoawareness.eu', '/');
-
-$allowedPrices = [
-    '5'  => $_ENV['STRIPE_PRICE_5EUR']  ?? '',
-    '10' => $_ENV['STRIPE_PRICE_10EUR'] ?? '',
-    '15' => $_ENV['STRIPE_PRICE_15EUR'] ?? '',
-];
-
-// ── POST: Checkout Session erstellen und weiterleiten ──────
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $amount = $_POST['amount'] ?? '';
-
-    if (!isset($allowedPrices[$amount]) || empty($allowedPrices[$amount])) {
-        header('Location: /spenden.php?fehler=1');
-        exit;
-    }
-
-    $ch = curl_init('https://api.stripe.com/v1/checkout/sessions');
-    curl_setopt_array($ch, [
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_POST           => true,
-        CURLOPT_POSTFIELDS     => http_build_query([
-            'mode'                           => 'subscription',
-            'line_items[0][price]'           => $allowedPrices[$amount],
-            'line_items[0][quantity]'        => 1,
-            'success_url'                    => $appUrl . '/spenden.php?danke=1',
-            'cancel_url'                     => $appUrl . '/spenden.php?abbruch=1',
-            'payment_method_types[0]'        => 'card',
-            'subscription_data[metadata][source]' => 'website_spenden',
-        ]),
-        CURLOPT_USERPWD    => $stripeSecret . ':',
-        CURLOPT_HTTPHEADER => ['Stripe-Version: 2024-06-20'],
-    ]);
-
-    $response = json_decode(curl_exec($ch), true);
-    $status   = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    curl_close($ch);
-
-    if ($status === 200 && isset($response['url'])) {
-        header('Location: ' . $response['url']);
-        exit;
-    }
-
-    header('Location: /spenden.php?fehler=1');
-    exit;
-}
-
-// ── Status aus Query-Parametern ────────────────────────────
-$state = match(true) {
-    isset($_GET['danke'])   => 'danke',
-    isset($_GET['abbruch']) => 'abbruch',
-    isset($_GET['fehler'])  => 'fehler',
-    default                 => null,
-};
-?>
+<?php // Spendenformular – Banküberweisung ?>
 <!DOCTYPE html>
 <html lang="de">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
 
-    <title>Spenden – Disinfo Awareness unterstützen</title>
-    <meta name="description" content="Unterstütze Disinfo Awareness mit einer monatlichen Spende ab 5 Euro. Unabhängige Aufklärung gegen Desinformation braucht deine Hilfe.">
+    <title>Jetzt Spenden – Disinfo Awareness</title>
+    <meta name="description" content="Unterstütze Disinfo Awareness mit einer Banküberweisung. Gemeinsam für eine informierte Gesellschaft.">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://disinfoawareness.eu/spenden.php">
 
@@ -91,14 +20,14 @@ $state = match(true) {
 
     <style>
         :root {
-            --bg:        #050505;
-            --text:      #f0f0f0;
-            --white:     #ffffff;
-            --muted:     #b0b0b0;
-            --line:      rgba(255,255,255,0.15);
-            --head:      'Bebas Neue', display;
-            --body:      'Manrope', sans-serif;
-            --ease:      all 0.6s cubic-bezier(0.16,1,0.3,1);
+            --bg:    #050505;
+            --text:  #f0f0f0;
+            --white: #ffffff;
+            --muted: #b0b0b0;
+            --line:  rgba(255,255,255,0.15);
+            --head:  'Bebas Neue', display;
+            --body:  'Manrope', sans-serif;
+            --ease:  all 0.6s cubic-bezier(0.16,1,0.3,1);
         }
 
         * { margin:0; padding:0; box-sizing:border-box; }
@@ -111,10 +40,10 @@ $state = match(true) {
 
         h1,h2,h3,h4 { font-family:var(--head); text-transform:uppercase; font-weight:400; letter-spacing:1px; line-height:.9; }
         h1 { font-size:clamp(3.5rem,14vw,12rem); color:var(--white); margin-bottom:1rem; word-break:break-word; }
-        h2 { font-size:clamp(2.5rem,6vw,5rem);  color:var(--white); }
+        h2 { font-size:clamp(2.5rem,6vw,5rem);   color:var(--white); }
+        h3 { font-size:clamp(1.5rem,3vw,2.5rem);  color:var(--white); }
         p  { font-size:clamp(1rem,1.2vw,1.15rem); color:var(--muted); font-weight:300; max-width:60ch; }
         a  { color:var(--white); text-decoration:none; transition:var(--ease); }
-        strong { color:var(--white); font-weight:600; }
 
         /* NAV */
         nav {
@@ -158,119 +87,132 @@ $state = match(true) {
         }
         .hero-p { margin:0 auto; text-align:center; }
 
-        /* STATUS BANNER */
-        .status-banner {
-            padding:1.2rem 2rem; text-align:center;
-            font-family:var(--body); font-size:1rem; font-weight:600;
-            border-bottom:1px solid var(--line);
-        }
-        .status-banner.danke   { background:rgba(0,200,100,.12); color:#00c864; }
-        .status-banner.abbruch { background:rgba(255,200,0,.08);  color:#ffc800; }
-        .status-banner.fehler  { background:rgba(255,60,60,.1);   color:#ff4444; }
-
-        /* DONATE SECTION */
-        .donate-section {
-            padding: clamp(4rem, 8vh, 7rem) 1.5rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 3rem;
+        /* SPENDEN SECTION */
+        .spenden-section {
+            padding: clamp(4rem,8vh,7rem) 1.5rem;
             border-bottom: 1px solid var(--line);
         }
-        .donate-intro { text-align: center; }
-        .donate-intro h2 { margin-bottom: 1rem; }
-        .donate-intro p  { margin: 0 auto; text-align: center; }
-
-        /* GRID – 1 Spalte mobile, 3 Spalten ab 900px (wie restliche Seiten) */
-        .donate-grid {
+        .spenden-grid {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 0;
-            width: 100%;
+            gap: 4rem;
             max-width: 900px;
-            border: 1px solid var(--line);
+            margin: 0 auto;
         }
-        @media (min-width: 900px) {
-            .donate-grid { grid-template-columns: repeat(3, 1fr); }
+        @media(min-width:900px){
+            .spenden-grid { grid-template-columns: 1fr 1.6fr; gap: 5rem; align-items: start; }
         }
 
-        .donate-form { display: contents; }
-
-        /* KARTEN – Mobile: vertikal gestapelt */
-        .donate-card {
-            all: unset;
-            cursor: pointer;
+        /* QR-Spalte */
+        .qr-col {
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
-            gap: 0.5rem;
-            padding: 2.5rem 1.5rem;
-            border-bottom: 1px solid var(--line);
-            background: rgba(255,255,255,0.02);
-            transition: background 0.3s ease;
+            gap: 1.5rem;
             text-align: center;
-            min-height: 160px; /* vernünftiger Touch-Target */
         }
-        /* letzte Karte hat keine Doppel-Border mit dem Grid-Rand */
-        .donate-card:last-of-type {
-            border-bottom: none;
-        }
+        @media(min-width:900px){ .qr-col { align-items: flex-start; text-align: left; } }
 
-        /* Desktop ab 900px: horizontal nebeneinander */
-        @media (min-width: 900px) {
-            .donate-card {
-                padding: 4rem 2rem;
-                border-bottom: none;
-                border-right: 1px solid var(--line);
-                min-height: 340px;
-            }
-            .donate-card:last-of-type { border-right: none; }
-        }
-
-        .donate-card:hover, .donate-card:focus-visible {
-            background: rgba(255,255,255,0.07);
-            outline: none;
-        }
-        .donate-card:active { background: rgba(255,255,255,0.12); }
-
-        /* Betrag – skaliert flüssig auf allen Größen */
-        .donate-amount {
+        .col-label {
             font-family: var(--head);
-            font-size: clamp(3.5rem, 8vw, 7rem);
-            color: var(--white);
-            line-height: 0.9;
-            display: block;
-        }
-        .donate-period {
-            font-family: var(--head);
-            font-size: clamp(0.9rem, 1.5vw, 1.2rem);
+            font-size: clamp(1rem,1.5vw,1.3rem);
             letter-spacing: 3px;
             color: #666;
             text-transform: uppercase;
             display: block;
+            margin-bottom: .5rem;
         }
-        .donate-arrow {
-            margin-top: 1.5rem;
-            font-family: var(--head);
-            font-size: clamp(0.85rem, 1.2vw, 1rem);
-            letter-spacing: 2px;
-            color: #888;
-            border-bottom: 1px solid rgba(255,255,255,0.2);
-            padding-bottom: 2px;
-            display: inline-block;
-            transition: color 0.3s ease, border-color 0.3s ease;
-        }
-        .donate-card:hover .donate-arrow { color: var(--white); border-color: var(--white); }
 
-        /* HINWEIS UNTEN */
-        .donate-hint {
-            font-size: clamp(0.8rem, 1.1vw, 0.9rem);
-            color: #555;
-            text-align: center;
-            max-width: 50ch;
-            margin: 0 auto;
+        /* Platzhalter bis das echte QR-Bild da ist */
+        .qr-placeholder {
+            width: 100%;
+            max-width: 220px;
+            aspect-ratio: 1;
+            border: 1px dashed rgba(255,255,255,0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: .5rem;
+            color: #444;
         }
+        .qr-placeholder .qr-icon {
+            font-family: var(--head);
+            font-size: 2.5rem;
+            letter-spacing: 2px;
+            color: #333;
+        }
+        .qr-placeholder .qr-sub {
+            font-size: .75rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #333;
+        }
+        /* Sobald das echte Bild da ist einfach .qr-placeholder ersetzen durch: */
+        /* <img src="qr-spenden.png" alt="QR-Code" class="qr-image"> */
+        .qr-image {
+            width: 100%;
+            max-width: 220px;
+            border: 1px solid var(--line);
+            display: block;
+        }
+
+        .qr-hint {
+            font-size: .9rem;
+            color: #555;
+            max-width: 26ch;
+        }
+        @media(min-width:900px){ .qr-hint { max-width: 100%; } }
+
+        /* Bankdaten-Spalte */
+        .bank-col { display: flex; flex-direction: column; gap: 2rem; }
+
+        .bank-fields { border-top: 1px solid var(--line); }
+
+        .bank-field {
+            padding: 1.1rem 0;
+            border-bottom: 1px solid var(--line);
+        }
+        .field-label {
+            font-family: var(--head);
+            font-size: .8rem;
+            letter-spacing: 2px;
+            color: #555;
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: .4rem;
+        }
+        .field-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+        }
+        .field-value {
+            font-size: clamp(.95rem,1.3vw,1.1rem);
+            color: var(--white);
+            font-weight: 400;
+            letter-spacing: .5px;
+            flex: 1;
+        }
+
+        /* Copy-Button */
+        .copy-btn {
+            all: unset;
+            cursor: pointer;
+            font-family: var(--head);
+            font-size: .8rem;
+            letter-spacing: 2px;
+            color: #666;
+            border: 1px solid rgba(255,255,255,0.12);
+            padding: .25rem .75rem;
+            white-space: nowrap;
+            flex-shrink: 0;
+            transition: color .2s ease, border-color .2s ease;
+        }
+        .copy-btn:hover { color: var(--white); border-color: rgba(255,255,255,.4); }
+        .copy-btn:focus-visible { outline: 1px solid var(--white); }
+        .copy-btn.copied { color: #00c864; border-color: #00c864; }
 
         /* FOOTER */
         footer { background:#020202; border-top:1px solid var(--line); }
@@ -286,7 +228,7 @@ $state = match(true) {
         }
         .footer-col h4 { font-family:var(--head); font-size:1.5rem; color:var(--white); margin-bottom:.2rem; letter-spacing:2px; }
         .footer-col p  { margin:0; max-width:100%; }
-        .footer-link { color:#888; font-size:1rem; text-decoration:none; transition:color .3s; display:inline-block; }
+        .footer-link { color:#888; font-size:1rem; display:inline-block; transition:color .3s, transform .3s; }
         .footer-link:hover { color:var(--white); transform:translateX(5px); }
         .footer-bottom { padding:1.5rem 2rem; text-align:center; border-top:1px solid var(--line); color:#444; font-size:.8rem; text-transform:uppercase; letter-spacing:1px; }
 
@@ -309,64 +251,71 @@ $state = match(true) {
     <header class="hero">
         <div id="canvas-container"></div>
         <div class="hero-content">
-            <span class="hero-subtitle fade-in">Monatliche Förderung</span>
-            <h1 class="fade-in" style="transition-delay:.1s;">Unterstütz<br>Unsere<br>Arbeit</h1>
+            <span class="hero-subtitle fade-in">Direkt & unkompliziert</span>
+            <h1 class="fade-in" style="transition-delay:.1s;">Jetzt<br>Spenden</h1>
             <p class="fade-in hero-p" style="transition-delay:.2s;">
-                Unabhängige Aufklärung gegen Desinformation braucht unabhängige Finanzierung.
+                Jede Überweisung hilft uns, unabhängig gegen Desinformation aufzuklären.
             </p>
         </div>
     </header>
 
-    <?php if ($state): ?>
-    <div class="status-banner <?= htmlspecialchars($state) ?>">
-        <?php match($state) {
-            'danke'   => print('Danke für deine Unterstützung! Dein Abo ist aktiv.'),
-            'abbruch' => print('Checkout abgebrochen – du kannst jederzeit erneut spenden.'),
-            'fehler'  => print('Ein Fehler ist aufgetreten. Bitte versuche es nochmal oder kontaktiere uns.'),
-            default   => null,
-        }; ?>
-    </div>
-    <?php endif; ?>
+    <section class="spenden-section">
+        <div class="spenden-grid">
 
-    <section class="donate-section">
+            <!-- QR-Code -->
+            <div class="qr-col fade-in">
+                <span class="col-label">Per QR-Code</span>
+                <!-- Ersetze diesen Platzhalter durch: <img src="qr-spenden.png" alt="QR-Code Banküberweisung" class="qr-image"> -->
+                <div class="qr-placeholder">
+                    <span class="qr-icon">▦</span>
+                    <span class="qr-sub">Folgt demnächst</span>
+                </div>
+                <p class="qr-hint">Scanne den Code direkt mit deiner Banking-App</p>
+            </div>
 
-        <div class="donate-intro fade-in">
-            <h2>Wähle deinen Betrag</h2>
-            <p>Alle Beträge laufen monatlich und sind jederzeit kündbar.</p>
+            <!-- Bankdaten -->
+            <div class="bank-col fade-in" style="transition-delay:.12s;">
+                <div>
+                    <span class="col-label">Bankverbindung</span>
+                    <h2>Überweisen</h2>
+                </div>
+                <div class="bank-fields">
+
+                    <div class="bank-field">
+                        <span class="field-label">Kontoinhaber</span>
+                        <div class="field-row">
+                            <span class="field-value">Disinfo Awareness</span>
+                        </div>
+                    </div>
+
+                    <div class="bank-field">
+                        <span class="field-label">IBAN</span>
+                        <div class="field-row">
+                            <span class="field-value" id="iban">AT12 3456 7890 1234 5678</span>
+                            <button class="copy-btn" data-copy="iban" aria-label="IBAN kopieren">Kopieren</button>
+                        </div>
+                    </div>
+
+                    <div class="bank-field">
+                        <span class="field-label">BIC</span>
+                        <div class="field-row">
+                            <span class="field-value" id="bic">BKAUATWW</span>
+                            <button class="copy-btn" data-copy="bic" aria-label="BIC kopieren">Kopieren</button>
+                        </div>
+                    </div>
+
+                    <div class="bank-field">
+                        <span class="field-label">Verwendungszweck</span>
+                        <div class="field-row">
+                            <span class="field-value" id="zweck">Spende Disinfo Awareness</span>
+                            <button class="copy-btn" data-copy="zweck" aria-label="Verwendungszweck kopieren">Kopieren</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
         </div>
-
-        <div class="donate-grid fade-in" style="transition-delay:.1s;">
-
-            <form method="POST" action="/spenden.php" class="donate-form">
-                <button type="submit" name="amount" value="5" class="donate-card" aria-label="Monatlich 5 Euro spenden">
-                    <span class="donate-amount">€5</span>
-                    <span class="donate-period">Pro Monat</span>
-                    <span class="donate-arrow">Zu Stripe →</span>
-                </button>
-            </form>
-
-            <form method="POST" action="/spenden.php" class="donate-form">
-                <button type="submit" name="amount" value="10" class="donate-card" aria-label="Monatlich 10 Euro spenden">
-                    <span class="donate-amount">€10</span>
-                    <span class="donate-period">Pro Monat</span>
-                    <span class="donate-arrow">Zu Stripe →</span>
-                </button>
-            </form>
-
-            <form method="POST" action="/spenden.php" class="donate-form">
-                <button type="submit" name="amount" value="15" class="donate-card" aria-label="Monatlich 15 Euro spenden">
-                    <span class="donate-amount">€15</span>
-                    <span class="donate-period">Pro Monat</span>
-                    <span class="donate-arrow">Zu Stripe →</span>
-                </button>
-            </form>
-
-        </div>
-
-        <p class="donate-hint fade-in" style="transition-delay:.2s;">
-            Sichere Zahlung über Stripe · Monatlich kündbar · Keine versteckten Kosten
-        </p>
-
     </section>
 
     </main>
@@ -442,10 +391,27 @@ $state = match(true) {
     </script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // Fade-in
             const obs = new IntersectionObserver(entries => {
                 entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
             }, { threshold: .1 });
             document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+
+            // Copy-Buttons
+            document.querySelectorAll('.copy-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const id  = btn.dataset.copy;
+                    const val = document.getElementById(id)?.textContent.trim() ?? '';
+                    navigator.clipboard.writeText(val).then(() => {
+                        btn.textContent = 'Kopiert ✓';
+                        btn.classList.add('copied');
+                        setTimeout(() => {
+                            btn.textContent = 'Kopieren';
+                            btn.classList.remove('copied');
+                        }, 2000);
+                    });
+                });
+            });
         });
     </script>
 </body>
