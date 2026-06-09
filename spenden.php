@@ -70,7 +70,7 @@
 
         /* HERO */
         .hero {
-            position:relative; height:70dvh; min-height:420px;
+            position:relative; height:85dvh; min-height:500px;
             display:flex; flex-direction:column; justify-content:center; align-items:center;
             text-align:center; padding:2rem 1.5rem;
             border-bottom:1px solid var(--line); overflow:hidden;
