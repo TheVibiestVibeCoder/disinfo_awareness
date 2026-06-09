@@ -23,6 +23,27 @@ Options -Indexes
 ServerSignature Off
 
 # ============================================================================
+# BLOCK INTERNAL FILES & DIRECTORIES FROM WEB ACCESS
+# ============================================================================
+
+<IfModule mod_rewrite.c>
+  # Block .git and .claude directories (source code / editor internals)
+  RewriteRule ^\.git(/.*)?$    - [F,L]
+  RewriteRule ^\.claude(/.*)?$ - [F,L]
+
+  # Block CLI-only PHP tools (not for web use)
+  RewriteRule ^optimize-images\.php$ - [F,L]
+
+  # Block info-disclosure files
+  RewriteRule ^PERFORMANCE_OPTIMIERUNGEN\.md$ - [F,L]
+</IfModule>
+
+# Block all dotfiles from web access (except .htaccess itself)
+<FilesMatch "^\.(?!htaccess)">
+  Require all denied
+</FilesMatch>
+
+# ============================================================================
 # PERFORMANCE: RESOURCE HINTS & PRELOADING
 # ============================================================================
 

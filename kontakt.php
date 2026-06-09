@@ -1,4 +1,7 @@
 <?php
+ini_set('session.cookie_httponly', 1);
+ini_set('session.cookie_secure', 1);
+ini_set('session.cookie_samesite', 'Strict');
 session_start();
 
 $message_sent  = false;
@@ -24,10 +27,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Regenerate token after use
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 
+    // Rate limiting: max 3 submissions per 10 minutes per session
+    $_SESSION['contact_times'] = array_filter($_SESSION['contact_times'] ?? [], fn($t) => $t > time() - 600);
+    if (count($_SESSION['contact_times']) >= 3) {
+        $error_message = 'Zu viele Anfragen. Bitte warten Sie einige Minuten.';
+        goto render;
+    }
+
     // Sanitize inputs – strip newlines from everything to prevent header injection
     $name    = mb_substr(preg_replace('/[\r\n\t]/', ' ', strip_tags(trim($_POST['name']    ?? ''))), 0, 120);
     $email   = filter_var(trim($_POST['email'] ?? ''), FILTER_SANITIZE_EMAIL);
-    $message = strip_tags(trim($_POST['message'] ?? ''));
+    $message = mb_substr(strip_tags(trim($_POST['message'] ?? '')), 0, 5000);
 
     // Whitelist the subject dropdown (prevents any injection via that field)
     $allowed_subjects = ['Allgemeine Anfrage', 'Workshop Buchung', 'Presse', 'Partnerschaft'];
@@ -50,6 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $headers .= "X-Mailer: PHP/" . phpversion();
 
     if (mail($to, $subject, $body, $headers)) {
+        $_SESSION['contact_times'][] = time();
         $message_sent = true;
     } else {
         $error_message = 'Es gab ein Problem beim Senden. Bitte versuchen Sie es später erneut.';
