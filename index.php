@@ -365,7 +365,7 @@ require __DIR__ . '/includes/head.php';
 
             <div class="team-card fade-in" tabindex="0" style="transition-delay: 0.4s;">
                 <div class="team-image-container trigger-expand">
-                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=800&auto=format&fit=crop" alt="Laura Pattiss" class="team-img">
+                    <img src="https://disinfoconsulting.eu/wp-content/uploads/2026/06/WhatsApp-Image-2026-06-09-at-12.50.11.jpeg" alt="Laura Pattiss" class="team-img">
                 </div>
                 <div class="team-info trigger-expand">
                     <div class="team-toggle">
@@ -376,7 +376,7 @@ require __DIR__ . '/includes/head.php';
                 </div>
                 <div class="team-bio-wrapper">
                     <div class="team-bio-inner">
-                        <p>Koordination unserer Kunstprojekte in jeglicher Art durch ihre mehrjährige Erfahrung im Kunstbetrieb und Bereich.</p>
+                        <p>Kunsthistorikerin und langjährige Praxis im Kunstbetrieb. Laura koordiniert unsere Kunstprojekte von der ersten Idee bis zur Umsetzung.</p>
                     </div>
                 </div>
             </div>
