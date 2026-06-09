@@ -363,6 +363,24 @@ require __DIR__ . '/includes/head.php';
                 </div>
             </div>
 
+            <div class="team-card fade-in" tabindex="0" style="transition-delay: 0.4s;">
+                <div class="team-image-container trigger-expand">
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=800&auto=format&fit=crop" alt="Laura Pattiss" class="team-img">
+                </div>
+                <div class="team-info trigger-expand">
+                    <div class="team-toggle">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+                    </div>
+                    <h3 class="team-name">Laura Pattiss</h3>
+                    <span class="team-role">Projektmanagement<br>&amp; Art</span>
+                </div>
+                <div class="team-bio-wrapper">
+                    <div class="team-bio-inner">
+                        <p>Koordination unserer Kunstprojekte in jeglicher Art durch ihre mehrjährige Erfahrung im Kunstbetrieb und Bereich.</p>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </section>
 
