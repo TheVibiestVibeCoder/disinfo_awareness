@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="de">
 <head>
     <meta charset="UTF-8">
@@ -232,6 +232,16 @@
             text-align: center;
         }
 
+        /* --- SECTION LABEL --- */
+        .section-label {
+            padding: 2.5rem 1.5rem;
+            border-bottom: 1px solid var(--grid-line);
+            text-align: center;
+        }
+        .section-label h2 {
+            font-size: clamp(2.2rem, 5vw, 4.5rem);
+        }
+
         /* --- GRID WRAPPERS & CARDS --- */
         .grid-wrapper {
             display: grid;
@@ -247,7 +257,7 @@
             flex-direction: column;
             justify-content: flex-end;
             overflow: hidden;
-            height: 480px; 
+            height: 480px;
         }
 
         .card-item::after {
@@ -285,32 +295,23 @@
 
         @media (min-width: 900px) {
             .projects-wrapper {
-                grid-template-columns: 1fr 1fr 1fr; 
-                height: 80vh; 
-                min-height: 600px;
+                grid-template-columns: repeat(2, 1fr);
             }
             .card-item {
-                height: 100%;
+                height: 480px;
                 border-right: 1px solid var(--grid-line);
-                border-bottom: 0; 
+                border-bottom: 0;
                 padding: 3rem 2.5rem;
             }
-            .card-item:last-child {
+            .card-item:nth-child(-n+2) {
+                border-bottom: 1px solid var(--grid-line);
+            }
+            .card-item:nth-child(2n) {
                 border-right: none;
             }
         }
 
-        .card-number {
-            font-family: var(--font-head);
-            font-size: clamp(2rem, 3vw, 3rem);
-            color: var(--highlight);
-            opacity: 0.3;
-            margin-bottom: 0.2rem;
-            display: block;
-            line-height: 1;
-        }
-
-        .card-item h2, .card-item h3 {
+.card-item h2, .card-item h3 {
             font-size: clamp(1.8rem, 2.5vw, 2.8rem);
             color: var(--highlight);
             margin-bottom: 0.3rem;
@@ -727,14 +728,11 @@
 </head>
 <body>
 
-    <!-- Skip Navigation for Keyboard Users -->
-    <a href="#main-content" class="skip-link">Zum Hauptinhalt springen</a>
-
     <nav role="navigation" aria-label="Hauptnavigation">
         <a href="https://disinfoawareness.eu/" class="logo" aria-label="Disinfo Awareness Startseite">Disinfo Awareness</a>
         <div class="nav-actions">
             <a href="https://disinfoawareness.eu/kontakt.php" class="cta-btn" aria-label="Kontaktseite öffnen">Kontakt</a>
-            <a href="https://disinfoawareness.eu/kontakt.php" class="cta-btn" aria-label="Mitmachen - zur Kontaktseite">Mitmachen</a>
+            <a href="https://disinfoawareness.eu/spenden.php" class="cta-btn" aria-label="Jetzt spenden">Spenden</a>
         </div>
     </nav>
 
@@ -744,39 +742,44 @@
         <div id="canvas-container"></div>
         <div class="hero-content">
             <div class="hero-subtitle fade-in">Aufklärung & Resilienz</div>
-            <h1 class="fade-in" style="transition-delay: 0.1s;">Gemeinsam<br>Gegen<br>Desinfo</h1>
+            <h1 class="fade-in" style="transition-delay: 0.1s;">Gemeinsam<br>Gegen<br>Desinformation</h1>
             <p class="fade-in hero-p" style="transition-delay: 0.2s;">
                 Stärkung gesellschaftlicher Resilienz durch innovative Aufklärung und positive Gegennarrative.
             </p>
         </div>
     </header>
 
+    <div class="section-label fade-in">
+        <h2>Unsere Arbeit</h2>
+    </div>
+
     <section class="grid-wrapper projects-wrapper">
         <div class="card-item fade-in">
-            <div class="card-bg" style="background-image: url('https://images.unsplash.com/photo-1515787366009-7cbdd2dc587b?q=80&w=1170&auto=format&fit=crop');"></div>
-            <div class="card-content">
-                <span class="card-number">01</span>
-                <h2 style="font-size: clamp(1.8rem, 2.5vw, 2.8rem); line-height: 1; margin-bottom: 0.3rem;">Projekt<br>2026</h2>
-                <p>Aufklärung zur stärkung der Resilienz von ländlichen Communities. Wir schulen Multiplikator:innen.</p>
-                <a href="https://disinfoawareness.eu/aufklaerung.html" class="card-link">Mehr erfahren</a>
+            <div class="card-bg" style="background-image: url('https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?q=80&w=1170&auto=format&fit=crop');"></div>
+            <div class="card-content">                <h2 style="font-size: clamp(1.8rem, 2.5vw, 2.8rem); line-height: 1; margin-bottom: 0.3rem;">NGO-<br>Business</h2>
+                <p>Eine österreichweite Kampagne nutzt parlamentarische Anfragen der FPÖ gezielt gegen den Zivilsektor. Wir zeigen datengetrieben, was dahintersteckt.</p>
+                <a href="https://disinfoawareness.eu/ngobusiness.html" class="card-link">Mehr erfahren</a>
             </div>
         </div>
         <div class="card-item fade-in" style="transition-delay: 0.1s;">
-            <div class="card-bg" style="background-image: url('https://images.unsplash.com/photo-1532619675605-1ede6c2ed2b0?q=80&w=1170&auto=format&fit=crop');"></div>
-            <div class="card-content">
-                <span class="card-number">02</span>
-                <h2 style="font-size: clamp(1.8rem, 2.5vw, 2.8rem); line-height: 1; margin-bottom: 0.3rem;">Positive Info<br>Manipulation</h2>
-                <p>Wir analysieren FIMI-Taktiken und wenden sie für das Gemeinwohl an. Simple, nachhaltige Resilienz.</p>
-                <a href="https://disinfoawareness.eu/pim.html" class="card-link">Zu den Strategien</a>
+            <div class="card-bg" style="background-image: url('https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=1122&auto=format&fit=crop');"></div>
+            <div class="card-content">                <h2 style="font-size: clamp(1.8rem, 2.5vw, 2.8rem); line-height: 1; margin-bottom: 0.3rem;">Schul-<br>projekte</h2>
+                <p>Wir stärken junge Menschen im kritischen Umgang mit Informationen – durch praxisnahe Workshops, die über reine Media Literacy hinausgehen.</p>
+                <a href="https://disinfoawareness.eu/schulprojekte.html" class="card-link">Mehr erfahren</a>
             </div>
         </div>
         <div class="card-item fade-in" style="transition-delay: 0.2s;">
-            <div class="card-bg" style="background-image: url('https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=2070&auto=format&fit=crop');"></div>
-            <div class="card-content">
-                <span class="card-number">03</span>
-                <h2 style="font-size: clamp(1.8rem, 2.5vw, 2.8rem); line-height: 1; margin-bottom: 0.3rem;">Innovation &<br>Forschung</h2>
-                <p>Unser PIM-Lab unterstützt Forschung, innovative Konzepte und Projekte im Bereich Desinformation.</p>
-                <a href="https://disinfoawareness.eu/innovation.html" class="card-link">Zum PIM Lab</a>
+            <div class="card-bg" style="background-image: url('https://images.unsplash.com/photo-1559027615-cd4628902d4a?q=80&w=1074&auto=format&fit=crop');"></div>
+            <div class="card-content">                <h2 style="font-size: clamp(1.8rem, 2.5vw, 2.8rem); line-height: 1; margin-bottom: 0.3rem;">Gemeinde-<br>Aufklärung</h2>
+                <p>Desinformation unterscheidet nicht zwischen Stadt und Land – die Abwehr sollte das auch nicht. Wir schulen Multiplikator:innen vor Ort, damit Resilienz auch abseits urbaner Zentren entsteht.</p>
+                <a href="https://disinfoawareness.eu/gemeinde.html" class="card-link">Mehr erfahren</a>
+            </div>
+        </div>
+        <div class="card-item fade-in" style="transition-delay: 0.3s;">
+            <div class="card-bg" style="background-image: url('https://images.unsplash.com/photo-1529156069898-49953e39b3ac?q=80&w=2069&auto=format&fit=crop');"></div>
+            <div class="card-content">                <h2 style="font-size: clamp(1.8rem, 2.5vw, 2.8rem); line-height: 1; margin-bottom: 0.3rem;">Diaspora-<br>Aufklärung</h2>
+                <p>Diaspora-Communities sind oft besonders exponiert gegenüber gezielter Informationsmanipulation – und werden in der Aufklärungsarbeit häufig vergessen. Wir ändern das.</p>
+                <a href="https://disinfoawareness.eu/diaspora.html" class="card-link">Mehr erfahren</a>
             </div>
         </div>
     </section>
@@ -789,10 +792,9 @@
             </div>
             <div class="funding-right">
                 <p style="margin-bottom: 2rem; color: #e0e0e0;">
-                    Wir sind derzeit dabei, die langfristige Finanzierung für unsere Projekte sicherzustellen, um unabhängige und wirksame Aufklärungsarbeit zu gewährleisten.<br><br>
-                    Das klingt für Sie interessant oder Sie würden gerne spenden?
+                    Demokratie braucht Rückhalt. Mit Ihrer Spende ermöglichen Sie unabhängige Aufklärung – österreichweit, niedrigschwellig, wirkungsorientiert.
                 </p>
-                <a href="https://disinfoawareness.eu/kontakt.php" class="cta-btn" aria-label="Kontakt aufnehmen">Kontakt aufnehmen</a>
+                <a href="https://disinfoawareness.eu/spenden.php" class="cta-btn" aria-label="Jetzt spenden">Jetzt Spenden</a>
             </div>
         </div>
     </section>
