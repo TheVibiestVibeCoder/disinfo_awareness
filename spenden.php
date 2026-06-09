@@ -53,11 +53,11 @@
             background:linear-gradient(to bottom,rgba(5,5,5,.95) 0%,rgba(5,5,5,.8) 50%,transparent 100%);
             backdrop-filter:blur(2px);
         }
-        .logo { font-family:var(--head); font-size:1.4rem; letter-spacing:1.5px; white-space:nowrap; }
+        .logo { font-family:var(--head); font-size:1.3rem; letter-spacing:1.5px; white-space:nowrap; }
         .nav-actions { display:flex; gap:1rem; }
         .cta-btn {
-            border:1px solid var(--white); padding:.5rem 1.2rem;
-            font-family:var(--head); font-size:1.1rem;
+            border:1px solid var(--white); padding:.4rem 1.1rem;
+            font-family:var(--head); font-size:1rem;
             background:rgba(0,0,0,.5); backdrop-filter:blur(10px);
             white-space:nowrap; cursor:pointer; display:inline-block; color:var(--white);
         }
@@ -219,7 +219,7 @@
         .footer-grid { display:grid; grid-template-columns:1fr; }
         @media(min-width:900px){ .footer-grid{ grid-template-columns:1.5fr 1fr 1fr; } }
         .footer-col {
-            padding:3rem 2rem; border-bottom:1px solid var(--line);
+            padding:2.5rem 2rem; border-bottom:1px solid var(--line);
             display:flex; flex-direction:column; gap:1rem;
         }
         @media(min-width:900px){
@@ -228,9 +228,9 @@
         }
         .footer-col h4 { font-family:var(--head); font-size:1.5rem; color:var(--white); margin-bottom:.2rem; letter-spacing:2px; }
         .footer-col p  { margin:0; max-width:100%; }
-        .footer-link { color:#888; font-size:1rem; display:inline-block; transition:color .3s, transform .3s; }
+        .footer-link { color:#888; font-size:0.95rem; display:inline-block; transition:color .3s, transform .3s; }
         .footer-link:hover { color:var(--white); transform:translateX(5px); }
-        .footer-bottom { padding:1.5rem 2rem; text-align:center; border-top:1px solid var(--line); color:#444; font-size:.8rem; text-transform:uppercase; letter-spacing:1px; }
+        .footer-bottom { padding:1.2rem 2rem; text-align:center; border-top:1px solid var(--line); color:#444; font-size:.8rem; text-transform:uppercase; letter-spacing:1px; }
 
         /* INTRO */
         .spenden-intro {
@@ -248,32 +248,7 @@
         }
         .spenden-intro-inner h2 { margin-bottom: .5rem; }
 
-        /* PARTNER */
-        .partner-section {
-            padding: clamp(4rem,8vh,7rem) 1.5rem;
-            border-bottom: 1px solid var(--line);
-        }
-        .partner-inner { max-width: 900px; margin: 0 auto; }
-        .partner-inner h2 { margin-bottom: 1.5rem; }
-        .partner-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            margin-top: 3rem;
-            border-top: 1px solid var(--line);
-            padding-top: 2rem;
-        }
-        .partner-item {
-            border: 1px solid rgba(255,255,255,0.12);
-            padding: 1.2rem 2.5rem;
-            font-family: var(--head);
-            font-size: 1.1rem;
-            letter-spacing: 2px;
-            color: #666;
-            text-transform: uppercase;
-        }
-
-        /* FADE IN */
+/* FADE IN */
         .fade-in { opacity:0; transform:translateY(20px); transition:opacity .8s ease-out,transform .8s ease-out; will-change:opacity,transform; }
         .fade-in.visible { opacity:1; transform:translateY(0); }
     </style>
@@ -283,7 +258,8 @@
     <nav role="navigation" aria-label="Hauptnavigation">
         <a href="https://disinfoawareness.eu/" class="logo">Disinfo Awareness</a>
         <div class="nav-actions">
-            <a href="https://disinfoawareness.eu/kontakt.php" class="cta-btn">Kontakt</a>
+            <a href="https://disinfoawareness.eu/kontakt.php" class="cta-btn" aria-label="Kontaktseite öffnen">Kontakt</a>
+            <a href="https://disinfoawareness.eu/spenden.php" class="cta-btn" aria-label="Jetzt spenden">Spenden</a>
         </div>
     </nav>
 
@@ -303,8 +279,7 @@
     <section class="spenden-intro fade-in">
         <div class="spenden-intro-inner">
             <h2>Warum Ihre Spende zählt</h2>
-            <p>Desinformation greift nicht laut an – sie unterhöhlt leise Vertrauen, vergiftet Debatten und macht Fakten verhandelbar. Die Antwort darauf ist Aufklärung, die nicht aufhört, wenn eine Förderperiode endet.</p>
-            <p>Wir sind ein gemeinnütziger Verein ohne staatliche Kernfinanzierung. Was wir bewegen, bewegen wir durch den Einsatz engagierter Menschen – und durch Spenden wie Ihre. <strong>Jede Überweisung ist ein direktes Bekenntnis zur Demokratie.</strong></p>
+            <p>Desinformation unterhöhlt leise Vertrauen und macht Fakten verhandelbar. Als gemeinnütziger Verein ohne staatliche Kernfinanzierung halten uns Spenden wie Ihre unabhängig und handlungsfähig. <strong>Jede Überweisung ist ein direktes Bekenntnis zur Demokratie.</strong></p>
         </div>
     </section>
 
@@ -313,11 +288,10 @@
 
             <!-- QR-Code -->
             <div class="qr-col fade-in">
-                <span class="col-label">Per QR-Code</span>
-                <!-- Ersetze diesen Platzhalter durch: <img src="qr-spenden.png" alt="QR-Code Banküberweisung" class="qr-image"> -->
+                <span class="col-label"><img src="https://disinfoconsulting.eu/wp-content/uploads/2026/06/Bank_QR.jpeg" alt="QR-Code Banküberweisung" class="qr-image"></span>
+                <!-- Ersetze diesen Platzhalter durch: <img src="https://disinfoconsulting.eu/wp-content/uploads/2026/06/Bank_QR.jpeg" alt="QR-Code Banküberweisung" class="qr-image"> -->
                 <div class="qr-placeholder">
                     <span class="qr-icon">▦</span>
-                    <span class="qr-sub">Folgt demnächst</span>
                 </div>
                 <p class="qr-hint">Scanne den Code direkt mit deiner Banking-App</p>
             </div>
@@ -340,7 +314,7 @@
                     <div class="bank-field">
                         <span class="field-label">IBAN</span>
                         <div class="field-row">
-                            <span class="field-value" id="iban">AT12 3456 7890 1234 5678</span>
+                            <span class="field-value" id="iban">AT86 2011 1857 6215 7900</span>
                             <button class="copy-btn" data-copy="iban" aria-label="IBAN kopieren">Kopieren</button>
                         </div>
                     </div>
@@ -348,7 +322,7 @@
                     <div class="bank-field">
                         <span class="field-label">BIC</span>
                         <div class="field-row">
-                            <span class="field-value" id="bic">BKAUATWW</span>
+                            <span class="field-value" id="bic">GIBAATWWXXX</span>
                             <button class="copy-btn" data-copy="bic" aria-label="BIC kopieren">Kopieren</button>
                         </div>
                     </div>
@@ -362,25 +336,11 @@
                     </div>
 
                 </div>
-            </div>
+            </div>ß
 
         </div>
     </section>
 
-    <section class="partner-section fade-in">
-        <div class="partner-inner">
-            <span class="col-label">Förderung &amp; Kooperationen</span>
-            <h2>Partner</h2>
-            <p>Wir danken unseren Förderern und Kooperationspartnern, die unsere Arbeit möglich machen. Gemeinsam für eine informierte und resiliente Gesellschaft.</p>
-            <div class="partner-grid">
-                <div class="partner-item">Partner 1</div>
-                <div class="partner-item">Partner 2</div>
-                <div class="partner-item">Partner 3</div>
-                <div class="partner-item">Förderer 1</div>
-                <div class="partner-item">Förderer 2</div>
-            </div>
-        </div>
-    </section>
 
     </main>
 
