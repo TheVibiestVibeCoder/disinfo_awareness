@@ -281,7 +281,7 @@ require __DIR__ . '/includes/head.php';
 
             <div class="team-card fade-in" tabindex="0">
                 <div class="team-image-container trigger-expand">
-                    <img src="https://disinfoconsulting.eu/wp-content/uploads/2025/06/20250603-IMG_9344-scaled.jpg" alt="Markus Schwinghammer" class="team-img">
+                    <img src="https://hosting.disinfoconsulting.eu/wp-content/uploads/2025/09/Portrait-von-mir_QUADRAT1.png" alt="Markus Schwinghammer" class="team-img">
                 </div>
                 <div class="team-info trigger-expand">
                     <div class="team-toggle">
@@ -302,7 +302,7 @@ require __DIR__ . '/includes/head.php';
 
             <div class="team-card fade-in" tabindex="0" style="transition-delay: 0.1s;">
                 <div class="team-image-container trigger-expand">
-                    <img src="https://disinfoconsulting.eu/wp-content/uploads/2026/01/Gemini_Generated_Image_b8u35bb8u35bb8u3-scaled.png" alt="Robert Buchhaus" class="team-img">
+                    <img src="https://hosting.disinfoconsulting.eu/wp-content/uploads/2026/01/Gemini_Generated_Image_b8u35bb8u35bb8u3-scaled.png" alt="Robert Buchhaus" class="team-img">
                 </div>
                 <div class="team-info trigger-expand">
                     <div class="team-toggle">
@@ -323,7 +323,7 @@ require __DIR__ . '/includes/head.php';
 
             <div class="team-card fade-in" tabindex="0" style="transition-delay: 0.2s;">
                 <div class="team-image-container trigger-expand">
-                    <img src="https://disinfoconsulting.eu/wp-content/uploads/2026/01/1695822991482.jpg" alt="Ivana Damjanovic" class="team-img">
+                    <img src="https://hosting.disinfoconsulting.eu/wp-content/uploads/2026/01/1695822991482.jpg" alt="Ivana Damjanovic" class="team-img">
                 </div>
                 <div class="team-info trigger-expand">
                     <div class="team-toggle">
@@ -344,7 +344,7 @@ require __DIR__ . '/includes/head.php';
 
             <div class="team-card fade-in" tabindex="0" style="transition-delay: 0.3s;">
                 <div class="team-image-container trigger-expand">
-                    <img src="https://disinfoconsulting.eu/wp-content/uploads/2026/01/Gemini_Generated_Image_zh9v2zzh9v2zzh9v.png" alt="Valentin Meixner" class="team-img">
+                    <img src="https://hosting.disinfoconsulting.eu/wp-content/uploads/2026/01/Gemini_Generated_Image_zh9v2zzh9v2zzh9v.png" alt="Valentin Meixner" class="team-img">
                 </div>
                 <div class="team-info trigger-expand">
                     <div class="team-toggle">
@@ -365,7 +365,7 @@ require __DIR__ . '/includes/head.php';
 
             <div class="team-card fade-in" tabindex="0" style="transition-delay: 0.4s;">
                 <div class="team-image-container trigger-expand">
-                    <img src="https://disinfoconsulting.eu/wp-content/uploads/2026/06/WhatsApp-Image-2026-06-09-at-12.50.11.jpeg" alt="Laura Pattiss" class="team-img">
+                    <img src="https://hosting.disinfoconsulting.eu/wp-content/uploads/2026/06/WhatsApp-Image-2026-06-09-at-12.50.11.jpeg" alt="Laura Pattiss" class="team-img">
                 </div>
                 <div class="team-info trigger-expand">
                     <div class="team-toggle">
