@@ -3,6 +3,8 @@
 **Stand:** 20.10.2026
 **Grundlage:** Vollständige Analyse des Repos (alle Dateien, alle Branches, komplette Git-Historie) plus Abgleich mit der Live-Seite (nur lesende Abrufe).
 
+> **Nachtrag 20.10.2026 – Refactor auf `Design_Valentin`:** Codebasis neu strukturiert (`app/` mit Config, Daten, Views; zentrale Design-Tokens in `assets/css/tokens.css`; eine Vorlage für alle 4 Projektseiten). Aktuelle Struktur siehe **`README.md`** – die Architektur-Beschreibung in Abschnitt 3 ist damit überholt. Behobene Punkte sind unten mit ✅ markiert; sie werden live, sobald der Branch deployt ist.
+
 ---
 
 ## TL;DR
@@ -174,9 +176,9 @@ Reine Banküberweisung mit IBAN, BIC, Verwendungszweck, Kopier-Buttons und QR-Co
 ## 6. Bekannte Probleme & offene Punkte
 
 ### 🔴 Sofort
-1. **QR-Code auf der Spendenseite ist kaputt.** URL in `spenden.php` auf `hosting.disinfoconsulting.eu` umstellen, besser lokal ablegen.
+1. ~~**QR-Code auf der Spendenseite ist kaputt.**~~ ✅ URL auf `hosting.disinfoconsulting.eu` umgestellt (`app/config.php` → `bank.qr_image`). Offen: Bild lokal ablegen.
 2. ~~**Branch-Chaos:** `refactor_v1` war Produktion, aber nicht `main`.~~ ✅ Erledigt mit PR #7 am 20.10.2026.
-3. **OG-Bild/Logo 404:** Social-Shares (LinkedIn, WhatsApp usw.) zeigen kein Vorschaubild. Default in `includes/head.php` und das Logo in `index.php` umstellen.
+3. ~~**OG-Bild/Logo 404**~~ ✅ Auf `hosting.…` umgestellt (`app/config.php` → `seo.og_image`, gilt auch für das Schema.org-Logo).
 
 ### 🟠 Wichtig
 4. **Datenschutzerklärung** deckt die tatsächliche Verarbeitung nicht ab (rechtlich prüfen lassen):
@@ -198,7 +200,7 @@ Reine Banküberweisung mit IBAN, BIC, Verwendungszweck, Kopier-Buttons und QR-Co
 10. **PHP 8.1 ist End of Life.** In cPanel (MultiPHP) auf 8.3 oder 8.4 umstellen. Der Code ist kompatibel.
 
 ### 🟡 Aufräumen / Qualität
-11. **Toter Code und Altlasten:**
+11. ~~**Toter Code und Altlasten:**~~ ✅ Alles entfernt bzw. bereinigt (`.htaccess` neu geschrieben, `site.webmanifest` und Favicon-Links korrigiert):
     - `seo-config.php` wird nirgends eingebunden und verweist auf gelöschte Seiten
     - `sitemap_index.xml` ist redundant
     - `htaccess` ohne Punkt ist ein cPanel-Überbleibsel
@@ -208,14 +210,14 @@ Reine Banküberweisung mit IBAN, BIC, Verwendungszweck, Kopier-Buttons und QR-Co
     - `<meta name="keywords">` wird von Suchmaschinen ignoriert
 12. ~~Sitemap listet gelöschte Seiten.~~ ✅ Mit PR #7 behoben.
 13. **Uneinheitliche Ansprache:** Meist „Sie“, aber auf Spenden „Unterstütze/Scanne“, auf Schulprojekte „zu euch“, auf Kontakt „Lass uns sprechen“.
-14. **Absolute URLs** (`https://disinfoawareness.eu/…`) in Navigation und Footer. Lokal oder auf einer Staging-Umgebung führt jeder Klick auf die Produktivseite.
-15. **Performance:** three.js (~250 KiB komprimiert) wird auf jeder Seite geladen. Die Animationsschleife läuft weiter, auch wenn der Hero nicht mehr sichtbar ist (Akku, CPU). Teamfotos sind teils mehrere MB groß und haben kein `srcset`/`loading="lazy"`.
+14. ~~**Absolute URLs** in Navigation und Footer.~~ ✅ Interne Links sind jetzt root-relativ (`/kontakt.php`).
+15. **Performance:** *(teilweise ✅: Animation pausiert außerhalb des Sichtbereichs, Teamfotos mit `loading="lazy"`, CSS/JS mit Cache-Busting und 1 Jahr Cache)* three.js (~250 KiB komprimiert) wird auf jeder Seite geladen. Die Animationsschleife läuft weiter, auch wenn der Hero nicht mehr sichtbar ist (Akku, CPU). Teamfotos sind teils mehrere MB groß und haben kein `srcset`/`loading="lazy"`.
 16. **Kleinkram:**
     - Bei 5 Teamkarten wirkt das Raster unausgewogen
     - Der Footer-Link „LinkedIn“ zeigt auf Markus' privates Profil statt auf eine Vereinsseite
     - Ob `@disinfoawareness` auf X/Twitter existiert, ist ungeklärt
     - Commit-Messages wie „Update 2“ sind nicht aussagekräftig
-    - Es gibt kein README
+    - ~~Es gibt kein README~~ ✅
 
 ---
 
@@ -242,6 +244,5 @@ php -S localhost:8000           # PHP-Includes funktionieren damit lokal
 ```
 
 Hinweise:
-- Navigationslinks sind absolut und springen auf die Live-Seite (siehe Punkt 14).
 - `.htaccess` greift beim PHP-Dev-Server nicht. Die `.html`-Redirects lassen sich lokal also nicht testen.
 - `kontakt.php` ruft `mail()` auf. Lokal schlägt das ohne Mail-Setup fehl, das Formular zeigt dann die Fehlermeldung.

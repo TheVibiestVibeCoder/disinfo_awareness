@@ -1,3 +1,12 @@
-# Stripe / Environment
+# Local environment / secrets
 .env
-.env.example
+.env.*
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Claude Code local settings
+.claude/settings.local.json

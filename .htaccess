@@ -1,10 +1,7 @@
-# .htaccess for Disinfo Awareness (disinfoawareness.eu)
-# Last updated: 2026-01-21
-# SEO-optimized configuration
+# ==============================================================================
+# disinfoawareness.eu — Apache / LiteSpeed configuration
+# ==============================================================================
 
-# ============================================================================
-# PHP HANDLER (cPanel-generated - DO NOT EDIT THIS SECTION)
-# ============================================================================
 # php -- BEGIN cPanel-generated handler, do not edit
 # Set the "ea-php81" package as the default "PHP" programming language.
 <IfModule mime_module>
@@ -12,323 +9,111 @@
 </IfModule>
 # php -- END cPanel-generated handler, do not edit
 
-# ============================================================================
-# SECURITY & PERFORMANCE
-# ============================================================================
-
-# Disable directory browsing
 Options -Indexes
-
-# Disable server signature
 ServerSignature Off
+AddDefaultCharset UTF-8
+FileETag None
 
-# ============================================================================
-# BLOCK INTERNAL FILES & DIRECTORIES FROM WEB ACCESS
-# ============================================================================
+# ------------------------------------------------------------------------------
+# Access control — nothing but the public pages and /assets is reachable
+# ------------------------------------------------------------------------------
 
-<IfModule mod_rewrite.c>
-  # Block .git and .claude directories (source code / editor internals)
-  RewriteRule ^\.git(/.*)?$    - [F,L]
-  RewriteRule ^\.claude(/.*)?$ - [F,L]
-
-  # Block CLI-only PHP tools (not for web use)
-  RewriteRule ^optimize-images\.php$ - [F,L]
-
-  # Block info-disclosure files
-  RewriteRule ^PERFORMANCE_OPTIMIERUNGEN\.md$ - [F,L]
-</IfModule>
-
-# Block all dotfiles from web access (except .htaccess itself)
-<FilesMatch "^\.(?!htaccess)">
+# Dotfiles (.git, .env, .user.ini, …) — .htaccess is protected by the server
+<FilesMatch "^\.">
   Require all denied
 </FilesMatch>
 
-# ============================================================================
-# PERFORMANCE: RESOURCE HINTS & PRELOADING
-# ============================================================================
+# Documentation
+<FilesMatch "\.md$">
+  Require all denied
+</FilesMatch>
 
-<IfModule mod_headers.c>
-  # DNS Prefetch für externe Domains (frühe DNS-Auflösung)
-  Header add Link "<https://fonts.googleapis.com>; rel=dns-prefetch"
-  Header add Link "<https://fonts.gstatic.com>; rel=dns-prefetch"
-  Header add Link "<https://unpkg.com>; rel=dns-prefetch"
-  Header add Link "<https://images.unsplash.com>; rel=dns-prefetch"
-  Header add Link "<https://disinfoconsulting.eu>; rel=dns-prefetch"
-
-  # Preconnect für kritische externe Domains (inkl. TLS-Handshake)
-  Header add Link "<https://fonts.googleapis.com>; rel=preconnect; crossorigin"
-  Header add Link "<https://fonts.gstatic.com>; rel=preconnect; crossorigin"
-  Header add Link "<https://unpkg.com>; rel=preconnect; crossorigin"
-</IfModule>
-
-# ============================================================================
-# SEO: HTTPS & WWW REDIRECTS
-# ============================================================================
-
-# Force HTTPS
-<IfModule mod_rewrite.c>
-RewriteEngine On
-RewriteCond %{HTTPS} off
-RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
-
-# Force non-www (if you prefer www, swap these rules)
-RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
-RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
-</IfModule>
-
-# ============================================================================
-# SEO: LEGACY .HTML → .PHP REDIRECTS
-# ============================================================================
-
-<IfModule mod_rewrite.c>
-RewriteRule ^index\.html$        /             [R=301,L]
-RewriteRule ^schulprojekte\.html$ /schulprojekte.php [R=301,L]
-RewriteRule ^ngobusiness\.html$  /ngobusiness.php    [R=301,L]
-RewriteRule ^gemeinde\.html$     /gemeinde.php       [R=301,L]
-RewriteRule ^diaspora\.html$     /diaspora.php       [R=301,L]
-RewriteRule ^datenschutz\.html$  /datenschutz.php    [R=301,L]
-RewriteRule ^impressum\.html$    /impressum.php      [R=301,L]
-</IfModule>
-
-# ============================================================================
-# SEO: CLEAN URLs & TRAILING SLASHES
-# ============================================================================
-
-<IfModule mod_rewrite.c>
-# Remove trailing slashes from URLs (except directories)
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_URI} (.+)/$
-RewriteRule ^ %1 [R=301,L]
-</IfModule>
-
-# ============================================================================
-# COMPRESSION (BROTLI + GZIP)
-# ============================================================================
-
-# Brotli Compression (bessere Kompression als Gzip, wenn verfügbar)
-<IfModule mod_brotli.c>
-  AddOutputFilterByType BROTLI_COMPRESS text/html text/plain text/xml text/css text/javascript
-  AddOutputFilterByType BROTLI_COMPRESS application/javascript application/x-javascript application/json application/xml application/rss+xml
-  AddOutputFilterByType BROTLI_COMPRESS application/vnd.ms-fontobject application/x-font-ttf application/x-font-opentype application/x-font-truetype
-  AddOutputFilterByType BROTLI_COMPRESS font/eot font/opentype font/otf font/ttf
-  AddOutputFilterByType BROTLI_COMPRESS image/svg+xml image/x-icon
-</IfModule>
-
-# Gzip Compression (Fallback für Browser ohne Brotli)
-<IfModule mod_deflate.c>
-  # Compress HTML, CSS, JavaScript, Text, XML and fonts
-  AddOutputFilterByType DEFLATE application/javascript
-  AddOutputFilterByType DEFLATE application/rss+xml
-  AddOutputFilterByType DEFLATE application/vnd.ms-fontobject
-  AddOutputFilterByType DEFLATE application/x-font
-  AddOutputFilterByType DEFLATE application/x-font-opentype
-  AddOutputFilterByType DEFLATE application/x-font-otf
-  AddOutputFilterByType DEFLATE application/x-font-truetype
-  AddOutputFilterByType DEFLATE application/x-font-ttf
-  AddOutputFilterByType DEFLATE application/x-javascript
-  AddOutputFilterByType DEFLATE application/xhtml+xml
-  AddOutputFilterByType DEFLATE application/xml
-  AddOutputFilterByType DEFLATE application/json
-  AddOutputFilterByType DEFLATE font/eot
-  AddOutputFilterByType DEFLATE font/opentype
-  AddOutputFilterByType DEFLATE font/otf
-  AddOutputFilterByType DEFLATE font/ttf
-  AddOutputFilterByType DEFLATE image/svg+xml
-  AddOutputFilterByType DEFLATE image/x-icon
-  AddOutputFilterByType DEFLATE text/css
-  AddOutputFilterByType DEFLATE text/html
-  AddOutputFilterByType DEFLATE text/javascript
-  AddOutputFilterByType DEFLATE text/plain
-  AddOutputFilterByType DEFLATE text/xml
-
-  # Remove browser bugs (only needed for really old browsers)
-  BrowserMatch ^Mozilla/4 gzip-only-text/html
-  BrowserMatch ^Mozilla/4\.0[678] no-gzip
-  BrowserMatch \bMSIE !no-gzip !gzip-only-text/html
-  Header append Vary User-Agent
-</IfModule>
-
-# ============================================================================
-# BROWSER CACHING
-# ============================================================================
-
-<IfModule mod_expires.c>
-  ExpiresActive On
-
-  # Default expiration: 1 hour
-  ExpiresDefault "access plus 1 hour"
-
-  # HTML: 1 hour
-  ExpiresByType text/html "access plus 1 hour"
-
-  # CSS and JavaScript: 1 week
-  ExpiresByType text/css "access plus 1 week"
-  ExpiresByType text/javascript "access plus 1 week"
-  ExpiresByType application/javascript "access plus 1 week"
-  ExpiresByType application/x-javascript "access plus 1 week"
-
-  # Images: 1 year (statische Bilder ändern sich selten)
-  ExpiresByType image/gif "access plus 1 year"
-  ExpiresByType image/jpeg "access plus 1 year"
-  ExpiresByType image/jpg "access plus 1 year"
-  ExpiresByType image/png "access plus 1 year"
-  ExpiresByType image/webp "access plus 1 year"
-  ExpiresByType image/avif "access plus 1 year"
-  ExpiresByType image/svg+xml "access plus 1 year"
-  ExpiresByType image/x-icon "access plus 1 year"
-
-  # Fonts: 1 year
-  ExpiresByType application/vnd.ms-fontobject "access plus 1 year"
-  ExpiresByType font/eot "access plus 1 year"
-  ExpiresByType font/opentype "access plus 1 year"
-  ExpiresByType font/otf "access plus 1 year"
-  ExpiresByType font/ttf "access plus 1 year"
-  ExpiresByType application/x-font-ttf "access plus 1 year"
-  ExpiresByType application/font-woff "access plus 1 year"
-  ExpiresByType application/font-woff2 "access plus 1 year"
-  ExpiresByType font/woff "access plus 1 year"
-  ExpiresByType font/woff2 "access plus 1 year"
-
-  # Media files: 1 month
-  ExpiresByType audio/ogg "access plus 1 month"
-  ExpiresByType video/mp4 "access plus 1 month"
-  ExpiresByType video/ogg "access plus 1 month"
-  ExpiresByType video/webm "access plus 1 month"
-
-  # Documents: 1 week
-  ExpiresByType application/pdf "access plus 1 week"
-  ExpiresByType application/x-shockwave-flash "access plus 1 week"
-</IfModule>
-
-# ============================================================================
-# CACHE CONTROL HEADERS
-# ============================================================================
-
-<IfModule mod_headers.c>
-  # 1 YEAR - Fonts
-  <FilesMatch "\.(ttf|ttc|otf|eot|woff|woff2|font.css)$">
-    Header set Cache-Control "max-age=31536000, public"
-  </FilesMatch>
-
-  # 1 YEAR - Images (statische Assets)
-  <FilesMatch "\.(jpg|jpeg|png|gif|webp|avif|svg|ico)$">
-    Header set Cache-Control "max-age=31536000, public, immutable"
-  </FilesMatch>
-
-  # 1 WEEK - CSS and JavaScript
-  <FilesMatch "\.(css|js)$">
-    Header set Cache-Control "max-age=604800, public"
-  </FilesMatch>
-
-  # 1 HOUR - HTML and PHP
-  <FilesMatch "\.(html|htm|php)$">
-    Header set Cache-Control "max-age=3600, public, must-revalidate"
-  </FilesMatch>
-
-  # Security headers
-  Header set X-Content-Type-Options "nosniff"
-  Header set X-Frame-Options "DENY"
-  Header set X-XSS-Protection "1; mode=block"
-  Header set Referrer-Policy "strict-origin-when-cross-origin"
-  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
-  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' https://images.unsplash.com https://disinfoconsulting.eu https://hosting.disinfoconsulting.eu data: blob:; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'"
-  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
-
-  # Remove ETags (not needed with proper Cache-Control)
-  Header unset ETag
-</IfModule>
-
-FileETag None
-
-# ============================================================================
-# CHARACTER ENCODING
-# ============================================================================
-
-# Set UTF-8 as default character encoding
-AddDefaultCharset UTF-8
-<IfModule mod_mime.c>
-  AddCharset UTF-8 .html .css .js .xml .json .rss .atom
-</IfModule>
-
-# ============================================================================
-# ERROR PAGES (Optional - Create these pages if needed)
-# ============================================================================
-
-# ErrorDocument 404 /404.html
-# ErrorDocument 403 /403.html
-# ErrorDocument 500 /500.html
-
-# ============================================================================
-# AUTOMATIC WEBP SERVING (Content Negotiation)
-# ============================================================================
-
-# Wenn Browser WebP unterstützt, liefere .webp statt .jpg/.png
 <IfModule mod_rewrite.c>
   RewriteEngine On
 
-  # Prüfe ob Browser WebP unterstützt
-  RewriteCond %{HTTP_ACCEPT} image/webp
+  # Source and internal directories (app/ also has its own deny rule)
+  RewriteRule ^(\.git|\.claude|app|docs)(/|$) - [F,L]
 
-  # Prüfe ob JPG angefragt wird und .webp existiert
-  RewriteCond %{REQUEST_FILENAME} (.*)\.(jpe?g|png)$
-  RewriteCond %1\.webp -f
-  RewriteRule (.*)\.(jpe?g|png)$ $1.webp [T=image/webp,E=EXISTING:1,E=WEBP:1,L]
+  # HTTPS only, no www
+  RewriteCond %{HTTPS} off
+  RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+  RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+  RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
+
+  # Old .html URLs
+  RewriteRule ^index\.html$         /                   [R=301,L]
+  RewriteRule ^schulprojekte\.html$ /schulprojekte.php  [R=301,L]
+  RewriteRule ^ngobusiness\.html$   /ngobusiness.php    [R=301,L]
+  RewriteRule ^gemeinde\.html$      /gemeinde.php       [R=301,L]
+  RewriteRule ^diaspora\.html$      /diaspora.php       [R=301,L]
+  RewriteRule ^datenschutz\.html$   /datenschutz.php    [R=301,L]
+  RewriteRule ^impressum\.html$     /impressum.php      [R=301,L]
+
+  # Remove trailing slashes (except on directories)
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_URI} (.+)/$
+  RewriteRule ^ %1 [R=301,L]
+
+  # /sitemap.xml is generated by sitemap.php
+  RewriteRule ^sitemap\.xml$ sitemap.php [L]
 </IfModule>
 
-# Setze korrekten Content-Type für WebP
+# ------------------------------------------------------------------------------
+# Security headers
+# ------------------------------------------------------------------------------
 <IfModule mod_headers.c>
-  # Informiere Browser über Vary für Caching
-  <FilesMatch "\.(jpe?g|png)$">
-    Header append Vary Accept
+  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' https://images.unsplash.com https://disinfoconsulting.eu https://hosting.disinfoconsulting.eu data: blob:; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+  Header set X-Content-Type-Options "nosniff"
+  Header set X-Frame-Options "DENY"
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+  Header unset ETag
+</IfModule>
+
+# ------------------------------------------------------------------------------
+# Caching
+# CSS/JS are linked with ?v=<file time> (asset() in app/lib/helpers.php),
+# so they can be cached for a year: every change produces a new URL.
+# ------------------------------------------------------------------------------
+<IfModule mod_headers.c>
+  <FilesMatch "\.(css|js|jpe?g|png|gif|webp|avif|svg|ico|woff2?|ttf|otf)$">
+    Header set Cache-Control "max-age=31536000, public, immutable"
   </FilesMatch>
 
-  # Setze expliziten WebP Content-Type
-  <FilesMatch "\.webp$">
-    Header set Content-Type "image/webp"
+  # Pages: 1 hour — except kontakt.php, which carries a per-session CSRF token
+  <FilesMatch "^(?!kontakt\.php$).*\.(html?|php)$">
+    Header set Cache-Control "max-age=3600, public, must-revalidate"
   </FilesMatch>
 </IfModule>
 
-# ============================================================================
-# MIME TYPES
-# ============================================================================
+# ------------------------------------------------------------------------------
+# Compression (Brotli, gzip fallback)
+# ------------------------------------------------------------------------------
+<IfModule mod_brotli.c>
+  AddOutputFilterByType BROTLI_COMPRESS text/html text/plain text/xml text/css text/javascript
+  AddOutputFilterByType BROTLI_COMPRESS application/javascript application/json application/xml application/manifest+json
+  AddOutputFilterByType BROTLI_COMPRESS image/svg+xml image/x-icon font/ttf font/otf
+</IfModule>
 
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript
+  AddOutputFilterByType DEFLATE application/javascript application/json application/xml application/manifest+json
+  AddOutputFilterByType DEFLATE image/svg+xml image/x-icon font/ttf font/otf
+</IfModule>
+
+# ------------------------------------------------------------------------------
+# MIME types
+# ------------------------------------------------------------------------------
 <IfModule mod_mime.c>
-  # JavaScript
+  AddCharset UTF-8 .html .css .js .xml .json .webmanifest
   AddType application/javascript js
-  AddType application/json json
-
-  # Web fonts
-  AddType font/woff woff
-  AddType font/woff2 woff2
-  AddType application/vnd.ms-fontobject eot
-  AddType font/ttf ttf
-  AddType font/otf otf
-
-  # SVG
-  AddType image/svg+xml svg svgz
-  AddEncoding gzip svgz
-
-  # Video
-  AddType video/mp4 mp4
-  AddType video/webm webm
-  AddType video/ogg ogv
-
-  # Audio
-  AddType audio/mp3 mp3
-  AddType audio/mp4 m4a
-  AddType audio/ogg ogg
-  AddType audio/webm webma
-
-  # Images
+  AddType application/manifest+json webmanifest
+  AddType image/svg+xml svg
   AddType image/webp webp
   AddType image/avif avif
-</IfModule>
-
-# ============================================================================
-# XML SITEMAP MIME TYPE
-# ============================================================================
-
-<IfModule mod_rewrite.c>
-  # Ensure sitemap.php outputs correct MIME type
-  RewriteRule ^sitemap\.xml$ sitemap.php [L]
+  AddType font/woff woff
+  AddType font/woff2 woff2
+  AddType font/ttf ttf
+  AddType font/otf otf
 </IfModule>

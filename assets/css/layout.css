@@ -1,0 +1,200 @@
+/* ==========================================================================
+   LAYOUT
+   The page frame shared by every page: navigation, hero, split grid, footer.
+   ========================================================================== */
+
+/* --- Site navigation ------------------------------------------------------ */
+.site-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 1rem var(--gutter);
+    background: linear-gradient(to bottom, rgba(5, 5, 5, 0.95) 0%, rgba(5, 5, 5, 0.8) 50%, transparent 100%);
+    backdrop-filter: blur(2px);
+}
+
+.site-nav__logo {
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    letter-spacing: 1.5px;
+    white-space: nowrap;
+}
+
+.site-nav__actions {
+    display: flex;
+    gap: 1rem;
+}
+
+@media (max-width: 450px) {
+    .site-nav__logo    { font-size: 1.2rem; }
+    .site-nav__actions { gap: 0.5rem; }
+}
+
+/* --- Hero ------------------------------------------------------------------
+   Every page opens with a hero over the particle canvas (hero-canvas.js).
+   Variants only change the knobs declared at the top of .hero. */
+.hero {
+    --hero-height:          100dvh;
+    --hero-min-height:      600px;
+    --hero-canvas-opacity:  0.5;
+    --hero-eyebrow-size:    clamp(0.9rem, 1.5vw, 1.2rem);
+    --hero-eyebrow-gap:     1rem;
+    --hero-title-size:      var(--text-display);
+    --hero-title-hyphens:   manual;
+    --hero-lead-size:       var(--text-body);
+    --hero-lead-width:      60ch;
+
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: var(--hero-height);
+    min-height: var(--hero-min-height);
+    padding: 2rem var(--gutter);
+    border-bottom: var(--border);
+    overflow: hidden;
+    text-align: center;
+}
+
+.hero--home {
+    --hero-canvas-opacity: 0.6;
+}
+
+.hero--project {
+    --hero-height:        85dvh;
+    --hero-min-height:    500px;
+    --hero-eyebrow-size:  clamp(1rem, 2vw, 1.5rem);
+    --hero-eyebrow-gap:   2.5rem;
+    --hero-title-size:    var(--text-display-lg);
+    --hero-title-hyphens: auto;
+}
+
+.hero--contact {
+    --hero-height:      60dvh;
+    --hero-min-height:  400px;
+    --hero-title-size:  var(--text-display-xl);
+}
+
+.hero--legal {
+    --hero-height:        50dvh;
+    --hero-min-height:    350px;
+    --hero-eyebrow-size:  clamp(1rem, 2vw, 1.5rem);
+    --hero-title-size:    var(--text-display-xl);
+    --hero-lead-size:     1rem;
+    --hero-lead-width:    65ch;
+}
+
+.hero__canvas {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    opacity: var(--hero-canvas-opacity);
+    pointer-events: none;
+}
+
+.hero__content {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    max-width: 1100px;
+}
+
+.hero__eyebrow {
+    display: block;
+    margin-bottom: var(--hero-eyebrow-gap);
+    font-family: var(--font-display);
+    font-size: var(--hero-eyebrow-size);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+}
+
+.hero__title {
+    font-size: var(--hero-title-size);
+    hyphens: var(--hero-title-hyphens);
+}
+
+.hero__lead {
+    max-width: var(--hero-lead-width);
+    margin-inline: auto;
+    font-size: var(--hero-lead-size);
+}
+
+/* --- Split grid ------------------------------------------------------------
+   One column on mobile, two on desktop. Sections tune it with
+   --split-columns and --split-min-height. */
+.split {
+    display: grid;
+    grid-template-columns: 1fr;
+    width: 100%;
+}
+
+@media (min-width: 900px) {
+    .split {
+        grid-template-columns: var(--split-columns, 1fr 1fr);
+        min-height: var(--split-min-height, auto);
+    }
+}
+
+/* --- Site footer ---------------------------------------------------------- */
+.site-footer {
+    background: var(--color-bg-footer);
+    border-top: var(--border);
+    font-size: 0.85rem;
+    color: var(--color-text-subtle);
+}
+
+.site-footer__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+}
+
+.site-footer__col {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    padding: 2.5rem 2rem;
+    border-bottom: var(--border);
+}
+
+@media (min-width: 900px) {
+    .site-footer__grid           { grid-template-columns: 1.5fr 1fr 1fr; }
+    .site-footer__col            { border-right: var(--border); border-bottom: none; }
+    .site-footer__col:last-child { border-right: none; }
+}
+
+.site-footer__title {
+    margin-bottom: 0.2rem;
+}
+
+.site-footer__text {
+    max-width: 100%;
+}
+
+.site-footer__link {
+    display: inline-block;
+    font-size: 0.95rem;
+    color: var(--color-text-muted);
+    transition: color 0.3s ease;
+}
+
+.site-footer__link:hover {
+    color: var(--color-highlight);
+    transform: translateX(5px);
+}
+
+.site-footer__bottom {
+    padding: 1.2rem 2rem;
+    border-top: var(--border);
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    text-align: center;
+    text-transform: uppercase;
+    color: var(--gray-700);
+}

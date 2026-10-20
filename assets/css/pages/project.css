@@ -1,0 +1,91 @@
+/* ==========================================================================
+   PAGE TYPE: PROJECT
+   Shared by schulprojekte, ngobusiness, gemeinde and diaspora
+   (template: app/views/pages/project.php).
+   ========================================================================== */
+
+/* --- Feature section: text panel + image panel ----------------------------
+   Every second section is mirrored on desktop (.feature--reverse). */
+.feature {
+    --split-min-height: 80vh;
+}
+
+.feature__panel {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    height: 60dvh;
+    min-height: 450px;
+    padding: 2rem;
+    border-bottom: var(--border);
+    overflow: hidden;
+}
+
+.feature__panel--text {
+    justify-content: center;
+    height: auto;
+    min-height: 40dvh;
+    background: linear-gradient(to bottom, var(--color-surface), var(--color-bg));
+}
+
+@media (min-width: 900px) {
+    .feature__panel {
+        height: 100%;
+        padding: 4rem 3rem;
+        border-right: var(--border);
+        border-bottom: 0;
+    }
+
+    .feature__panel:last-child {
+        border-right: none;
+    }
+
+    .feature--reverse .feature__panel:first-child {
+        order: 2;
+        border-right: none;
+    }
+
+    .feature--reverse .feature__panel:last-child {
+        order: 1;
+        border-right: var(--border);
+    }
+}
+
+.feature__bg {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background-size: cover;
+    background-position: center;
+    filter: grayscale(100%) brightness(0.3);
+    transition: transform 0.8s ease, filter 0.8s ease;
+}
+
+.feature__panel:hover .feature__bg,
+.feature__panel.is-in-view .feature__bg {
+    transform: scale(1.05);
+    filter: grayscale(0%) brightness(0.5);
+}
+
+.feature__content {
+    position: relative;
+    z-index: 2;
+    text-shadow: 0 2px 20px rgba(0, 0, 0, 0.8);
+    pointer-events: none;
+}
+
+.feature__title {
+    margin-bottom: 1rem;
+    font-size: var(--text-h3-lg);
+    line-height: 0.9;
+    color: var(--color-highlight);
+}
+
+.feature__text {
+    max-width: 50ch;
+    margin-bottom: 1.5rem;
+    font-size: 1.1rem;
+    color: var(--gray-150);
+    opacity: 0.95;
+}
