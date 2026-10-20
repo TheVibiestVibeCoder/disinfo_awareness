@@ -1,0 +1,133 @@
+/* ==========================================================================
+   COMPONENTS
+   Reusable UI pieces that can appear on any page.
+   ========================================================================== */
+
+/* --- Button --------------------------------------------------------------- */
+.btn {
+    display: inline-block;
+    padding: 0.4rem 1.1rem;
+    border: 1px solid var(--color-highlight);
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    font-family: var(--font-display);
+    font-size: 1rem;
+    white-space: nowrap;
+    color: var(--color-highlight);
+    cursor: pointer;
+}
+
+.btn:hover,
+.btn:active {
+    background: var(--color-highlight);
+    color: var(--color-bg);
+}
+
+@media (max-width: 450px) {
+    .btn { padding: 0.4rem 0.8rem; }
+}
+
+/* --- Call-to-action band -------------------------------------------------- */
+.cta {
+    padding: 6rem var(--gutter);
+    border-top: var(--border);
+    background: linear-gradient(to top, var(--color-surface), var(--color-bg));
+    text-align: center;
+}
+
+.cta__title {
+    margin-bottom: 1rem;
+    font-size: var(--text-h2-lg);
+    line-height: 0.9;
+}
+
+.cta--donate .cta__title {
+    margin-bottom: 1.5rem;
+}
+
+.cta__text {
+    margin: 0 auto 2rem;
+}
+
+/* --- Form ----------------------------------------------------------------- */
+.form__group {
+    margin-bottom: 1.5rem;
+}
+
+.form__label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+    color: var(--color-text-muted);
+}
+
+.form__control {
+    width: 100%;
+    padding: 1rem;
+    border: var(--border);
+    border-radius: 0;
+    outline: none;
+    background: rgba(255, 255, 255, 0.05);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    color: var(--white);
+    transition: border-color 0.3s ease;
+}
+
+.form__control:focus {
+    border-color: var(--color-highlight);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.form__control option {
+    background: var(--gray-850);
+}
+
+textarea.form__control {
+    min-height: 150px;
+    resize: vertical;
+}
+
+.form__submit {
+    width: 100%;
+    margin-top: 1rem;
+    padding: 1rem;
+    border: none;
+    background: var(--color-highlight);
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    color: var(--color-bg);
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+}
+
+.form__submit:hover {
+    opacity: 0.8;
+}
+
+/* Spam trap: off-screen for people, still filled in by bots. */
+.form__honeypot {
+    position: absolute;
+    left: -9999px;
+}
+
+/* --- Alert ---------------------------------------------------------------- */
+.alert {
+    margin-bottom: 2rem;
+    padding: 1rem;
+    border: 1px solid;
+}
+
+.alert--success {
+    border-color: var(--color-success);
+    background: rgba(75, 181, 67, 0.1);
+    color: var(--color-success);
+}
+
+.alert--error {
+    border-color: var(--color-error);
+    background: rgba(255, 51, 51, 0.1);
+    color: var(--color-error);
+}
