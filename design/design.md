@@ -18,6 +18,7 @@ Dieser Ordner enthält:
 ```
 design/
 ├── design.md        ← dieses Briefing
+├── Bilder/          ← eigene Fotos von Disinfo Awareness (siehe Abschnitt 8)
 └── referenz/        ← Screenshots der Vorlage (nur zur Orientierung, siehe Abschnitt 6)
 ```
 
@@ -212,3 +213,18 @@ Diese Punkte bitte vor oder zu Beginn der Gestaltung mit Markus klären:
 - [ ] **Fotos**: Welche eigenen Fotos gibt es, und was muss noch fotografiert werden?
 - [ ] **Kennzahlen und Zitate**: Welche echten Zahlen und Stimmen können wir zeigen?
 - [ ] **Online-Spenden**: Bleibt es bei Überweisung, oder kommt ein Zahlungsanbieter dazu?
+
+---
+
+## 8. Eigene Fotos
+
+In `Bilder/` liegen erste eigene Fotos. Sie sind echtes Material von uns und dürfen anders als die Referenz-Screenshots auf die Website.
+
+| Datei | Motiv | Mögliche Verwendung |
+|---|---|---|
+| [`vortrag-fimi.jpeg`](Bilder/vortrag-fimi.jpeg) | Vortrag vor großer, gebogener Leinwand mit der Folie „FIMI – Foreign Information Manipulation & Interference“, Publikum im Vordergrund | Hero (Bild im Text), Projektseiten, Vollbild-Sektion |
+| [`infostand-knowledge-in-crisis.jpeg`](Bilder/infostand-knowledge-in-crisis.jpeg) | Infostand im Freien mit „Knowledge in Crisis“-Roll-up und Laptops; Person im Shirt „Ministerium für Neugier & Zukunftslust“ | Teaser, Projektseiten, Wirkungs-Sektion |
+| [`gruppenfoto-buero.jpeg`](Bilder/gruppenfoto-buero.jpeg) | Gruppenfoto, vier lachende Personen in einem Loft-Büro | Team- oder Partner-Bereich |
+
+Alle drei sind Hochformat. Für Vollbild- und Querformat-Sektionen braucht es noch weitere Fotos.
+Vor der Veröffentlichung bitte klären, ob alle abgebildeten Personen einverstanden sind.
