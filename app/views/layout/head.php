@@ -1,6 +1,7 @@
 <?php
 /**
- * Contents of <head>: meta, social previews, icons, structured data, styles.
+ * Contents of <head>: meta, social previews, icons, structured data, fonts, styles.
+ * Everything is served from this domain — no requests to third parties.
  *
  * @var array $page  Page meta (see page_meta()).
  */
@@ -10,9 +11,13 @@ $stylesheets = ['css/tokens.css', 'css/base.css', 'css/layout.css', 'css/compone
 if ($page['stylesheet']) {
     $stylesheets[] = "css/pages/{$page['stylesheet']}.css";
 }
+
+// Both fonts are needed for the first screen of every page.
+$fonts = ['fonts/anton-latin.woff2', 'fonts/manrope-latin.woff2'];
 ?>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>document.documentElement.classList.add('js')</script>
 
     <title><?= e($page['title']) ?></title>
     <meta name="description" content="<?= e($page['description']) ?>">
@@ -48,16 +53,9 @@ if ($page['stylesheet']) {
 
     <script type="application/ld+json"><?= json_ld($page['schema']) ?></script>
 
-    <!-- Early connections to third-party hosts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://unpkg.com" crossorigin>
-    <link rel="dns-prefetch" href="https://images.unsplash.com">
-    <link rel="dns-prefetch" href="https://hosting.disinfoconsulting.eu">
-
-    <link rel="stylesheet" href="<?= e(config('vendor.fonts')) ?>">
-    <script type="importmap"><?= json_encode(['imports' => ['three' => config('vendor.three')]], JSON_UNESCAPED_SLASHES) ?></script>
-
+<?php foreach ($fonts as $font): ?>
+    <link rel="preload" href="/assets/<?= e($font) ?>" as="font" type="font/woff2" crossorigin>
+<?php endforeach; ?>
 <?php foreach ($stylesheets as $stylesheet): ?>
     <link rel="stylesheet" href="<?= e(asset($stylesheet)) ?>">
 <?php endforeach; ?>

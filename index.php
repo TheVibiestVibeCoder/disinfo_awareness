@@ -11,4 +11,5 @@ render_page('home', [
 ], [
     'projects' => data('projects'),
     'team'     => data('team'),
+    'event'    => upcoming_event(),
 ]);

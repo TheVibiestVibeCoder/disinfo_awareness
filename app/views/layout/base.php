@@ -13,15 +13,16 @@
 </head>
 <body>
 
-<?php view('layout/nav') ?>
+<a href="#main-content" class="skip-link">Zum Inhalt springen</a>
 
-<main id="main-content">
+<?php view('layout/nav', ['path' => $page['path']]) ?>
+
+<main id="main-content" tabindex="-1">
 <?= $content ?>
 </main>
 
 <?php view('layout/footer') ?>
 
-<script type="module" src="<?= e(asset('js/hero-canvas.js')) ?>"></script>
 <script type="module" src="<?= e(asset('js/main.js')) ?>"></script>
 </body>
 </html>

@@ -1,5 +1,7 @@
 # Design-Briefing: „Voices United“ → Disinfo Awareness
 
+> **Umgesetzt:** Wie das Design gebaut ist und welche Entscheidungen dabei gefallen sind, steht in [`Design-Baseline.md`](Design-Baseline.md).
+
 ## Worum es geht
 
 Die Website von **Disinfo Awareness** (disinfoawareness.eu) bekommt ein neues Design.

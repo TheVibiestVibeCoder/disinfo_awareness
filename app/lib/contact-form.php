@@ -6,7 +6,7 @@
  *   - CSRF token per session, rotated after every use
  *   - honeypot field that only bots fill in
  *   - rate limit per session (config: contact.rate_limit)
- *   - subject whitelist (config: contact.subjects)
+ *   - subject whitelist (contact_subjects())
  *   - line breaks stripped from header-bound input; the visitor's address
  *     only ever goes into Reply-To, never into From/To (no header injection)
  */
@@ -16,22 +16,61 @@ declare(strict_types=1);
 const CONTACT_HONEYPOT_FIELD = 'website';
 
 /**
- * Handles the current request and returns the state the view renders.
+ * Subjects the form offers, key => label (config: contact.subjects),
+ * plus the upcoming event's subject while there is one.
  *
- * @return array{sent: bool, error: string, csrf_token: string}
+ * @return array<string, string>
+ */
+function contact_subjects(): array
+{
+    $subjects = config('contact.subjects');
+    $event = upcoming_event();
+    if ($event !== null) {
+        $subjects['veranstaltung'] = $event['subject'];
+    }
+
+    return $subjects;
+}
+
+/**
+ * Handles the current request and returns the state the view renders.
+ * After a failed submit, 'values' holds the input so nobody has to type it again.
+ *
+ * @return array{sent: bool, error: string, csrf_token: string, values: array{name: string, email: string, subject: string, message: string}}
  */
 function contact_form_handle(): array
 {
     session_start_secure();
 
+    // Subject preselected by links like /kontakt.php?betreff=workshop
+    $values = ['name' => '', 'email' => '', 'subject' => contact_subject_key($_GET['betreff'] ?? null), 'message' => ''];
+
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $result = contact_form_submit($_POST);
+        if (!$result['sent']) {
+            $values = [
+                'name'    => contact_field($_POST, 'name'),
+                'email'   => contact_field($_POST, 'email'),
+                'subject' => contact_subject_key($_POST['subject'] ?? null),
+                'message' => contact_field($_POST, 'message'),
+            ];
+        }
     } else {
         csrf_rotate();
         $result = ['sent' => false, 'error' => ''];
     }
 
-    return $result + ['csrf_token' => csrf_token()];
+    return $result + ['csrf_token' => csrf_token(), 'values' => $values];
+}
+
+/**
+ * A valid subject key, falling back to the first subject.
+ */
+function contact_subject_key(mixed $key): string
+{
+    $subjects = contact_subjects();
+
+    return is_string($key) && isset($subjects[$key]) ? $key : (string) array_key_first($subjects);
 }
 
 /**
@@ -79,11 +118,7 @@ function contact_message_from(array $input): ?array
     $email   = (string) filter_var(contact_field($input, 'email'), FILTER_SANITIZE_EMAIL);
     $message = mb_substr(strip_tags(contact_field($input, 'message')), 0, 5000);
 
-    $subjects = config('contact.subjects');
-    $subject  = contact_field($input, 'subject');
-    if (!in_array($subject, $subjects, true)) {
-        $subject = $subjects[0];
-    }
+    $subject = contact_subjects()[contact_subject_key($input['subject'] ?? null)];
 
     if ($name === '' || $message === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
         return null;

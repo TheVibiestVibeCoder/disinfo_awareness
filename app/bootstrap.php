@@ -9,6 +9,9 @@ declare(strict_types=1);
 define('ROOT_PATH', dirname(__DIR__));
 define('APP_PATH', __DIR__);
 
+// Dates on the site (event cut-off, copyright year) follow local time in Vienna.
+date_default_timezone_set('Europe/Vienna');
+
 require APP_PATH . '/lib/helpers.php';
 require APP_PATH . '/lib/view.php';
 require APP_PATH . '/lib/seo.php';

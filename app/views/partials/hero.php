@@ -1,23 +1,23 @@
 <?php
 /**
- * Page hero over the particle canvas.
+ * Page header of the subpages: label, big title, optional lead.
+ * (The home page opens with its own hero, see pages/home.php.)
  *
- * @var string|null         $variant  home | project | contact | legal — null for the default
- * @var string              $eyebrow  Small line above the title
+ * @var string              $eyebrow  Small label above the title
  * @var string|list<string> $title    Title; list items become line breaks
  * @var string|null         $lead     Optional paragraph below the title
+ * @var string|null         $variant  'compact' for short pages (contact, legal) — null for the default
  */
 
 $variant ??= null;
 $lead    ??= null;
 ?>
-<header class="<?= e(class_names('hero', $variant ? "hero--{$variant}" : null)) ?>">
-    <div class="hero__canvas" data-hero-canvas></div>
-    <div class="hero__content">
-        <div class="hero__eyebrow fade-in"><?= e($eyebrow) ?></div>
-        <h1 class="hero__title fade-in delay-1"><?= lines($title) ?></h1>
+<header class="<?= e(class_names('page-hero', $variant ? "page-hero--{$variant}" : null)) ?>">
+    <div class="container">
+        <p class="label page-hero__label"><?= e($eyebrow) ?></p>
+        <h1 class="page-hero__title"><?= lines($title) ?></h1>
         <?php if ($lead): ?>
-            <p class="hero__lead fade-in delay-2"><?= e($lead) ?></p>
+            <p class="page-hero__lead"><?= e($lead) ?></p>
         <?php endif; ?>
     </div>
 </header>

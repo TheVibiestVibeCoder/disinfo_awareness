@@ -1,95 +1,60 @@
 /* ==========================================================================
    PAGE: KONTAKT (kontakt.php)
-   Form field styles live in components.css (.form, .alert).
+   Form fields, chips and alerts live in components.css.
    ========================================================================== */
 
+/* Phones: intro, form, details. From 900px: intro and details left, form right. */
 .contact {
-    --split-min-height: 100vh;
-}
-
-/* --- Left column: info over a photo --------------------------------------- */
-.contact-info {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 3rem 2rem;
-    border-bottom: var(--border);
-    overflow: hidden;
+    display: grid;
+    grid-template-areas:
+        'intro'
+        'card'
+        'details';
+    gap: 2.5rem;
 }
 
 @media (min-width: 900px) {
-    .contact-info {
-        padding: 4rem 3rem;
-        border-right: var(--border);
-        border-bottom: none;
+    .contact {
+        grid-template-areas:
+            'intro   card'
+            'details card';
+        grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+        grid-template-rows: auto 1fr;
+        align-items: start;
+        column-gap: clamp(3rem, 7vw, 7rem);
     }
 }
 
-.contact-info__bg {
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    background-size: cover;
-    background-position: center;
-    filter: grayscale(100%) brightness(0.2);
-    transition: all 0.8s ease;
+.contact__intro {
+    grid-area: intro;
 }
 
-.contact-info:hover .contact-info__bg {
-    filter: grayscale(0%) brightness(0.4);
-    transform: scale(1.05);
+.contact__title {
+    margin-bottom: 1rem;
+    font-size: var(--text-display-md);
 }
 
-.contact-info__content {
-    position: relative;
-    z-index: 2;
+.contact__text {
+    max-width: 40ch;
+    font-size: var(--text-lead);
+    color: var(--color-text-muted);
 }
 
-.contact-info__title {
-    margin-bottom: 1.5rem;
-    font-size: 2.5rem;
-    line-height: 1;
-    color: var(--color-highlight);
+.contact__card {
+    grid-area: card;
+    padding: clamp(1.25rem, 0.6rem + 2.8vw, 2.75rem);
+    border-radius: var(--radius-lg);
+    background: var(--color-surface);
+    scroll-margin-top: calc(var(--header-height) + 1rem);
 }
 
-.contact-details {
-    margin-top: 3rem;
+.contact__details {
+    display: grid;
+    grid-area: details;
+    gap: 1.5rem;
 }
 
-.contact-details__item {
-    margin-bottom: 2rem;
-}
-
-.contact-details__label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-family: var(--font-display);
-    font-size: 1.2rem;
-    letter-spacing: 2px;
-    color: var(--color-text-subtle);
-}
-
-.contact-details__value {
-    font-size: 1.1rem;
-    color: var(--white);
-}
-
-.contact-details__links {
-    display: flex;
-    gap: 1rem;
-    margin-top: 0.5rem;
-}
-
-/* --- Right column: the form ----------------------------------------------- */
-.contact-form {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 3rem 2rem;
-    background: linear-gradient(to bottom, var(--color-surface), var(--color-bg));
-}
-
-@media (min-width: 900px) {
-    .contact-form { padding: 4rem 3rem; }
+.contact__detail dd {
+    margin-top: 0.375rem;
+    font-weight: 600;
 }

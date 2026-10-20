@@ -1,17 +1,25 @@
 /**
- * Site-wide UI behaviour. Each feature only runs if its markup is on the page.
+ * Site-wide UI behaviour. Each feature only runs if its markup is on the page,
+ * and the page stays fully usable without JavaScript.
  *
  * JavaScript hooks (kept separate from styling classes):
- *   .fade-in            reveal on scroll        → adds .is-visible
- *   [data-inview]       highlight on mobile     → toggles .is-in-view
- *   [data-team-card]    expandable team card    → toggles .is-expanded
- *   [data-team-toggle]  click target inside a team card
- *   [data-copy="id"]    copies the text of #id  → adds .is-copied briefly
+ *   .fade-in             reveal on scroll                → adds .is-visible
+ *   [data-site-header]   sticky header                   → toggles .is-scrolled
+ *   [data-nav-menu]      "Projekte" dropdown             → toggles aria-expanded on its button
+ *   [data-mobile-menu]   menu dialog, opened by [data-menu-open], closed by [data-menu-close]
+ *   [data-team-gallery]  capsule gallery                 → moves .is-active between [data-member]
+ *   [data-copy="id"]     copies the text of #id          → adds .is-copied briefly
  */
 
-const DESKTOP_BREAKPOINT = 900;
+const DESKTOP_QUERY = window.matchMedia('(min-width: 900px)');
 
 function initReveal() {
+    const elements = document.querySelectorAll('.fade-in');
+    if (!('IntersectionObserver' in window)) {
+        elements.forEach((el) => el.classList.add('is-visible'));
+        return;
+    }
+
     const observer = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
             if (entry.isIntersecting) {
@@ -19,50 +27,93 @@ function initReveal() {
                 observer.unobserve(entry.target);
             }
         });
-    }, { threshold: 0.1 });
+    }, { threshold: 0.12, rootMargin: '0px 0px -5% 0px' });
 
-    document.querySelectorAll('.fade-in').forEach((el) => observer.observe(el));
+    elements.forEach((el) => observer.observe(el));
 }
 
-/** On touch-sized screens there is no hover, so image cards light up while centred instead. */
-function initInViewHighlight() {
-    if (window.innerWidth >= DESKTOP_BREAKPOINT) return;
+/** A hairline under the header once the page has scrolled. */
+function initHeader() {
+    const header = document.querySelector('[data-site-header]');
+    if (!header) return;
 
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => entry.target.classList.toggle('is-in-view', entry.isIntersecting));
-    }, { threshold: 0.5, rootMargin: '-10% 0px -10% 0px' });
-
-    document.querySelectorAll('[data-inview]').forEach((el) => observer.observe(el));
+    const update = () => header.classList.toggle('is-scrolled', window.scrollY > 8);
+    window.addEventListener('scroll', update, { passive: true });
+    update();
 }
 
-/** Team cards: one open at a time, operable by click or Enter/Space. */
-function initTeamCards() {
-    const cards = [...document.querySelectorAll('[data-team-card]')];
+/** "Projekte" dropdown: hover opens it (CSS); click, Enter and Escape are handled here. */
+function initNavMenu() {
+    document.querySelectorAll('[data-nav-menu]').forEach((item) => {
+        const button = item.querySelector('button[aria-expanded]');
+        const setOpen = (open) => button.setAttribute('aria-expanded', String(open));
 
-    const toggle = (card) => {
-        cards.forEach((other) => {
-            if (other !== card) other.classList.remove('is-expanded');
+        button.addEventListener('click', () => setOpen(button.getAttribute('aria-expanded') !== 'true'));
+
+        item.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && button.getAttribute('aria-expanded') === 'true') {
+                setOpen(false);
+                button.focus();
+            }
         });
-        card.classList.toggle('is-expanded');
-    };
 
-    cards.forEach((card) => {
-        card.querySelectorAll('[data-team-toggle]').forEach((trigger) => {
-            trigger.addEventListener('click', () => toggle(card));
+        // Close when focus or a click leaves the item.
+        item.addEventListener('focusout', (event) => {
+            if (!item.contains(event.relatedTarget)) setOpen(false);
         });
+        document.addEventListener('click', (event) => {
+            if (!item.contains(event.target)) setOpen(false);
+        });
+    });
+}
 
-        card.addEventListener('keydown', (event) => {
-            // Only when the card itself has focus, so links inside still work.
-            if (event.target !== card || (event.key !== 'Enter' && event.key !== ' ')) return;
-            event.preventDefault();
-            toggle(card);
+/** Full-screen menu on small screens, built on <dialog> (focus trap and Escape for free). */
+function initMobileMenu() {
+    const dialog = document.querySelector('[data-mobile-menu]');
+    const openButton = document.querySelector('[data-menu-open]');
+    if (!dialog || !openButton || typeof dialog.showModal !== 'function') return;
+
+    openButton.addEventListener('click', () => dialog.showModal());
+    dialog.querySelectorAll('[data-menu-close]').forEach((button) => {
+        button.addEventListener('click', () => dialog.close());
+    });
+
+    // Links to sections of the current page (e.g. /#team) must close the menu themselves.
+    dialog.querySelectorAll('a').forEach((link) => {
+        link.addEventListener('click', () => dialog.close());
+    });
+
+    // The menu belongs to small screens only.
+    DESKTOP_QUERY.addEventListener('change', (event) => {
+        if (event.matches && dialog.open) dialog.close();
+    });
+}
+
+/**
+ * Team gallery: on wide screens one capsule is open at a time. Hover, keyboard
+ * focus and tap open a capsule; it stays open until another one takes over.
+ */
+function initTeamGallery() {
+    document.querySelectorAll('[data-team-gallery]').forEach((gallery) => {
+        const members = [...gallery.querySelectorAll('[data-member]')];
+
+        const activate = (member) => {
+            members.forEach((other) => other.classList.toggle('is-active', other === member));
+        };
+
+        members.forEach((member) => {
+            member.addEventListener('mouseenter', () => activate(member));
+            member.addEventListener('focusin', () => activate(member));
+            member.addEventListener('click', () => activate(member));
         });
     });
 }
 
 function initCopyButtons() {
     document.querySelectorAll('[data-copy]').forEach((button) => {
-        const label = button.textContent;
+        const label = button.querySelector('[data-copy-label]') ?? button;
+        const text = label.textContent;
+        let timer;
 
         button.addEventListener('click', async () => {
             const source = document.getElementById(button.dataset.copy);
@@ -74,10 +125,11 @@ function initCopyButtons() {
                 return; // Clipboard blocked (e.g. insecure context): leave the button as is.
             }
 
-            button.textContent = 'Kopiert ✓';
+            label.textContent = 'Kopiert ✓';
             button.classList.add('is-copied');
-            setTimeout(() => {
-                button.textContent = label;
+            clearTimeout(timer);
+            timer = setTimeout(() => {
+                label.textContent = text;
                 button.classList.remove('is-copied');
             }, 2000);
         });
@@ -85,6 +137,8 @@ function initCopyButtons() {
 }
 
 initReveal();
-initInViewHighlight();
-initTeamCards();
+initHeader();
+initNavMenu();
+initMobileMenu();
+initTeamGallery();
 initCopyButtons();

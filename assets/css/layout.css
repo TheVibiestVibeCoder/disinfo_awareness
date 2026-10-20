@@ -1,200 +1,413 @@
 /* ==========================================================================
    LAYOUT
-   The page frame shared by every page: navigation, hero, split grid, footer.
+   The page frame shared by every page: header + navigation, menu dialog,
+   page header, section scaffolding, footer.
    ========================================================================== */
 
-/* --- Site navigation ------------------------------------------------------ */
-.site-nav {
-    position: fixed;
+/* --- Site header -----------------------------------------------------------
+   Sticky, translucent cream. A hairline appears once the page scrolls
+   (.is-scrolled, set by main.js). */
+.site-header {
+    position: sticky;
     top: 0;
-    left: 0;
     z-index: 100;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    padding: 1rem var(--gutter);
-    background: linear-gradient(to bottom, rgba(5, 5, 5, 0.95) 0%, rgba(5, 5, 5, 0.8) 50%, transparent 100%);
-    backdrop-filter: blur(2px);
+    border-bottom: 1px solid transparent;
+    background: rgba(241, 242, 235, 0.88);
+    -webkit-backdrop-filter: saturate(1.4) blur(14px);
+    backdrop-filter: saturate(1.4) blur(14px);
+    transition: border-color var(--duration) ease;
 }
 
-.site-nav__logo {
+.site-header.is-scrolled {
+    border-bottom-color: var(--color-line);
+}
+
+.site-header__inner {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    height: var(--header-height);
+}
+
+.site-header__logo {
     font-family: var(--font-display);
-    font-size: 1.3rem;
-    letter-spacing: 1.5px;
+    font-size: 1.25rem;
+    line-height: 1;
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
     white-space: nowrap;
 }
 
-.site-nav__actions {
+.site-header__actions {
     display: flex;
-    gap: 1rem;
-}
-
-@media (max-width: 450px) {
-    .site-nav__logo    { font-size: 1.2rem; }
-    .site-nav__actions { gap: 0.5rem; }
-}
-
-/* --- Hero ------------------------------------------------------------------
-   Every page opens with a hero over the particle canvas (hero-canvas.js).
-   Variants only change the knobs declared at the top of .hero. */
-.hero {
-    --hero-height:          100dvh;
-    --hero-min-height:      600px;
-    --hero-canvas-opacity:  0.5;
-    --hero-eyebrow-size:    clamp(0.9rem, 1.5vw, 1.2rem);
-    --hero-eyebrow-gap:     1rem;
-    --hero-title-size:      var(--text-display);
-    --hero-title-hyphens:   manual;
-    --hero-lead-size:       var(--text-body);
-    --hero-lead-width:      60ch;
-
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
     align-items: center;
-    height: var(--hero-height);
-    min-height: var(--hero-min-height);
-    padding: 2rem var(--gutter);
-    border-bottom: var(--border);
-    overflow: hidden;
-    text-align: center;
+    gap: 0.5rem;
+    margin-left: auto;
 }
 
-.hero--home {
-    --hero-canvas-opacity: 0.6;
+@media (max-width: 359px) {
+    .site-header__logo { font-size: 1.0625rem; }
+    .site-header__actions .btn { padding-inline: 0.875rem; }
 }
 
-.hero--project {
-    --hero-height:        85dvh;
-    --hero-min-height:    500px;
-    --hero-eyebrow-size:  clamp(1rem, 2vw, 1.5rem);
-    --hero-eyebrow-gap:   2.5rem;
-    --hero-title-size:    var(--text-display-lg);
-    --hero-title-hyphens: auto;
+@media (min-width: 900px) {
+    .site-header__logo { font-size: 1.5rem; }
+    .site-header .site-header__menu-button { display: none; }  /* beats .icon-btn from components.css */
 }
 
-.hero--contact {
-    --hero-height:      60dvh;
-    --hero-min-height:  400px;
-    --hero-title-size:  var(--text-display-xl);
+/* --- Main navigation (from 900px) ------------------------------------------ */
+.site-nav {
+    display: none;
 }
 
-.hero--legal {
-    --hero-height:        50dvh;
-    --hero-min-height:    350px;
-    --hero-eyebrow-size:  clamp(1rem, 2vw, 1.5rem);
-    --hero-title-size:    var(--text-display-xl);
-    --hero-lead-size:     1rem;
-    --hero-lead-width:    65ch;
+@media (min-width: 900px) {
+    .site-nav {
+        display: block;
+        margin-inline: auto;
+    }
 }
 
-.hero__canvas {
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    opacity: var(--hero-canvas-opacity);
-    pointer-events: none;
+.site-nav__list {
+    display: flex;
+    align-items: center;
+    gap: clamp(1rem, 2.2vw, 2.25rem);
 }
 
-.hero__content {
+.site-nav__item {
     position: relative;
-    z-index: 10;
-    width: 100%;
-    max-width: 1100px;
 }
 
-.hero__eyebrow {
-    display: block;
-    margin-bottom: var(--hero-eyebrow-gap);
-    font-family: var(--font-display);
-    font-size: var(--hero-eyebrow-size);
-    letter-spacing: 4px;
+.site-nav__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.5rem 0;
+    font-size: var(--text-xs);
+    font-weight: 700;
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    background-image: linear-gradient(currentColor, currentColor);
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    background-size: 0 1.5px;
+    transition: background-size var(--duration) var(--ease-out);
+}
+
+.site-nav__link:hover,
+.site-nav__link[aria-current='page'] {
+    background-size: 100% 1.5px;
+}
+
+.site-nav__chevron {
+    width: 1rem;
+    height: 1rem;
+    transition: transform var(--duration-fast) ease;
+}
+
+/* "Projekte" dropdown: opens on hover, or on click/Enter (aria-expanded via main.js). */
+.site-nav__menu {
+    position: absolute;
+    top: calc(100% + 0.75rem);
+    left: 50%;
+    z-index: 10;
+    display: grid;
+    gap: 0.125rem;
+    min-width: 22rem;
+    padding: 0.5rem;
+    border-radius: var(--radius-md);
+    background: var(--white);
+    box-shadow: 0 0 0 1px var(--color-line), 0 24px 48px -24px rgba(36, 36, 36, 0.35);
+    opacity: 0;
+    visibility: hidden;
+    transform: translate(-50%, -0.375rem);
+    transition: opacity var(--duration-fast) ease, transform var(--duration-fast) ease, visibility var(--duration-fast);
+}
+
+/* Invisible bridge, so the pointer can travel from the button to the menu. */
+.site-nav__menu::before {
+    content: '';
+    position: absolute;
+    inset: -0.75rem 0 100%;
+}
+
+.site-nav__item--menu:hover .site-nav__menu,
+.site-nav__link[aria-expanded='true'] + .site-nav__menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, 0);
+}
+
+.site-nav__item--menu:hover .site-nav__chevron,
+.site-nav__link[aria-expanded='true'] .site-nav__chevron {
+    transform: rotate(180deg);
+}
+
+.site-nav__menu-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.75rem 1rem;
+    border-radius: var(--radius-sm);
+    font-size: var(--text-small);
+    font-weight: 700;
+    transition: background-color var(--duration-fast) ease;
+}
+
+.site-nav__menu-link:hover,
+.site-nav__menu-link[aria-current='page'] {
+    background: var(--color-bg);
+}
+
+.site-nav__tag {
+    flex: none;
+    padding: 0.2rem 0.55rem;
+    border: 1px solid var(--color-line-strong);
+    border-radius: var(--radius-pill);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
     color: var(--color-text-muted);
 }
 
-.hero__title {
-    font-size: var(--hero-title-size);
-    hyphens: var(--hero-title-hyphens);
-}
-
-.hero__lead {
-    max-width: var(--hero-lead-width);
-    margin-inline: auto;
-    font-size: var(--hero-lead-size);
-}
-
-/* --- Split grid ------------------------------------------------------------
-   One column on mobile, two on desktop. Sections tune it with
-   --split-columns and --split-min-height. */
-.split {
-    display: grid;
-    grid-template-columns: 1fr;
+/* --- Menu dialog (below 900px) ----------------------------------------------
+   A native <dialog>: focus stays inside, Escape closes it. */
+.mobile-menu {
+    position: fixed;
+    inset: 0;
     width: 100%;
+    max-width: none;
+    height: 100%;
+    max-height: none;
+    border: 0;
+    background: var(--color-bg);
+    color: var(--color-text);
 }
 
+.mobile-menu[open] {
+    display: flex;
+    flex-direction: column;
+    animation: menu-in var(--duration) var(--ease-out);
+}
+
+.mobile-menu::backdrop {
+    background: transparent;
+}
+
+@keyframes menu-in {
+    from { opacity: 0; transform: translateY(-0.75rem); }
+}
+
+.mobile-menu__bar {
+    display: flex;
+    flex: none;
+    align-items: center;
+    justify-content: space-between;
+    height: var(--header-height);
+}
+
+.mobile-menu__body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 1rem;
+    padding-block: 1.5rem 2rem;
+    overflow-y: auto;
+}
+
+.mobile-menu__projects {
+    display: grid;
+}
+
+.mobile-menu__project {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-block: 0.625rem;
+    border-bottom: 1px solid var(--color-line);
+    font-family: var(--font-display);
+    font-size: clamp(1.75rem, 1.2rem + 3vw, 2.5rem);
+    line-height: 1.1;
+    text-transform: uppercase;
+}
+
+.mobile-menu__project[aria-current='page'] {
+    color: var(--color-accent-text);
+}
+
+.mobile-menu__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+    padding-top: 0.5rem;
+}
+
+.mobile-menu__link {
+    font-size: var(--text-lead);
+    font-weight: 700;
+}
+
+.mobile-menu__footer {
+    display: grid;
+    gap: 1.25rem;
+    margin-top: auto;
+    padding-top: 1.5rem;
+}
+
+.mobile-menu__legal {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    font-size: var(--text-small);
+    color: var(--color-text-muted);
+}
+
+/* --- Page header of subpages ----------------------------------------------- */
+.page-hero {
+    padding-block: clamp(2.5rem, 1.2rem + 5vw, 6rem) clamp(2.5rem, 1.5rem + 3.5vw, 5rem);
+}
+
+.page-hero__label {
+    margin-bottom: clamp(0.75rem, 0.5rem + 1vw, 1.5rem);
+}
+
+.page-hero__title {
+    font-size: var(--text-display-xl);
+}
+
+.page-hero__lead {
+    max-width: 50ch;
+    margin-top: clamp(1.25rem, 1rem + 1vw, 2rem);
+    font-size: var(--text-lead);
+}
+
+.page-hero--compact .page-hero__lead {
+    color: var(--color-text-muted);
+}
+
+/* --- Sections -------------------------------------------------------------- */
+.section {
+    padding-block: var(--space-section);
+}
+
+.section--flush-top {
+    padding-top: 0;
+}
+
+.section-head {
+    max-width: 52rem;
+    margin-bottom: clamp(2rem, 1.4rem + 2.4vw, 3.5rem);
+}
+
+.section-head .label {
+    margin-bottom: 1rem;
+}
+
+.section-head__title {
+    font-size: var(--text-display-lg);
+}
+
+.section-head__intro {
+    max-width: 48ch;
+    margin-top: 1.25rem;
+    font-size: var(--text-lead);
+    color: var(--color-text-muted);
+}
+
+/* Title left, intro right on wide screens. */
 @media (min-width: 900px) {
-    .split {
-        grid-template-columns: var(--split-columns, 1fr 1fr);
-        min-height: var(--split-min-height, auto);
+    .section-head--split {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 3rem;
+        max-width: none;
+    }
+
+    .section-head--split .section-head__intro {
+        margin-top: 0;
     }
 }
 
-/* --- Site footer ---------------------------------------------------------- */
+/* --- Site footer ------------------------------------------------------------ */
 .site-footer {
-    background: var(--color-bg-footer);
-    border-top: var(--border);
-    font-size: 0.85rem;
-    color: var(--color-text-subtle);
+    padding-block: clamp(2.5rem, 2rem + 2.5vw, 4rem) 2rem;
+    border-top: 1px solid var(--color-line);
+    font-size: var(--text-small);
+}
+
+.site-footer__claim {
+    margin-bottom: clamp(2rem, 1.5rem + 2vw, 3.5rem);
+    font-family: var(--font-display);
+    font-size: var(--text-display-md);
+    line-height: var(--leading-display);
+    text-transform: uppercase;
+    text-wrap: balance;
 }
 
 .site-footer__grid {
     display: grid;
-    grid-template-columns: 1fr;
-}
-
-.site-footer__col {
-    display: flex;
-    flex-direction: column;
-    gap: 0.8rem;
-    padding: 2.5rem 2rem;
-    border-bottom: var(--border);
+    gap: 2.5rem;
 }
 
 @media (min-width: 900px) {
-    .site-footer__grid           { grid-template-columns: 1.5fr 1fr 1fr; }
-    .site-footer__col            { border-right: var(--border); border-bottom: none; }
-    .site-footer__col:last-child { border-right: none; }
+    .site-footer__grid {
+        grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+        gap: 4rem;
+    }
 }
 
-.site-footer__title {
-    margin-bottom: 0.2rem;
+.site-footer__name {
+    margin-bottom: 0.75rem;
+    font-weight: 800;
 }
 
 .site-footer__text {
-    max-width: 100%;
+    max-width: 40ch;
+    color: var(--color-text-muted);
+}
+
+.site-footer__nav {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2rem 1.5rem;
+}
+
+@media (min-width: 600px) {
+    .site-footer__nav {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+.site-footer__title {
+    margin-bottom: 0.875rem;
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    font-weight: 700;
+    letter-spacing: var(--tracking-label);
+    color: var(--color-text-muted);
+}
+
+.site-footer__col ul {
+    display: grid;
+    gap: 0.5rem;
 }
 
 .site-footer__link {
-    display: inline-block;
-    font-size: 0.95rem;
-    color: var(--color-text-muted);
-    transition: color 0.3s ease;
+    font-weight: 600;
+    transition: color var(--duration-fast) ease;
 }
 
 .site-footer__link:hover {
-    color: var(--color-highlight);
-    transform: translateX(5px);
+    color: var(--color-accent-text);
 }
 
 .site-footer__bottom {
-    padding: 1.2rem 2rem;
-    border-top: var(--border);
-    font-size: 0.75rem;
-    letter-spacing: 1px;
-    text-align: center;
-    text-transform: uppercase;
-    color: var(--gray-700);
+    margin-top: clamp(3rem, 2rem + 3vw, 5rem);
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-line);
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
 }

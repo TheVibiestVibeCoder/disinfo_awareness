@@ -1,91 +1,175 @@
 /* ==========================================================================
    PAGE TYPE: PROJECT
-   Shared by schulprojekte, ngobusiness, gemeinde and diaspora
+   Shared by gemeinde, ngobusiness, schulprojekte and diaspora
    (template: app/views/pages/project.php).
    ========================================================================== */
 
-/* --- Feature section: text panel + image panel ----------------------------
-   Every second section is mirrored on desktop (.feature--reverse). */
-.feature {
-    --split-min-height: 80vh;
+/* --- Slides: the main project as a stack of cards ---------------------------
+   Each card sticks below the header, slightly lower than the one before, and
+   the next card slides over it — a deck that builds up while scrolling.
+   Screens too short for a whole card simply scroll the cards one after another. */
+.slides {
+    padding-bottom: clamp(0.5rem, 2vw, 2rem);
 }
 
-.feature__panel {
-    position: relative;
+.slides__list {
+    display: grid;
+    gap: clamp(1.5rem, 5svh, 3.5rem);
+}
+
+.slide {
+    --stack-top: calc(var(--header-height) + 0.75rem + var(--i, 0) * 0.75rem);
+    scroll-margin-top: var(--stack-top);
+}
+
+@media (min-height: 560px) {
+    .slide {
+        position: sticky;
+        top: var(--stack-top);
+    }
+}
+
+.slide__card {
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
-    height: 60dvh;
-    min-height: 450px;
-    padding: 2rem;
-    border-bottom: var(--border);
     overflow: hidden;
+    border-radius: var(--radius-lg);
+    background: var(--color-surface);
+    box-shadow: 0 0 0 1px var(--color-line), 0 -20px 40px -30px rgba(36, 36, 36, 0.45);
 }
 
-.feature__panel--text {
-    justify-content: center;
-    height: auto;
-    min-height: 40dvh;
-    background: linear-gradient(to bottom, var(--color-surface), var(--color-bg));
+.slide__media {
+    position: relative;
+    order: -1;
+    height: clamp(10rem, 30svh, 24rem);
+    background: var(--mist);
+}
+
+.slide__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.slide__body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.875rem;
+    padding: clamp(1.25rem, 0.6rem + 2.8vw, 3.5rem);
+}
+
+.slide__label {
+    font-size: var(--text-xs);
+    font-weight: 800;
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--color-accent-text);
+}
+
+.slide__title {
+    font-size: var(--text-display-md);
+}
+
+.slide__text {
+    max-width: 40ch;
+    margin-top: 0.875rem;
+    color: var(--color-text-muted);
 }
 
 @media (min-width: 900px) {
-    .feature__panel {
-        height: 100%;
-        padding: 4rem 3rem;
-        border-right: var(--border);
-        border-bottom: 0;
+    .slide__card {
+        display: grid;
+        grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+        height: clamp(28rem, calc(100svh - var(--stack-top) - 2.5rem), 44rem);
     }
 
-    .feature__panel:last-child {
-        border-right: none;
+    .slide__media {
+        order: 0;
+        height: auto;
     }
 
-    .feature--reverse .feature__panel:first-child {
+    /* Photo left on every second card. */
+    .slide:nth-child(even) .slide__media {
+        order: -1;
+    }
+
+    .slide__body {
+        justify-content: space-between;
+    }
+
+    .slide__text {
+        font-size: var(--text-lead);
+    }
+}
+
+/* --- Features: text and photo side by side, alternating sides --------------- */
+.features {
+    display: grid;
+    gap: clamp(3.5rem, 2rem + 5vw, 7rem);
+}
+
+.feature__inner {
+    display: grid;
+    align-items: center;
+    gap: clamp(1.5rem, 1rem + 2vw, 3rem);
+}
+
+@media (min-width: 900px) {
+    .feature__inner {
+        grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+        column-gap: clamp(2.5rem, 5vw, 5.5rem);
+    }
+
+    .feature--reverse .feature__inner {
+        grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    }
+
+    .feature--reverse .feature__media {
         order: 2;
-        border-right: none;
-    }
-
-    .feature--reverse .feature__panel:last-child {
-        order: 1;
-        border-right: var(--border);
     }
 }
 
-.feature__bg {
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    background-size: cover;
-    background-position: center;
-    filter: grayscale(100%) brightness(0.3);
-    transition: transform 0.8s ease, filter 0.8s ease;
-}
-
-.feature__panel:hover .feature__bg,
-.feature__panel.is-in-view .feature__bg {
-    transform: scale(1.05);
-    filter: grayscale(0%) brightness(0.5);
-}
-
-.feature__content {
+.feature__media {
     position: relative;
-    z-index: 2;
-    text-shadow: 0 2px 20px rgba(0, 0, 0, 0.8);
-    pointer-events: none;
+    overflow: hidden;
+    aspect-ratio: 4 / 3;
+    border-radius: var(--radius-lg);
+    background: var(--mist);
+}
+
+.feature__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* The photo's own short title, set on the photo. */
+.feature__caption {
+    position: absolute;
+    inset: auto 0 0;
+    padding: 5rem clamp(1.25rem, 0.75rem + 2vw, 2.5rem) clamp(1.25rem, 0.75rem + 1.6vw, 2.25rem);
+    background: linear-gradient(to top, rgba(18, 18, 18, 0.7), rgba(18, 18, 18, 0));
+    color: var(--white);
+    font-family: var(--font-display);
+    font-size: var(--text-display-sm);
+    line-height: var(--leading-display);
+    text-transform: uppercase;
 }
 
 .feature__title {
-    margin-bottom: 1rem;
-    font-size: var(--text-h3-lg);
-    line-height: 0.9;
-    color: var(--color-highlight);
+    margin-bottom: 1.25rem;
+    font-size: var(--text-display-md);
 }
 
 .feature__text {
     max-width: 50ch;
-    margin-bottom: 1.5rem;
-    font-size: 1.1rem;
-    color: var(--gray-150);
-    opacity: 0.95;
+    color: var(--color-text-muted);
+}
+
+.feature__text + .feature__text {
+    margin-top: 1rem;
+}
+
+.feature__text strong {
+    color: var(--color-text);
 }
