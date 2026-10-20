@@ -33,6 +33,7 @@ Plain PHP (8.1+), HTML, CSS and vanilla JavaScript. No build step, no dependenci
 │   │   └── main.js             Scroll reveal, team cards, copy buttons
 │   └── icons/                  App icons referenced by site.webmanifest
 │
+├── design/                     Design briefing for the redesign + reference screenshots (not served)
 ├── docs/                       Project notes (not served)
 ├── .htaccess                   HTTPS, redirects, security headers, caching, compression
 └── favicon.ico, apple-touch-icon.png, robots.txt, site.webmanifest   (must stay in the root)
@@ -96,5 +97,5 @@ php -S localhost:8000
 The repository root is the web root. On the server:
 
 - PHP **8.1 or newer** (8.1 is end-of-life — switch to 8.3+ in cPanel → MultiPHP).
-- `app/` is blocked by `.htaccess` (root) and `app/.htaccess`; `docs/` and `*.md` are blocked as well.
+- `app/` is blocked by `.htaccess` (root) and `app/.htaccess`; `design/`, `docs/` and `*.md` are blocked as well.
 - CSS and JS are linked with `?v=<modification time>`, so browsers can cache them for a year and still get every update immediately.
