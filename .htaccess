@@ -32,7 +32,7 @@ FileETag None
   RewriteEngine On
 
   # Source and internal directories (app/ also has its own deny rule)
-  RewriteRule ^(\.git|\.claude|app|docs)(/|$) - [F,L]
+  RewriteRule ^(\.git|\.claude|app|docs|design)(/|$) - [F,L]
 
   # HTTPS only, no www
   RewriteCond %{HTTPS} off
@@ -63,7 +63,8 @@ FileETag None
 # ------------------------------------------------------------------------------
 <IfModule mod_headers.c>
   Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
-  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' https://images.unsplash.com https://disinfoconsulting.eu https://hosting.disinfoconsulting.eu data: blob:; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'"
+  # Fonts, images and scripts are all served from this domain — no third parties.
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'"
   Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
   Header set X-Content-Type-Options "nosniff"
   Header set X-Frame-Options "DENY"

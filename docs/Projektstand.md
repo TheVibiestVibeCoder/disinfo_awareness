@@ -5,6 +5,13 @@
 
 > **Nachtrag 20.10.2026 – Refactor auf `Design_Valentin`:** Codebasis neu strukturiert (`app/` mit Config, Daten, Views; zentrale Design-Tokens in `assets/css/tokens.css`; eine Vorlage für alle 4 Projektseiten). Aktuelle Struktur siehe **`README.md`** – die Architektur-Beschreibung in Abschnitt 3 ist damit überholt. Behobene Punkte sind unten mit ✅ markiert; sie werden live, sobald der Branch deployt ist.
 
+> **Nachtrag 20.10.2026 – Redesign auf `Valentin_Redesign`:** Helles Design nach der Vorlage „Voices United“, Gemeinde-Aufklärung als Hauptprojekt, CEU-Veranstaltung. Entscheidungen und Design-System: **`design/Design-Baseline.md`**. Nebenbei erledigt aus Abschnitt 6:
+> - Punkt 4 (teilweise): Google Fonts, three.js/unpkg, Unsplash und `hosting.disinfoconsulting.eu` werden nicht mehr geladen. Schriften, Bilder (Team, QR-Code, Projektfotos) und Skripte liegen im Repo, die CSP erlaubt nur noch die eigene Domain. Die Datenschutzerklärung selbst ist weiterhin zu überarbeiten.
+> - Punkt 7: Skip-Link zurück, `prefers-reduced-motion` überall berücksichtigt, Einblendungen bleiben ohne JavaScript sichtbar, Kontraste nach WCAG AA, Team-Akkordeon durch eine zugängliche Galerie ersetzt
+> - Punkt 9 (teilweise): Bilder liegen nicht mehr bei Disinfo Consulting (Kontaktmails weiterhin)
+> - Punkt 15: three.js entfernt, Fotos als WebP mit `srcset` und Lazy Loading
+> - Punkt 16: Team als Kapsel-Galerie statt unausgewogenem Raster; LinkedIn im Footer zeigt auf die Vereinsseite (URL noch bestätigen)
+
 ---
 
 ## TL;DR

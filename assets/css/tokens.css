@@ -3,75 +3,105 @@
    The central design file: every colour, font and recurring size of the
    site lives here. Change a value once and it applies everywhere.
    Reach for a token before hard-coding a value in a component.
+   The reasoning behind the values: design/Design-Baseline.md
 
    Breakpoints — CSS variables can't be used inside @media, so they are
    listed here and written out literally in the stylesheets:
-       450px    compact navigation
+       600px    phones → large phones / small tablets (two-column form rows)
        900px    mobile → desktop layout (the main breakpoint)
-       1600px   team grid switches from 2 to 4 columns
+       1200px   wide screens (chapter strip in one row, capsule team gallery)
    ========================================================================== */
 
 :root {
-    /* --- Palette: neutrals, light → dark -------------------------------- */
-    --white:     #ffffff;
-    --gray-50:   #f0f0f0;
-    --gray-100:  #e0e0e0;
-    --gray-150:  #d0d0d0;
-    --gray-200:  #cccccc;
-    --gray-300:  #b0b0b0;
-    --gray-350:  #aaaaaa;
-    --gray-400:  #888888;
-    --gray-500:  #666666;
-    --gray-600:  #555555;
-    --gray-700:  #444444;
-    --gray-800:  #131313;
-    --gray-850:  #111111;
-    --gray-900:  #0a0a0a;
-    --gray-950:  #050505;
-    --gray-975:  #020202;
-    --black:     #000000;
+    color-scheme: light;
 
-    /* --- Palette: status ------------------------------------------------- */
-    --green:       #4bb543;
-    --green-vivid: #00c864;
-    --red:         #ff3333;
+    /* --- Palette ---------------------------------------------------------- */
+    --cream:        #f1f2eb;  /* page background */
+    --white:        #ffffff;  /* cards */
+    --mist:         #f6f6f3;  /* form fields, quiet panels */
+    --ink:          #242424;  /* text, dark buttons and panels */
+    --ink-soft:     #3a3a3a;  /* hover of dark buttons */
+    --ink-muted:    #5f5f5a;  /* secondary text — 5.7:1 on cream, 6.4:1 on white */
+    --orange:       #ff6941;  /* THE accent. As a filled surface it means one thing: donate */
+    --orange-hover: #ff8462;
+    --orange-text:  #c2410c;  /* orange as text on light backgrounds — 4.6:1 on cream */
+    --green:        #1f7a3d;
+    --green-tint:   #e6f2e9;
+    --red:          #b42318;
+    --red-tint:     #fbeae8;
 
     /* --- Semantic colours (use these in components) ---------------------- */
-    --color-bg:           var(--gray-950);  /* page background */
-    --color-bg-footer:    var(--gray-975);
-    --color-surface:      var(--gray-900);  /* raised panels, gradient stops */
-    --color-highlight:    var(--white);     /* headlines, links, buttons */
-    --color-text:         var(--gray-50);   /* default text */
-    --color-text-body:    var(--gray-300);  /* paragraphs */
-    --color-text-muted:   var(--gray-400);  /* eyebrows, labels, secondary links */
-    --color-text-subtle:  var(--gray-500);
-    --color-text-faint:   var(--gray-600);
+    --color-bg:           var(--cream);
+    --color-surface:      var(--white);
+    --color-field:        var(--mist);
+    --color-text:         var(--ink);
+    --color-text-muted:   var(--ink-muted);
+    --color-accent:       var(--orange);       /* donate buttons — nothing else is filled orange */
+    --color-accent-hover: var(--orange-hover);
+    --color-accent-text:  var(--orange-text);  /* one word per headline, chapter labels */
+    --color-inverse:      var(--ink);          /* dark panels */
+    --color-on-inverse:   var(--cream);
+    --color-on-inverse-muted: rgba(241, 242, 235, 0.78);
+    --color-line:         rgba(36, 36, 36, 0.14);
+    --color-line-strong:  rgba(36, 36, 36, 0.32);
+    --color-scrim:        rgba(18, 18, 18, 0.56);  /* over photos, behind white text */
     --color-success:      var(--green);
     --color-error:        var(--red);
 
-    /* --- Lines: the signature grid --------------------------------------- */
-    --color-line:         rgba(255, 255, 255, 0.15);
-    --color-line-soft:    rgba(255, 255, 255, 0.12);
-    --color-line-faint:   rgba(255, 255, 255, 0.05);
-    --border:             1px solid var(--color-line);
+    /* --- Typography ------------------------------------------------------
+       Anton: heavy condensed capitals for headlines (photos fit into its strokes).
+       Manrope: calm, legible text; small spaced capitals for labels and buttons.
 
-    /* --- Typography ------------------------------------------------------ */
-    --font-display: 'Bebas Neue', sans-serif;  /* headlines, labels, buttons */
-    --font-body:    'Manrope', sans-serif;
+       Fluid sizes run from a phone (360px wide) to a desktop (1440px); the
+       comment gives both ends. Phones get noticeably smaller type than desktops,
+       because a small screen is read up close. */
+    --font-display: 'Anton', Impact, 'Arial Narrow', sans-serif;
+    --font-body:    'Manrope', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
 
-    --text-display-xl: clamp(3.5rem, 16vw, 12rem);  /* hero title: contact, legal */
-    --text-display-lg: clamp(3.5rem, 14vw, 12rem);  /* hero title: project pages */
-    --text-display:    clamp(3.5rem, 9vw, 8.5rem);  /* hero title: default */
-    --text-h2-lg:      clamp(2.5rem, 6vw, 5rem);
-    --text-h2:         clamp(2.2rem, 5vw, 4.5rem);
-    --text-h3-lg:      clamp(2.5rem, 6vw, 4rem);
-    --text-body:       clamp(1rem, 1.1vw, 1.1rem);
+    --text-display-xl: clamp(2.5rem, 1.05rem + 7.55vw, 8.5rem);      /* page titles      44 → 125px */
+    --text-display-lg: clamp(2rem, 1.08rem + 4.63vw, 5.25rem);       /* section titles   34 →  84px */
+    --text-display-md: clamp(1.625rem, 1.17rem + 2.6vw, 3.5rem);     /* slides, CTAs     28 →  56px */
+    --text-display-sm: clamp(1.375rem, 1.18rem + 1.15vw, 2.25rem);   /* card titles      23 →  35px */
+    --text-lead:       clamp(1rem, 0.9rem + 0.5vw, 1.3125rem);       /* intro paragraphs 16 →  21px */
+    --text-body:       clamp(1rem, 0.95rem + 0.2vw, 1.0625rem);      /*                  16 →  17px */
+    --text-small:      0.9375rem;
+    --text-xs:         0.8125rem;  /* labels, buttons, navigation */
+
+    /* Anton's capitals are 0.86em tall, but Ä/Ö/Ü reach 1.06em above the
+       baseline: below 1.12 their dots run into the line above. */
+    --leading-display: 1.12;
+    --leading-body:    1.65;
+    --tracking-label:  0.09em;
 
     /* --- Layout ---------------------------------------------------------- */
-    --gutter: 1.5rem;  /* side padding of full-width sections on small screens */
+    --gutter:        clamp(1rem, 0.4rem + 2.6vw, 2.5rem);  /* 16px on phones */
+    --container:     82.5rem;                              /* 1320px of content */
+    --measure:       62ch;
+    --space-section: clamp(3.5rem, 1.87rem + 7.26vw, 8.5rem);  /* 56 → 134px */
+    --header-height: 4rem;
+
+    /* --- Shape ----------------------------------------------------------- */
+    --radius-sm:   0.75rem;
+    --radius-md:   1.25rem;
+    --radius-lg:   clamp(1.375rem, 1rem + 1vw, 2rem);
+    --radius-pill: 999px;
 
     /* --- Motion ---------------------------------------------------------- */
-    --ease-out:    cubic-bezier(0.16, 1, 0.3, 1);
-    --ease-smooth: cubic-bezier(0.2, 0.8, 0.2, 1);
-    --transition:  all 0.6s var(--ease-out);
+    --ease-out:      cubic-bezier(0.16, 1, 0.3, 1);
+    --duration-fast: 0.2s;
+    --duration:      0.45s;
+    --duration-slow: 0.8s;
+}
+
+/* Phones: narrow columns read better with slightly tighter lines. */
+@media (max-width: 599px) {
+    :root {
+        --leading-body: 1.55;
+    }
+}
+
+@media (min-width: 900px) {
+    :root {
+        --header-height: 5rem;
+    }
 }

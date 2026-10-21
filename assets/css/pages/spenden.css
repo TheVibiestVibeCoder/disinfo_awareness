@@ -2,143 +2,179 @@
    PAGE: SPENDEN (spenden.php)
    ========================================================================== */
 
-/* --- Intro ---------------------------------------------------------------- */
-.donate-intro {
-    padding: clamp(4rem, 8vh, 7rem) var(--gutter);
-    border-bottom: var(--border);
-    background: linear-gradient(to bottom, var(--color-bg), var(--color-surface));
+/* --- Stage: blurred photo, title, and the donation card on top --------------- */
+.donate-stage {
+    padding-top: clamp(0.5rem, 1.5vw, 1.5rem);
 }
 
-.donate-intro__inner {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-    max-width: 700px;
-    margin: 0 auto;
-    text-align: center;
-}
-
-.donate-intro__title,
-.donate-bank__title {
-    font-size: var(--text-h2-lg);
-}
-
-/* --- QR code + bank details ----------------------------------------------- */
-.donate {
-    padding: clamp(4rem, 8vh, 7rem) var(--gutter);
-    border-bottom: var(--border);
-}
-
-.donate__grid {
+.donate-stage__inner {
+    position: relative;
+    isolation: isolate;
     display: grid;
-    grid-template-columns: 1fr;
-    gap: 4rem;
-    max-width: 900px;
-    margin: 0 auto;
+    justify-items: center;
+    gap: clamp(1.75rem, 1.2rem + 2vw, 3rem);
+    overflow: hidden;
+    padding: clamp(2.25rem, 1.25rem + 3.5vw, 4.5rem) clamp(0.625rem, 0.1rem + 3vw, 4rem);
+    border-radius: var(--radius-lg);
+    background: var(--ink) var(--photo) center / cover no-repeat;
+    color: var(--color-on-inverse);
 }
 
-.donate__label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-family: var(--font-display);
-    font-size: clamp(1rem, 1.5vw, 1.3rem);
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: var(--color-text-subtle);
+.donate-stage__inner::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(180deg, rgba(18, 18, 18, 0.5), rgba(18, 18, 18, 0.7));
 }
 
-.donate-qr {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1.5rem;
+.donate-stage__head {
+    display: grid;
+    justify-items: center;
+    gap: 1rem;
+    max-width: 40rem;
+    padding-inline: 0.75rem;
     text-align: center;
 }
 
-.donate-qr__image {
-    display: block;
-    width: 100%;
-    max-width: 220px;
-    border: var(--border);
+/* Smaller than other page titles: the bank details belong on the first screen. */
+.donate-stage__title {
+    font-size: var(--text-display-lg);
 }
 
-.donate-qr__hint {
-    max-width: 26ch;
-    font-size: 0.9rem;
-    color: var(--color-text-faint);
+.donate-stage__lead {
+    max-width: 40ch;
+    font-size: var(--text-lead);
+    color: var(--color-on-inverse-muted);
 }
 
-.donate-bank {
-    display: flex;
-    flex-direction: column;
+/* --- Donation card: bank details + QR code --------------------------------- */
+.donate-card {
+    display: grid;
     gap: 2rem;
+    width: 100%;
+    max-width: 58rem;
+    padding: clamp(1.25rem, 0.6rem + 2.8vw, 2.75rem);
+    border-radius: var(--radius-lg);
+    background: var(--color-surface);
+    color: var(--color-text);
+    box-shadow: 0 40px 80px -40px rgba(0, 0, 0, 0.55);
 }
 
-@media (min-width: 900px) {
-    .donate__grid     { grid-template-columns: 1fr 1.6fr; gap: 5rem; align-items: start; }
-    .donate-qr        { align-items: flex-start; text-align: left; }
-    .donate-qr__hint  { max-width: 100%; }
+@media (min-width: 800px) {
+    .donate-card {
+        grid-template-columns: minmax(0, 1fr) 14rem;
+        gap: clamp(2rem, 4vw, 3.5rem);
+    }
 }
 
-/* --- Bank fields with copy buttons ---------------------------------------- */
+.donate-card__heading {
+    margin-bottom: 1rem;
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    font-weight: 700;
+    letter-spacing: var(--tracking-label);
+    color: var(--color-text-muted);
+}
+
 .bank-fields {
-    border-top: var(--border);
+    display: grid;
+    gap: 0.5rem;
 }
 
+/* Label and copy button share the first row, so the value (an IBAN is long)
+   gets the full width of the second. */
 .bank-field {
-    padding: 1.1rem 0;
-    border-bottom: var(--border);
+    display: grid;
+    grid-template-areas:
+        'label action'
+        'value value';
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    column-gap: 0.75rem;
+    padding: 0.75rem 0.75rem 0.875rem 1rem;
+    border-radius: var(--radius-sm);
+    background: var(--color-field);
 }
 
 .bank-field__label {
-    display: block;
-    margin-bottom: 0.4rem;
-    font-family: var(--font-display);
-    font-size: 0.8rem;
-    letter-spacing: 2px;
+    grid-area: label;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
-    color: var(--color-text-faint);
+    color: var(--color-text-muted);
 }
 
-.bank-field__row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 1rem;
+.bank-field__action {
+    grid-area: action;
 }
 
 .bank-field__value {
-    flex: 1;
-    font-size: clamp(0.95rem, 1.3vw, 1.1rem);
-    font-weight: 400;
-    letter-spacing: 0.5px;
-    color: var(--color-highlight);
+    grid-area: value;
+    margin-top: 0.125rem;
+    font-size: clamp(1rem, 0.94rem + 0.3vw, 1.125rem);
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    font-variant-numeric: tabular-nums;
+    overflow-wrap: anywhere;
 }
 
-.copy-btn {
-    all: unset;  /* must stay first: wipes browser button styles */
-    flex-shrink: 0;
-    padding: 0.25rem 0.75rem;
-    border: 1px solid var(--color-line-soft);
-    font-family: var(--font-display);
-    font-size: 0.8rem;
-    letter-spacing: 2px;
-    white-space: nowrap;
-    color: var(--color-text-subtle);
-    cursor: pointer;
-    transition: color 0.2s ease, border-color 0.2s ease;
+/* Fields without a copy button keep the same height as the others. */
+.bank-field:not(:has(.bank-field__action)) .bank-field__label {
+    min-height: 2.25rem;
+    display: flex;
+    align-items: center;
 }
 
-.copy-btn:hover {
-    border-color: rgba(255, 255, 255, 0.4);
-    color: var(--color-highlight);
+.donate-card__qr {
+    display: grid;
+    align-content: start;
+    justify-items: center;
+    padding-top: 1.75rem;
+    border-top: 1px solid var(--color-line);
+    text-align: center;
 }
 
-.copy-btn:focus-visible {
-    outline: 1px solid var(--color-highlight);
+@media (min-width: 800px) {
+    .donate-card__qr {
+        padding-top: 0;
+        border-top: 0;
+    }
 }
 
-.copy-btn.is-copied {
-    border-color: var(--green-vivid);
-    color: var(--green-vivid);
+.donate-card__qr-image {
+    width: 100%;
+    max-width: 12.5rem;
+    height: auto;
+    border-radius: var(--radius-sm);
+}
+
+.donate-card__hint {
+    max-width: 22ch;
+    margin-top: 1rem;
+    font-size: var(--text-small);
+    color: var(--color-text-muted);
+}
+
+/* --- Why donate ------------------------------------------------------------- */
+.donate-why__inner {
+    display: grid;
+    justify-items: center;
+    gap: 1.5rem;
+    max-width: calc(48rem + 2 * var(--gutter));
+    text-align: center;
+}
+
+.donate-why__title {
+    font-size: var(--text-display-lg);
+}
+
+.donate-why__text {
+    font-size: var(--text-lead);
+    color: var(--color-text-muted);
+}
+
+.donate-why__text strong {
+    color: var(--color-text);
 }

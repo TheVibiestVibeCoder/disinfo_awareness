@@ -1,30 +1,24 @@
 <?php
 /**
- * Expandable team member card (behaviour: initTeamCards() in main.js).
+ * Team member as a capsule of the team gallery (behaviour: initTeamGallery() in main.js).
+ * Small screens: a swipeable card with everything visible.
+ * Wide screens: a narrow capsule that opens up when hovered, focused or tapped.
  *
  * @var array $member  Entry from app/data/team.php
- * @var int   $delay   Reveal stagger step (0–4)
+ * @var bool  $active  Whether the capsule starts open
  */
 ?>
-<article class="team-card <?= fade_in($delay) ?>" tabindex="0" data-team-card>
-    <div class="team-card__media" data-team-toggle>
-        <img src="<?= e($member['image']) ?>" alt="<?= e($member['name']) ?>" class="team-card__img" loading="lazy" decoding="async">
+<li class="<?= e(class_names('member', $active ? 'is-active' : null)) ?>" tabindex="0" data-member>
+    <?= image($member['image'], '', '(min-width: 1200px) 40rem, 22rem', ['class' => 'member__photo']) ?>
+    <div class="member__info">
+        <h3 class="member__name"><?= e($member['name']) ?></h3>
+        <p class="member__role"><?= e(implode(' ', $member['role'])) ?></p>
+        <p class="member__bio"><?= e($member['bio']) ?></p>
+        <?php if (!empty($member['linkedin'])): ?>
+            <a href="<?= e($member['linkedin']) ?>" class="member__link" rel="noopener">
+                LinkedIn <?= icon('arrow-up-right') ?>
+                <span class="visually-hidden">– Profil von <?= e($member['name']) ?></span>
+            </a>
+        <?php endif; ?>
     </div>
-    <div class="team-card__info" data-team-toggle>
-        <div class="team-card__toggle">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
-        </div>
-        <h3 class="team-card__name"><?= e($member['name']) ?></h3>
-        <span class="team-card__role"><?= lines($member['role']) ?></span>
-    </div>
-    <div class="team-card__bio">
-        <div class="team-card__bio-inner">
-            <p><?= e($member['bio']) ?></p>
-            <?php if (!empty($member['linkedin'])): ?>
-                <div class="team-card__links">
-                    <a href="<?= e($member['linkedin']) ?>" class="team-card__link" aria-label="LinkedIn Profil von <?= e($member['name']) ?>">LinkedIn</a>
-                </div>
-            <?php endif; ?>
-        </div>
-    </div>
-</article>
+</li>
