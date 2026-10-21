@@ -58,12 +58,12 @@
     --font-display: 'Anton', Impact, 'Arial Narrow', sans-serif;
     --font-body:    'Manrope', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
 
-    --text-display-xl: clamp(2.5rem, 1.05rem + 7.55vw, 8.5rem);      /* page titles      44 → 125px */
-    --text-display-lg: clamp(2rem, 1.08rem + 4.63vw, 5.25rem);       /* section titles   34 →  84px */
-    --text-display-md: clamp(1.625rem, 1.17rem + 2.6vw, 3.5rem);     /* slides, CTAs     28 →  56px */
-    --text-display-sm: clamp(1.375rem, 1.18rem + 1.15vw, 2.25rem);   /* card titles      23 →  35px */
-    --text-lead:       clamp(1rem, 0.9rem + 0.5vw, 1.3125rem);       /* intro paragraphs 16 →  21px */
-    --text-body:       clamp(1rem, 0.95rem + 0.2vw, 1.0625rem);      /*                  16 →  17px */
+    --text-display-xl: clamp(2.25rem, 0.72rem + 7.92vw, 8.5rem);     /* page titles      40 → 125px */
+    --text-display-lg: clamp(1.75rem, 0.75rem + 5vw, 5.25rem);       /* section titles   30 →  84px */
+    --text-display-md: clamp(1.375rem, 0.83rem + 2.96vw, 3.5rem);    /* slides, CTAs     24 →  56px */
+    --text-display-sm: clamp(1.25rem, 0.93rem + 1.43vw, 2.25rem);    /* card titles      20 →  35px */
+    --text-lead:       clamp(0.9375rem, 0.85rem + 0.51vw, 1.3125rem); /* intro paragraphs 15.5 → 21px */
+    --text-body:       clamp(0.9375rem, 0.85rem + 0.37vw, 1.0625rem); /*                 15 →  17px */
     --text-small:      0.9375rem;
     --text-xs:         0.8125rem;  /* labels, buttons, navigation */
 
@@ -74,10 +74,10 @@
     --tracking-label:  0.09em;
 
     /* --- Layout ---------------------------------------------------------- */
-    --gutter:        clamp(1rem, 0.4rem + 2.6vw, 2.5rem);  /* 16px on phones */
-    --container:     82.5rem;                              /* 1320px of content */
+    --gutter:        clamp(1.375rem, 0.9rem + 2vw, 2.5rem);    /* 22 → 40px */
+    --container:     82.5rem;                                   /* 1320px of content */
     --measure:       62ch;
-    --space-section: clamp(3.5rem, 1.87rem + 7.26vw, 8.5rem);  /* 56 → 134px */
+    --space-section: clamp(4rem, 2.53rem + 6.53vw, 8.5rem);    /* 64 → 134px */
     --header-height: 4rem;
 
     /* --- Shape ----------------------------------------------------------- */
@@ -93,10 +93,13 @@
     --duration-slow: 0.8s;
 }
 
-/* Phones: narrow columns read better with slightly tighter lines. */
+/* Phones: smaller small print, so cards, labels and buttons take up less
+   room and the page can breathe. */
 @media (max-width: 599px) {
     :root {
-        --leading-body: 1.55;
+        --text-small:   0.875rem;   /* 14px */
+        --text-xs:      0.75rem;    /* 12px */
+        --leading-body: 1.6;
     }
 }
 

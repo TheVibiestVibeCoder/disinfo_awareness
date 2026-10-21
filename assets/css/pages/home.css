@@ -36,6 +36,23 @@
     letter-spacing: 0;
 }
 
+/* Phones: the title keeps some cream around it instead of running edge to
+   edge, and title, text and buttons get room between them. */
+@media (max-width: 599px) {
+    .home-hero__intro {
+        gap: 1.5rem;
+        padding-block: 2.5rem 2rem;
+    }
+
+    .home-hero__title {
+        font-size: min(16.5cqi, 20svh);
+    }
+
+    .home-hero__lead {
+        max-width: 32ch;
+    }
+}
+
 /* Laptops: the browser bar leaves little height, keep the buttons in view. */
 @media (min-width: 900px) and (max-height: 760px) {
     .home-hero__title {
@@ -117,7 +134,7 @@
     .home-hero__actions .btn {
         flex: 1 1 0;
         min-width: fit-content;
-        min-height: 3.25rem;
+        min-height: 2.875rem;
         padding-inline: 0.75rem;
         font-size: var(--text-xs);  /* side by side from 340px wide */
         letter-spacing: 0.06em;
@@ -223,6 +240,15 @@
 @media (max-width: 599px) {
     .chapter__arrow {
         display: none;
+    }
+
+    .chapter__thumb {
+        width: 2.75rem;
+        height: 2.75rem;
+    }
+
+    .chapter__title {
+        font-size: 0.875rem;
     }
 }
 

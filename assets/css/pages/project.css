@@ -120,7 +120,7 @@
 /* --- Features: text and photo side by side, alternating sides --------------- */
 .features {
     display: grid;
-    gap: clamp(2.75rem, 1.5rem + 5.56vw, 7rem);
+    gap: clamp(3.5rem, 2.5rem + 4.44vw, 7rem);
 }
 
 .feature__inner {

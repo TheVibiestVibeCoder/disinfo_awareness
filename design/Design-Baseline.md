@@ -52,18 +52,19 @@ und orange **Text** auf Hellem nutzt den dunkleren Ton `--orange-text`.
 | Rolle | Schrift | Regeln |
 |---|---|---|
 | Überschriften | **Anton** (selbst gehostet) | Versalien, sehr groß, Zeilenabstand 1,12. Anton ist kräftiger als das bisherige Bebas Neue. Das braucht der Bild-im-Text-Titel, damit das Foto in den Buchstaben sichtbar wird. |
-| Fließtext | **Manrope** (selbst gehostet) | 17 px, Zeilenabstand 1,65 (Handy: 16 px, 1,55), Zeilenlänge max. ~62 Zeichen |
-| Labels, Buttons, Navigation | Manrope fett | 13 px, Versalien, Laufweite 0,09 em |
+| Fließtext | **Manrope** (selbst gehostet) | 17 px, Zeilenabstand 1,65 (Handy: 15 px, 1,6), Zeilenlänge max. ~62 Zeichen |
+| Labels, Buttons, Navigation | Manrope fett | 13 px (Handy: 12 px), Versalien, Laufweite 0,09 em |
 
-Skala (stufenlos von 360 px Handy bis 1440 px Desktop): Seitentitel 44–125 px · Abschnittstitel 34–84 px · Slides/CTA 28–56 px · Kartentitel 23–35 px · Lead 16–21 px.
+Skala (stufenlos von 360 px Handy bis 1440 px Desktop): Seitentitel 40–125 px · Abschnittstitel 30–84 px · Slides/CTA 24–56 px · Kartentitel 20–35 px · Lead 15,5–21 px.
 Auf dem Handy ist alles deutlich kleiner als auf dem Desktop, weil man es aus der Nähe liest. Ein großer Titel wirkt dort schnell gedrängt.
+Dafür gibt es dort mehr Luft: Seitenrand 22 px, Abschnittsabstand 64 px, und der Titel im Aufmacher läuft nicht mehr von Rand zu Rand.
 
 **Umlaute:** In Anton sind Großbuchstaben 0,86 em hoch, Ä/Ö/Ü reichen aber bis 1,06 em über die Grundlinie. Bei einem Zeilenabstand unter 1,12 stoßen die Punkte an die Zeile darüber (vorher 1,04: die Punkte von AUFKLÄRUNG berührten das N von GEMEINDE).
 
 ## 5. Raster, Abstände, Formen
 
-- **Container:** max. 1320 px Inhalt, seitlicher Rand 16 px (Handy) bis 40 px (Desktop)
-- **Abschnittsabstand:** 72–136 px, stufenlos
+- **Container:** max. 1320 px Inhalt, seitlicher Rand 22 px (Handy) bis 40 px (Desktop)
+- **Abschnittsabstand:** 64–134 px, stufenlos
 - **Breakpoints:** 600 px (Formularzeilen zweispaltig) · 900 px (Handy → Desktop-Layout, Navigation) · 1200 px (Kapitel-Leiste einzeilig, Team als Kapseln)
 - **Radien:** Karten 22–32 px · Felder 12 px · Buttons und Chips komplett rund (Pill)
 - **Keine Schatten** auf Karten (wie in der Vorlage). Ausnahmen: das Dropdown-Menü und die gestapelten Slides, damit man die Kanten übereinanderliegender weißer Karten sieht.

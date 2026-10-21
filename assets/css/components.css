@@ -122,6 +122,25 @@
     width: 100%;
 }
 
+/* Phones: slimmer buttons, still at least 44px tall to tap. */
+@media (max-width: 599px) {
+    .btn {
+        min-height: 2.75rem;
+        padding: 0.625rem 1.25rem;
+    }
+
+    .btn--lg {
+        min-height: 3rem;
+        padding-inline: 1.5rem;
+        font-size: 0.8125rem;
+    }
+
+    .btn--sm {
+        min-height: 2.375rem;
+        padding: 0.375rem 1rem;
+    }
+}
+
 .button-row {
     display: flex;
     flex-wrap: wrap;
@@ -149,6 +168,18 @@
 .icon-btn .icon {
     width: 1.25rem;
     height: 1.25rem;
+}
+
+@media (max-width: 599px) {
+    .icon-btn {
+        width: 2.5rem;
+        height: 2.5rem;
+    }
+
+    .icon-btn .icon {
+        width: 1.125rem;
+        height: 1.125rem;
+    }
 }
 
 .icon-btn--sm {
@@ -267,7 +298,7 @@
     flex: 1;
     flex-direction: column;
     gap: 0.75rem;
-    padding: 1.25rem 0.875rem 0.875rem;
+    padding: 1.25rem 1rem 1rem;
 }
 
 .project-card__title {
