@@ -1,6 +1,6 @@
 # Design-Baseline disinfoawareness.eu
 
-**Stand:** 20.10.2026 · Branch `Valentin_Redesign`
+**Stand:** 21.10.2026 · Branch `Valentin_Redesign`
 **Grundlage:** [`design.md`](design.md) (Vorlage „Voices United“) und das Relaunch-Briefing (Gemeinde-Aufklärung als Hauptprojekt, CEU-Veranstaltung)
 
 Dieses Dokument hält fest, **wie** die Seite gestaltet ist und **warum**. Es ist die Referenz für alle künftigen Änderungen:
@@ -51,13 +51,14 @@ und orange **Text** auf Hellem nutzt den dunkleren Ton `--orange-text`.
 
 | Rolle | Schrift | Regeln |
 |---|---|---|
-| Überschriften | **Anton** (selbst gehostet) | Versalien, sehr groß, Zeilenabstand 1,04. Anton ist kräftiger als das bisherige Bebas Neue. Das braucht der Bild-im-Text-Titel, damit die Fotos in den Buchstaben sichtbar werden. |
-| Fließtext | **Manrope** (selbst gehostet) | 17 px, Zeilenabstand 1,65, Zeilenlänge max. ~62 Zeichen |
+| Überschriften | **Anton** (selbst gehostet) | Versalien, sehr groß, Zeilenabstand 1,12. Anton ist kräftiger als das bisherige Bebas Neue. Das braucht der Bild-im-Text-Titel, damit das Foto in den Buchstaben sichtbar wird. |
+| Fließtext | **Manrope** (selbst gehostet) | 17 px, Zeilenabstand 1,65 (Handy: 16 px, 1,55), Zeilenlänge max. ~62 Zeichen |
 | Labels, Buttons, Navigation | Manrope fett | 13 px, Versalien, Laufweite 0,09 em |
 
-Skala (stufenlos zwischen Handy und Desktop): Seitentitel 52–136 px · Abschnittstitel 40–84 px · Slides/CTA 32–56 px · Kartentitel 26–36 px · Lead 18–21 px.
+Skala (stufenlos von 360 px Handy bis 1440 px Desktop): Seitentitel 44–125 px · Abschnittstitel 34–84 px · Slides/CTA 28–56 px · Kartentitel 23–35 px · Lead 16–21 px.
+Auf dem Handy ist alles deutlich kleiner als auf dem Desktop, weil man es aus der Nähe liest. Ein großer Titel wirkt dort schnell gedrängt.
 
-**Umlaute:** In Anton reichen Ä/Ö/Ü bis 1,06 em über die Grundlinie. Deshalb sind Zeilenabstände nie kleiner als 1,04, sonst stoßen die Punkte an die Zeile darüber.
+**Umlaute:** In Anton sind Großbuchstaben 0,86 em hoch, Ä/Ö/Ü reichen aber bis 1,06 em über die Grundlinie. Bei einem Zeilenabstand unter 1,12 stoßen die Punkte an die Zeile darüber (vorher 1,04: die Punkte von AUFKLÄRUNG berührten das N von GEMEINDE).
 
 ## 5. Raster, Abstände, Formen
 
@@ -84,8 +85,9 @@ Runde Icon-Buttons (↗) markieren klickbare Teaser. Kopieren-Buttons und Auswah
 
 - **Label:** kleine Versalien über jeder Überschrift („Unser Hauptprojekt“, „Unsere Arbeit“)
 - **Projektkarte:** weiß, Foto oben, Titel, Text, „Mehr erfahren ↗“. Die ganze Karte ist klickbar.
+- **Wisch-Reihen** (Kapitel-Leiste, Projektkarten, Team auf kleinen Bildschirmen): Die nächste Karte ragt ein gutes Stück von rechts herein, darunter stehen Punkte (eine Pille für die aktuelle Karte). So sieht man, dass es weitergeht und wie viele Karten folgen; Antippen springt zur Karte. Die Punkte erscheinen nur, solange die Reihe wirklich wischbar ist.
 - **Kapitel-Leiste** (Startseite): die fünf Slides des Hauptprojekts als Zeile aus rundem Foto, Label und Titel. Das ist die News-Leiste der Vorlage. Mobil wischbar, ab 1200 px alle fünf in einer Reihe.
-- **Slide-Stapel** (Gemeinde-Seite): eine weiße Karte pro Slide. Beim Scrollen bleibt jede Karte stehen, die nächste schiebt sich darüber, die Kanten der vorigen bleiben sichtbar. Das ist der Stapel-Effekt der Vorlage.
+- **Slide-Stapel** (Gemeinde-Seite, ab 600 px): eine weiße Karte pro Slide. Beim Scrollen bleibt jede Karte stehen, die nächste schiebt sich darüber, die Kanten der vorigen bleiben sichtbar. Das ist der Stapel-Effekt der Vorlage. Auf dem Handy stehen die Karten einfach untereinander.
 - **Team-Kapseln** (Startseite, ab 1200 px): schmale, runde Porträts; das aktive klappt breit auf und zeigt Name, Rolle, Kurzbio, LinkedIn. Öffnet bei Hover, Tastaturfokus und Antippen. Darunter: wischbare Karten mit Foto oben und Text darunter, damit nichts ein Gesicht verdeckt.
 - **Spendenaufruf:** dunkles, stark weichgezeichnetes Foto, weiße Headline mit orangem Akzentwort, Spenden-Button
 - **Spendenkarte:** weiße Karte auf weichgezeichnetem Foto; Bankdaten mit Kopieren-Buttons und QR-Code
@@ -98,7 +100,7 @@ Runde Icon-Buttons (↗) markieren klickbare Teaser. Kopieren-Buttons und Auswah
 Bleibt beim Scrollen sichtbar, sodass Spenden immer einen Klick entfernt ist. Mobil: Schriftzug, „Spenden“, runder Menü-Button. Das Menü ist ein Vollbild-Dialog mit allen Projekten und großem Spenden-Button.
 
 **Startseite (von oben nach unten):**
-1. **Aufmacher:** „Unser Hauptprojekt“, riesiger Titel GEMEINDE-AUFKLÄRUNG mit Fotos *in* den Buchstaben, Kurzbeschreibung, **[Jetzt spenden]** (orange) + [Projekt ansehen]. Titel und Button führen zur Projektbeschreibung.
+1. **Aufmacher:** „Unser Hauptprojekt“, riesiger Titel GEMEINDE-AUFKLÄRUNG mit *einem* Foto *in* den Buchstaben: die ländliche Landschaft von Slide 1, oben Himmel, dazwischen der Horizont mit dem Hof, unten das Feld. Beim Scrollen sinkt die Landschaft langsamer, als die Buchstaben steigen (Parallaxe). Darunter Kurzbeschreibung, **[Jetzt spenden]** (orange) + [Projekt ansehen], auf dem Handy nebeneinander. Titel und Button führen zur Projektbeschreibung.
 2. **Kapitel-Leiste:** die fünf Slides als Einstieg, jeder Punkt springt direkt zur passenden Slide
 3. **Weitere Projekte:** NGO-Business, Schulprojekte, Diaspora-Aufklärung als kleinere Karten
 4. **Veranstaltung:** dunkle Karte, Datum groß, Text, [Interesse melden] → Kontaktformular mit vorausgewähltem Betreff
@@ -138,6 +140,10 @@ Wo die Umsetzung von Vorlage oder Briefing abweicht, steht hier der Grund.
 | **Eingaben bleiben bei Fehlern erhalten** | Vorher war die Nachricht nach einem Fehler weg |
 | **Auswahl-Chips in Tinte statt Hellorange** (design.md) | Hält Orange für Spenden frei |
 | **Claim „Gemeinsam gegen Desinformation“ im Footer** | Der bisherige Aufmacher-Claim bleibt so auf jeder Seite erhalten |
+| **Ein Foto im Aufmacher statt zwei, mit Parallaxe** (21.10.) | Wunsch: Der Titel soll durchgehend das Ländliche zeigen. Zwei Fotos (Feld, Gaststube) wirkten wie zwei getrennte Zeilen. Die Bewegung zeigt, dass das Foto *hinter* den Buchstaben liegt. |
+| **Handy-Typografie deutlich kleiner** (21.10.) | Rückmeldung nach dem Test am Handy: Titel und Text waren zu groß, Abstände zu weit, alles wirkte gedrängt. Der Desktop (1440 px) bleibt unverändert. |
+| **Punkte unter Wisch-Reihen** (21.10.) | Man hat nicht erkannt, dass man die Projekte wischen kann. Der Kartenrand allein war zu schmal. |
+| **Slides auf dem Handy ohne Stapel** (21.10.) | Eine Karte füllt dort fast den Bildschirm, der Stapel hat die nächste Karte großteils verdeckt |
 
 ## 9. Barrierefreiheit
 
@@ -147,7 +153,8 @@ Wo die Umsetzung von Vorlage oder Briefing abweicht, steht hier der Grund.
 - Der Bild-im-Text-Titel ist echter Text (für Screenreader und Google). Browser ohne die Technik zeigen ihn einfach dunkel.
 - Mobiles Menü als natives `<dialog>`: Fokus bleibt im Menü, Escape schließt
 - Projekte-Dropdown per Tastatur bedienbar (Enter öffnet, Escape schließt)
-- „Bewegung reduzieren“ schaltet Einblendungen, Übergänge und weiches Scrollen ab
+- „Bewegung reduzieren“ schaltet Einblendungen, Übergänge, weiches Scrollen und die Parallaxe ab
+- Die Punkte unter Wisch-Reihen sind nur eine Sehhilfe: Screenreader und die Tab-Taste überspringen sie, die Karten selbst sind direkt erreichbar
 - Ohne JavaScript ist aller Inhalt sichtbar und alle Seiten sind über den Footer erreichbar
 - Alle inhaltlichen Fotos haben einen Alternativtext. Rein dekorative Bilder sind für Screenreader ausgeblendet: Kapitel-Thumbnails, Hintergründe und Teamfotos, deren Name direkt daneben steht.
 
@@ -170,7 +177,7 @@ Wo die Umsetzung von Vorlage oder Briefing abweicht, steht hier der Grund.
 | Slide 3 „Multiplikator:innen“ | Ältere Frau im Gespräch am Tisch | Age Cymru / [Unsplash](https://unsplash.com/photos/a-woman-sitting-at-a-table-talking-to-another-woman-wLXJ1Q-_S88) |
 | Slide 4 „Methode“ | Diskussion am großen Tisch | Redd Francisco / [Unsplash](https://unsplash.com/photos/talking-people-sitting-beside-table-PTRzqc_h1r4) |
 | Slide 5 „Wirkung“ | Unser FIMI-Vortrag | eigenes Foto (`design/Bilder/vortrag-fimi.jpeg`) |
-| Aufmacher (in den Buchstaben) | Fotos von Slide 1 und 2 | wie oben |
+| Aufmacher (in den Buchstaben) | Foto von Slide 1 | wie oben |
 | Spenden-Hintergründe | Gruppenfoto, stark weichgezeichnet | eigenes Foto (`design/Bilder/gruppenfoto-buero.jpeg`) |
 | Projektseiten, Projektkarten | die bisherigen Unsplash-Fotos | unverändert übernommen, jetzt lokal |
 | Team | die bisherigen Porträts | jetzt lokal, auf Hochformat zugeschnitten |

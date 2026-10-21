@@ -16,8 +16,9 @@
 $featured = current(array_filter($projects, static fn (array $project): bool => !empty($project['featured'])));
 $others   = array_values(array_filter($projects, static fn (array $project): bool => empty($project['featured'])));
 
-// Photos inside the letters of the hero title, one per line (slide index, focus point).
-$titlePhotos = [[0, 'center 58%'], [1, 'center 82%']];
+// One photo runs through all letters of the hero title and drifts while scrolling:
+// the rural landscape of the first chapter.
+$titlePhoto = $featured['slides'][0]['image'];
 ?>
 
 <section class="home-hero" aria-labelledby="home-hero-title">
@@ -25,11 +26,9 @@ $titlePhotos = [[0, 'center 58%'], [1, 'center 82%']];
         <p class="label">Unser Hauptprojekt</p>
         <div class="home-hero__stage">
             <h1 class="home-hero__title" id="home-hero-title">
-                <a href="<?= e($featured['path']) ?>" class="home-hero__link">
-                    <?php foreach ($featured['title'] as $i => $line): ?>
-                        <?php [$slide, $focus] = $titlePhotos[$i % count($titlePhotos)]; ?>
-                        <?php $photo = $featured['slides'][$slide]['image']; ?>
-                        <span class="<?= e(class_names('home-hero__line', str_ends_with($line, '-') ? 'home-hero__line--hyphen' : null)) ?>" style="--photo: url('<?= e(image_url($photo, 1600)) ?>'); --photo-small: url('<?= e(image_url($photo, 800)) ?>'); --photo-focus: <?= e($focus) ?>"><?= e($line) ?></span>
+                <a href="<?= e($featured['path']) ?>" class="home-hero__link" style="--photo: url('<?= e(image_url($titlePhoto, 1600)) ?>'); --photo-small: url('<?= e(image_url($titlePhoto, 800)) ?>')" data-parallax>
+                    <?php foreach ($featured['title'] as $line): ?>
+                        <span class="<?= e(class_names('home-hero__line', str_ends_with($line, '-') ? 'home-hero__line--hyphen' : null)) ?>"><?= e($line) ?></span>
                     <?php endforeach; ?>
                 </a>
             </h1>
@@ -42,7 +41,7 @@ $titlePhotos = [[0, 'center 58%'], [1, 'center 82%']];
     </div>
 
     <nav class="chapters container" aria-label="<?= e($featured['name']) ?> in fünf Schritten">
-        <ol class="chapters__list" role="list">
+        <ol class="chapters__list" role="list" data-carousel>
             <?php foreach ($featured['slides'] as $i => $slide): ?>
                 <li class="chapter">
                     <a href="<?= e($featured['path']) ?>#kapitel-<?= $i + 1 ?>" class="chapter__link">
@@ -65,7 +64,7 @@ $titlePhotos = [[0, 'center 58%'], [1, 'center 82%']];
             <p class="label">Unsere Arbeit</p>
             <h2 class="section-head__title" id="projekte-title"><?= accent('Weitere Projekte', 'Projekte') ?></h2>
         </header>
-        <div class="projects__list">
+        <div class="projects__list" data-carousel>
             <?php foreach ($others as $i => $project): ?>
                 <?php view('partials/project-card', ['project' => $project, 'delay' => $i]) ?>
             <?php endforeach; ?>
@@ -104,7 +103,7 @@ $titlePhotos = [[0, 'center 58%'], [1, 'center 82%']];
             <p class="section-head__intro">Expertise in hybriden Bedrohungen, strategischer Kommunikation und Wirtschaftsanalyse. Wir übersetzen komplexe Strukturen in wirksame Aufklärung.</p>
         </header>
 
-        <ul class="team-gallery" role="list" data-team-gallery>
+        <ul class="team-gallery" role="list" data-team-gallery data-carousel>
             <?php foreach ($team as $i => $member): ?>
                 <?php view('partials/team-card', ['member' => $member, 'active' => $i === 0]) ?>
             <?php endforeach; ?>

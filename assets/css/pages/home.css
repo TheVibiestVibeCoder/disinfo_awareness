@@ -33,7 +33,6 @@
 .home-hero__title {
     font-size: min(19vw, 20vh, 15rem);         /* fallback for browsers without cqi/svh */
     font-size: min(20.8cqi, 20svh, 15rem);
-    line-height: 1.06;
     letter-spacing: 0;
 }
 
@@ -44,9 +43,16 @@
     }
 }
 
+/* As wide as the longest line, so the photo maps onto the letters. */
 .home-hero__link {
     display: block;
+    width: fit-content;
+    margin-inline: auto;
     border-radius: var(--radius-md);
+}
+
+.home-hero__link:focus-visible {
+    outline-color: var(--ink);  /* the text colour is transparent, see below */
 }
 
 .home-hero__line {
@@ -61,26 +67,30 @@
     padding-left: 0.31em;
 }
 
-/* Photos inside the letters. The title stays real text (search engines, screen
-   readers); browsers without background-clip: text show it in ink. */
+/* One photo inside the letters of both lines: sky above, the horizon in
+   between, the field below. It is drawn 30% wider than the title, which gives
+   it room to drift: main.js sets --parallax from 0 (page top) to 1 (title
+   scrolled away), and the landscape sinks more slowly than the letters rise.
+   The title stays real text (search engines, screen readers); browsers
+   without background-clip: text show it in ink. */
 @supports ((-webkit-background-clip: text) or (background-clip: text)) {
-    .home-hero__line {
+    .home-hero__link {
         background-color: var(--ink);
         background-image: linear-gradient(rgba(36, 36, 36, 0.22), rgba(36, 36, 36, 0.22)), var(--photo-small);
-        background-position: var(--photo-focus);
-        background-size: cover;
+        background-position: 50% calc(88% - 60% * var(--parallax, 0));
+        background-size: 100% 100%, 130% auto;
         -webkit-background-clip: text;
         background-clip: text;
         color: transparent;
         transition: filter var(--duration-slow) var(--ease-out);
     }
 
-    .home-hero__link:hover .home-hero__line {
+    .home-hero__link:hover {
         filter: saturate(1.25) brightness(1.08);
     }
 
     @media (min-width: 900px) {
-        .home-hero__line {
+        .home-hero__link {
             background-image: linear-gradient(rgba(36, 36, 36, 0.22), rgba(36, 36, 36, 0.22)), var(--photo);
         }
     }
@@ -107,8 +117,10 @@
     .home-hero__actions .btn {
         flex: 1 1 0;
         min-width: fit-content;
-        padding-inline: 1rem;
-        font-size: var(--text-xs);  /* side by side from 360px wide */
+        min-height: 3.25rem;
+        padding-inline: 0.75rem;
+        font-size: var(--text-xs);  /* side by side from 340px wide */
+        letter-spacing: 0.06em;
     }
 }
 
@@ -126,11 +138,13 @@
     border-top: 1px solid var(--color-line);
 }
 
+/* Swipeable below 1200px: the next chapter peeks in from the right, and dots
+   underneath (.pager, built by main.js) show how many follow. */
 .chapters__list {
     display: flex;
     gap: 0.5rem;
     margin-inline: calc(-1 * var(--gutter));
-    padding: 1rem var(--gutter) 1.25rem;
+    padding: 1rem var(--gutter) 0.25rem;
     overflow-x: auto;
     overscroll-behavior-x: contain;
     scroll-snap-type: x mandatory;
@@ -142,8 +156,12 @@
     display: none;
 }
 
+.chapters .pager {
+    margin-bottom: 0.75rem;
+}
+
 .chapter {
-    flex: 0 0 min(82vw, 19rem);
+    flex: 0 0 min(72vw, 19rem);
     scroll-snap-align: start;
 }
 
@@ -200,6 +218,13 @@
     color: var(--cream);
 }
 
+/* Phones: the room goes to the title. */
+@media (max-width: 599px) {
+    .chapter__arrow {
+        display: none;
+    }
+}
+
 /* Wide screens: all five chapters in one row — the whole story at a glance. */
 @media (min-width: 1200px) {
     .chapters__list {
@@ -222,10 +247,11 @@
 }
 
 /* --- Further projects ------------------------------------------------------
-   Swipeable on small screens, three columns from 900px. */
+   Swipeable on small screens (a good part of the next card shows, dots below),
+   three columns from 900px. */
 .projects__list {
     display: grid;
-    grid-auto-columns: min(82vw, 22rem);
+    grid-auto-columns: min(76vw, 22rem);
     grid-auto-flow: column;
     gap: 0.875rem;
     margin-inline: calc(-1 * var(--gutter));
@@ -263,8 +289,8 @@
 
 .event {
     display: grid;
-    gap: clamp(1.75rem, 1rem + 2.5vw, 3rem);
-    padding: clamp(1.75rem, 0.75rem + 4.5vw, 5rem);
+    gap: clamp(1.25rem, 0.6rem + 2.9vw, 3rem);
+    padding: clamp(1.375rem, 0.23rem + 5.07vw, 5rem);
     border-radius: var(--radius-lg);
     background: var(--color-inverse);
     color: var(--color-on-inverse);
@@ -294,7 +320,7 @@
 
 .event__day {
     font-family: var(--font-display);
-    font-size: clamp(4.5rem, 2.4rem + 9vw, 11rem);
+    font-size: clamp(3.5rem, 1.17rem + 10.37vw, 11rem);  /* 56 → 168px */
     line-height: 0.9;
 }
 
@@ -311,7 +337,7 @@
 .event__body {
     display: grid;
     justify-items: start;
-    gap: 1rem;
+    gap: clamp(0.75rem, 0.6rem + 0.6vw, 1rem);
 }
 
 .event__title {
@@ -328,8 +354,14 @@
     margin-top: 0.75rem;
 }
 
+@media (max-width: 599px) {
+    .event__body .btn {
+        margin-top: 0.25rem;
+    }
+}
+
 /* --- Team gallery -----------------------------------------------------------
-   Small screens: swipeable cards, everything visible.
+   Small screens: swipeable cards, everything visible, dots below.
    From 1200px: capsules — a narrow pill per person; the active one opens up
    (main.js moves .is-active on hover, focus and tap). */
 .team-gallery {
@@ -352,7 +384,7 @@
 .member {
     position: relative;
     display: flex;
-    flex: 0 0 min(80vw, 20rem);
+    flex: 0 0 min(72vw, 20rem);
     flex-direction: column;
     overflow: hidden;
     border-radius: var(--radius-lg);
@@ -378,11 +410,11 @@
     align-content: start;
     justify-items: start;
     gap: 0.25rem;
-    padding: 1.25rem 1.375rem 1.5rem;
+    padding: 1.125rem 1.25rem 1.375rem;
 }
 
 .member__name {
-    font-size: 1.75rem;
+    font-size: var(--text-display-sm);
 }
 
 .member__role {

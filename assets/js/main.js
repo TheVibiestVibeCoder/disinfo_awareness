@@ -8,10 +8,13 @@
  *   [data-nav-menu]      "Projekte" dropdown             → toggles aria-expanded on its button
  *   [data-mobile-menu]   menu dialog, opened by [data-menu-open], closed by [data-menu-close]
  *   [data-team-gallery]  capsule gallery                 → moves .is-active between [data-member]
+ *   [data-carousel]      swipeable row                   → adds a .pager of dots after it
+ *   [data-parallax]      drifts while scrolling          → sets --parallax (0 … 1)
  *   [data-copy="id"]     copies the text of #id          → adds .is-copied briefly
  */
 
 const DESKTOP_QUERY = window.matchMedia('(min-width: 900px)');
+const REDUCED_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)');
 
 function initReveal() {
     const elements = document.querySelectorAll('.fade-in');
@@ -109,6 +112,91 @@ function initTeamGallery() {
     });
 }
 
+/**
+ * Swipeable rows: dots below the row show that more cards follow and which one
+ * is in view; a tap scrolls to that card. They only appear while the row is
+ * wider than its box (on wide screens the same rows are grids). The dots are a
+ * visual aid, so screen readers and the Tab key skip them: the cards themselves
+ * are reachable either way.
+ */
+function initCarousels() {
+    document.querySelectorAll('[data-carousel]').forEach((list) => {
+        const items = [...list.children];
+        if (items.length < 2) return;
+
+        const pager = document.createElement('div');
+        pager.className = 'pager';
+        pager.setAttribute('aria-hidden', 'true');
+
+        const dots = items.map((item) => {
+            const dot = document.createElement('button');
+            dot.type = 'button';
+            dot.className = 'pager__dot';
+            dot.tabIndex = -1;
+            dot.addEventListener('click', () => {
+                item.scrollIntoView({ behavior: REDUCED_MOTION.matches ? 'auto' : 'smooth', block: 'nearest', inline: 'start' });
+            });
+            pager.append(dot);
+            return dot;
+        });
+        list.after(pager);
+
+        // The card closest to the start of the row is the current one; at the
+        // very end of the row it is the last card, which can't scroll further.
+        let frame = 0;
+        const update = () => {
+            frame = 0;
+            const atEnd = list.scrollLeft + list.clientWidth >= list.scrollWidth - 2;
+            const step = items[1].offsetLeft - items[0].offsetLeft;
+            const current = atEnd ? items.length - 1 : Math.round(list.scrollLeft / step);
+            dots.forEach((dot, i) => dot.classList.toggle('is-active', i === current));
+        };
+
+        list.addEventListener('scroll', () => {
+            if (!frame) frame = requestAnimationFrame(update);
+        }, { passive: true });
+
+        new ResizeObserver(() => {
+            pager.hidden = list.scrollWidth <= list.clientWidth + 1;
+            update();
+        }).observe(list);
+    });
+}
+
+/**
+ * Parallax for elements at the top of the page: --parallax runs from 0 (page
+ * not scrolled) to 1 (element scrolled out of view); the stylesheet decides
+ * what moves with it. Nothing moves with reduced motion.
+ */
+function initParallax() {
+    const elements = [...document.querySelectorAll('[data-parallax]')];
+    if (!elements.length || REDUCED_MOTION.matches) return;
+
+    // Where each element ends on the page, measured once per layout change.
+    let ends = [];
+    const measure = () => {
+        ends = elements.map((el) => el.getBoundingClientRect().bottom + window.scrollY);
+    };
+
+    let frame = 0;
+    const update = () => {
+        frame = 0;
+        elements.forEach((el, i) => {
+            const progress = Math.min(Math.max(window.scrollY / ends[i], 0), 1);
+            el.style.setProperty('--parallax', progress.toFixed(4));
+        });
+    };
+    const request = () => {
+        if (!frame) frame = requestAnimationFrame(update);
+    };
+
+    window.addEventListener('scroll', request, { passive: true });
+    new ResizeObserver(() => {
+        measure();
+        request();
+    }).observe(document.body);
+}
+
 function initCopyButtons() {
     document.querySelectorAll('[data-copy]').forEach((button) => {
         const label = button.querySelector('[data-copy-label]') ?? button;
@@ -141,4 +229,6 @@ initHeader();
 initNavMenu();
 initMobileMenu();
 initTeamGallery();
+initCarousels();
+initParallax();
 initCopyButtons();

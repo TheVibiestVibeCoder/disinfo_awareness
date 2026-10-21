@@ -164,7 +164,9 @@
     padding: 0.2rem 0.55rem;
     border: 1px solid var(--color-line-strong);
     border-radius: var(--radius-pill);
+    font-family: var(--font-body);  /* also inside the Anton links of the menu dialog */
     font-size: 0.6875rem;
+    line-height: 1.4;
     font-weight: 700;
     letter-spacing: 0.06em;
     text-transform: uppercase;
@@ -229,7 +231,7 @@
     border-bottom: 1px solid var(--color-line);
     font-family: var(--font-display);
     font-size: clamp(1.75rem, 1.2rem + 3vw, 2.5rem);
-    line-height: 1.1;
+    line-height: var(--leading-display);
     text-transform: uppercase;
 }
 
@@ -266,7 +268,7 @@
 
 /* --- Page header of subpages ----------------------------------------------- */
 .page-hero {
-    padding-block: clamp(2.5rem, 1.2rem + 5vw, 6rem) clamp(2.5rem, 1.5rem + 3.5vw, 5rem);
+    padding-block: clamp(1.75rem, 0.43rem + 5.85vw, 6rem) clamp(2rem, 1.12rem + 3.93vw, 5rem);
 }
 
 .page-hero__label {
@@ -298,11 +300,11 @@
 
 .section-head {
     max-width: 52rem;
-    margin-bottom: clamp(2rem, 1.4rem + 2.4vw, 3.5rem);
+    margin-bottom: clamp(1.5rem, 0.83rem + 2.96vw, 3.5rem);
 }
 
 .section-head .label {
-    margin-bottom: 1rem;
+    margin-bottom: clamp(0.625rem, 0.4rem + 0.8vw, 1rem);
 }
 
 .section-head__title {
@@ -311,7 +313,7 @@
 
 .section-head__intro {
     max-width: 48ch;
-    margin-top: 1.25rem;
+    margin-top: clamp(0.875rem, 0.7rem + 0.8vw, 1.25rem);
     font-size: var(--text-lead);
     color: var(--color-text-muted);
 }

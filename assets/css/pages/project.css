@@ -5,16 +5,18 @@
    ========================================================================== */
 
 /* --- Slides: the main project as a stack of cards ---------------------------
-   Each card sticks below the header, slightly lower than the one before, and
-   the next card slides over it — a deck that builds up while scrolling.
-   Screens too short for a whole card simply scroll the cards one after another. */
+   From 600px each card sticks below the header, slightly lower than the one
+   before, and the next card slides over it — a deck that builds up while
+   scrolling. Phones show the cards one after another: there a card fills
+   most of the screen, and the stack would mostly hide the next one.
+   Screens too short for a whole card scroll them one after another, too. */
 .slides {
     padding-bottom: clamp(0.5rem, 2vw, 2rem);
 }
 
 .slides__list {
     display: grid;
-    gap: clamp(1.5rem, 5svh, 3.5rem);
+    gap: clamp(1rem, 5svh, 3.5rem);
 }
 
 .slide {
@@ -22,7 +24,7 @@
     scroll-margin-top: var(--stack-top);
 }
 
-@media (min-height: 560px) {
+@media (min-width: 600px) and (min-height: 560px) {
     .slide {
         position: sticky;
         top: var(--stack-top);
@@ -35,7 +37,13 @@
     overflow: hidden;
     border-radius: var(--radius-lg);
     background: var(--color-surface);
-    box-shadow: 0 0 0 1px var(--color-line), 0 -20px 40px -30px rgba(36, 36, 36, 0.45);
+    box-shadow: 0 0 0 1px var(--color-line);
+}
+
+@media (min-width: 600px) {
+    .slide__card {
+        box-shadow: 0 0 0 1px var(--color-line), 0 -20px 40px -30px rgba(36, 36, 36, 0.45);
+    }
 }
 
 .slide__media {
@@ -43,6 +51,13 @@
     order: -1;
     height: clamp(10rem, 30svh, 24rem);
     background: var(--mist);
+}
+
+@media (max-width: 599px) {
+    .slide__media {
+        height: auto;
+        aspect-ratio: 16 / 10;
+    }
 }
 
 .slide__media img {
@@ -54,7 +69,7 @@
 .slide__body {
     display: flex;
     flex-direction: column;
-    gap: 0.875rem;
+    gap: 0.625rem;
     padding: clamp(1.25rem, 0.6rem + 2.8vw, 3.5rem);
 }
 
@@ -72,7 +87,7 @@
 
 .slide__text {
     max-width: 40ch;
-    margin-top: 0.875rem;
+    margin-top: clamp(0.625rem, 0.5rem + 0.6vw, 0.875rem);
     color: var(--color-text-muted);
 }
 
@@ -105,13 +120,13 @@
 /* --- Features: text and photo side by side, alternating sides --------------- */
 .features {
     display: grid;
-    gap: clamp(3.5rem, 2rem + 5vw, 7rem);
+    gap: clamp(2.75rem, 1.5rem + 5.56vw, 7rem);
 }
 
 .feature__inner {
     display: grid;
     align-items: center;
-    gap: clamp(1.5rem, 1rem + 2vw, 3rem);
+    gap: clamp(1.25rem, 0.75rem + 2.2vw, 3rem);
 }
 
 @media (min-width: 900px) {
@@ -157,7 +172,7 @@
 }
 
 .feature__title {
-    margin-bottom: 1.25rem;
+    margin-bottom: clamp(0.75rem, 0.6rem + 0.7vw, 1.25rem);
     font-size: var(--text-display-md);
 }
 

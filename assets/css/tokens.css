@@ -50,20 +50,26 @@
 
     /* --- Typography ------------------------------------------------------
        Anton: heavy condensed capitals for headlines (photos fit into its strokes).
-       Manrope: calm, legible text; small spaced capitals for labels and buttons. */
+       Manrope: calm, legible text; small spaced capitals for labels and buttons.
+
+       Fluid sizes run from a phone (360px wide) to a desktop (1440px); the
+       comment gives both ends. Phones get noticeably smaller type than desktops,
+       because a small screen is read up close. */
     --font-display: 'Anton', Impact, 'Arial Narrow', sans-serif;
     --font-body:    'Manrope', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
 
-    --text-display-xl: clamp(3.25rem, 1.9rem + 6.6vw, 8.5rem);    /* page titles */
-    --text-display-lg: clamp(2.5rem, 1.7rem + 4vw, 5.25rem);      /* section titles */
-    --text-display-md: clamp(2rem, 1.55rem + 2.2vw, 3.5rem);      /* slides, calls to action */
-    --text-display-sm: clamp(1.625rem, 1.4rem + 0.9vw, 2.25rem);  /* card titles */
-    --text-lead:       clamp(1.125rem, 1.06rem + 0.3vw, 1.3125rem);
-    --text-body:       1.0625rem;
+    --text-display-xl: clamp(2.5rem, 1.05rem + 7.55vw, 8.5rem);      /* page titles      44 → 125px */
+    --text-display-lg: clamp(2rem, 1.08rem + 4.63vw, 5.25rem);       /* section titles   34 →  84px */
+    --text-display-md: clamp(1.625rem, 1.17rem + 2.6vw, 3.5rem);     /* slides, CTAs     28 →  56px */
+    --text-display-sm: clamp(1.375rem, 1.18rem + 1.15vw, 2.25rem);   /* card titles      23 →  35px */
+    --text-lead:       clamp(1rem, 0.9rem + 0.5vw, 1.3125rem);       /* intro paragraphs 16 →  21px */
+    --text-body:       clamp(1rem, 0.95rem + 0.2vw, 1.0625rem);      /*                  16 →  17px */
     --text-small:      0.9375rem;
     --text-xs:         0.8125rem;  /* labels, buttons, navigation */
 
-    --leading-display: 1.04;  /* Anton's caps are 0.86em tall, Ä/Ö/Ü reach 1.06em */
+    /* Anton's capitals are 0.86em tall, but Ä/Ö/Ü reach 1.06em above the
+       baseline: below 1.12 their dots run into the line above. */
+    --leading-display: 1.12;
     --leading-body:    1.65;
     --tracking-label:  0.09em;
 
@@ -71,7 +77,7 @@
     --gutter:        clamp(1rem, 0.4rem + 2.6vw, 2.5rem);  /* 16px on phones */
     --container:     82.5rem;                              /* 1320px of content */
     --measure:       62ch;
-    --space-section: clamp(4.5rem, 3rem + 6vw, 8.5rem);
+    --space-section: clamp(3.5rem, 1.87rem + 7.26vw, 8.5rem);  /* 56 → 134px */
     --header-height: 4rem;
 
     /* --- Shape ----------------------------------------------------------- */
@@ -85,6 +91,13 @@
     --duration-fast: 0.2s;
     --duration:      0.45s;
     --duration-slow: 0.8s;
+}
+
+/* Phones: narrow columns read better with slightly tighter lines. */
+@media (max-width: 599px) {
+    :root {
+        --leading-body: 1.55;
+    }
 }
 
 @media (min-width: 900px) {

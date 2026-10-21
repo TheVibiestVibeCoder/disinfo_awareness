@@ -161,6 +161,40 @@
     height: 1rem;
 }
 
+/* --- Pager: dots under a swipeable row ---------------------------------------
+   Built by main.js for every [data-carousel] and shown only while the row is
+   wider than the screen. They say "there is more", show where you are, and a
+   tap jumps to that card. The active dot stretches into a pill. */
+.pager {
+    display: flex;
+    justify-content: center;
+    margin-top: 0.75rem;
+}
+
+.pager[hidden] {
+    display: none;
+}
+
+.pager__dot {
+    display: grid;
+    place-items: center;
+    padding: 0.5rem 0.1875rem;
+}
+
+.pager__dot::before {
+    content: '';
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: var(--radius-pill);
+    background: var(--color-line-strong);
+    transition: width var(--duration) var(--ease-out), background-color var(--duration) ease;
+}
+
+.pager__dot.is-active::before {
+    width: 1.5rem;
+    background: var(--ink);
+}
+
 /* --- Inline text link ------------------------------------------------------ */
 .text-link,
 .prose a {
@@ -297,7 +331,7 @@
 
 .cta__text {
     max-width: 44ch;
-    margin: 1.25rem 0 2rem;
+    margin: clamp(0.875rem, 0.7rem + 0.8vw, 1.25rem) 0 clamp(1.5rem, 1.25rem + 1vw, 2rem);
     font-size: var(--text-lead);
     color: var(--color-text-muted);
 }
@@ -314,7 +348,7 @@
     justify-items: center;
     gap: 1.25rem;
     overflow: hidden;
-    padding: clamp(3.5rem, 2rem + 6vw, 7.5rem) clamp(1.25rem, 0.5rem + 4vw, 5rem);
+    padding: clamp(2.75rem, 1.2rem + 6.9vw, 7.5rem) clamp(1.25rem, 0.5rem + 4vw, 5rem);
     border-radius: var(--radius-lg);
     background: var(--ink) var(--photo) center / cover no-repeat;
     color: var(--color-on-inverse);
